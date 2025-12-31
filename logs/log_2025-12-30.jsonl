@@ -1,0 +1,24 @@
+{"timestamp": "2025-12-30T08:01:24.891205", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T08:01:32.262722", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:01:33.839609", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:01:34.653452", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:01:47.305337", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:01:48.064294", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:01:48.675251", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:03:44.587121", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T08:19:41.745488", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T08:19:42.952498", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T16:52:33.160039", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T16:52:35.310564", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T16:54:13.722852", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T16:54:14.701454", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T17:07:06.000054", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T17:07:07.058153", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T17:09:14.205508", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T17:09:15.221670", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T17:09:49.106816", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T17:09:50.023116", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T17:10:31.655648", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T17:10:32.620216", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-30T17:11:50.595555", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-30T17:11:51.593537", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}

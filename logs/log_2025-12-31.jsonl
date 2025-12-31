@@ -1,0 +1,273 @@
+{"timestamp": "2025-12-31T06:00:12.374795", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:00:17.060739", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:02:00.783115", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:02:02.202831", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:38.293806", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:03:39.402614", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:39.403207", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:40.288345", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:40.288905", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:40.963409", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:40.963987", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:41.453874", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:41.454647", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:50.790263", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:03:51.362033", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:51.868995", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:51.954440", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:52.463091", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:52.751310", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:53.258094", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:53.868419", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:54.373118", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:54.863921", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:55.370520", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:03:55.743879", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:03:56.249337", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:00.957258", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:54:02.021940", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:02.531684", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:03.344432", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:03.853713", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:04.245427", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:04.245965", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:04.750882", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:05.190160", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:05.697977", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:06.089194", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:06.089825", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:06.595427", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:06.985650", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:06.986173", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:07.494128", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:54:49.256131", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:54:50.115546", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:54:52.620231", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:58:30.433700", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:58:31.413095", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:58:33.930231", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:58:34.997297", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:58:37.507997", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:58:51.025289", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T06:58:52.172661", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:58:52.173264", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T06:58:54.682024", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T06:58:57.193635", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T07:01:33.671345", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:01:36.181094", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:01:40.714127", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:01:41.804551", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:01:44.310969", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:01:45.175396", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:01:45.176087", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:01:47.684245", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:14:29.473071", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:14:34.686535", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:14:34.686874", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:14:37.190115", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:14:39.698273", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T07:34:26.979212", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:34:28.388464", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:34:33.397416", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:34:38.409516", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T07:35:18.586996", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:35:19.567000", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:35:19.568106", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:35:24.582000", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:38:27.048695", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:38:29.327764", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:38:34.336834", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:45:11.976313", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:45:13.048077", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:45:18.065493", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:45:23.073616", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T07:53:13.945819", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:53:14.948061", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:53:19.959784", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:53:24.974945", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T07:53:40.617868", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:53:45.625640", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:59:04.472888", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:59:06.002066", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:59:08.516609", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:59:10.091160", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:59:12.609503", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T07:59:47.064025", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T07:59:48.114704", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:59:48.115297", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T07:59:50.622460", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T08:01:25.851084", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:01:26.805094", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T08:01:29.314742", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T08:02:06.019685", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:02:23.618695", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T08:02:26.133086", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T08:02:28.649487", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T08:02:35.130368", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T08:02:37.633812", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T08:02:40.135847", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T08:03:58.372419", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:11:01.333596", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:14:56.655978", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:22:15.229329", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T08:22:16.313119", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T08:22:18.827755", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T08:22:21.339501", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T09:26:57.559832", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T09:26:58.508371", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T09:27:01.015098", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T09:27:03.528862", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T09:28:59.841734", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T09:29:01.094470", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T09:29:03.600482", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T09:29:06.116973", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T16:47:23.069962", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T16:47:24.085959", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T16:47:26.590980", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T16:47:29.096984", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T16:49:20.890748", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T16:49:21.781405", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T16:49:24.298609", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T16:49:26.814191", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T16:55:23.324393", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T16:55:24.349415", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T16:55:26.861248", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T16:55:29.374315", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T16:59:14.821891", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T16:59:22.414082", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T16:59:24.932854", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T16:59:27.438414", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:02:09.139147", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:02:10.026727", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:02:12.541504", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:02:15.044772", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:12.967166", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:38:13.860682", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:38:16.376790", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:18.890973", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:25.983750", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:38:26.822169", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:38:29.331037", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:31.839859", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:44.185530", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:38:45.424973", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:38:47.930765", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:38:50.445352", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:39:01.041456", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:39:01.786939", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:39:04.301650", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:39:06.811986", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:47:32.307438", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:47:34.151648", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:47:36.656339", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:47:39.173946", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T17:48:05.048504", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T17:48:07.643167", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T17:48:10.159460", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T17:48:12.666386", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:10:05.465134", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:10:06.310708", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:10:08.827044", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:10:11.337283", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:10:12.544511", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:10:13.868216", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:10:14.799764", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:10:15.613909", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:10:16.327044", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:10:17.582293", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:33.385479", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:13:34.124497", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:13:36.629630", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:13:39.132710", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:13:39.916115", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:40.743389", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:41.269907", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:41.691824", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:41.929980", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:42.115843", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:42.607637", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:43.318731", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:13:43.625467", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:17.533534", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:14:18.418267", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:14:18.418508", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:14:20.931818", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:14:23.443539", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:14:24.241589", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:34.731994", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:35.629226", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:35.832108", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:36.035352", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:36.204295", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:36.374161", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:36.558647", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:14:36.725291", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": false}, "error": null}
+{"timestamp": "2025-12-31T20:17:25.383468", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:17:26.413137", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:17:26.413588", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:17:28.922795", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:17:31.431259", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:17:31.433091", "state": "SCREEN_FACTORY", "event": "GET_SCREEN", "details": {"state": "DISPLAYING", "callbacks_keys": ["start_listening", "approve_print", "reset"]}, "error": null}
+{"timestamp": "2025-12-31T20:17:32.027143", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": true}, "error": null}
+{"timestamp": "2025-12-31T20:17:32.027681", "state": "DISPLAYING", "event": "CALL_APPROVE", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:17:32.028032", "state": "DISPLAYING", "event": "APPROVE_PRINT_CALLBACK", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:17:32.028235", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:18:42.943524", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:18:43.841834", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:18:46.351365", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:18:48.861658", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:18:48.863738", "state": "SCREEN_FACTORY", "event": "GET_SCREEN", "details": {"state": "DISPLAYING", "callbacks_keys": ["start_listening", "approve_print", "reset"]}, "error": null}
+{"timestamp": "2025-12-31T20:18:49.422018", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": true}, "error": null}
+{"timestamp": "2025-12-31T20:18:49.422411", "state": "DISPLAYING", "event": "CALL_APPROVE", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:18:49.422625", "state": "DISPLAYING", "event": "APPROVE_PRINT_CALLBACK", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:18:49.422827", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:18:49.425320", "state": "SCREEN_FACTORY", "event": "IMPORT_ERROR", "details": {"module": "ui.printing_screen", "error": "cannot import name 'PrintingScreen' from 'ui.printing_screen' (/Users/karthikgoudar/wonder_box/ui/printing_screen.py)", "trace": "Traceback (most recent call last):\n  File \"/Users/karthikgoudar/wonder_box/ui/screen_factory.py\", line 32, in get_screen\n    from ui.printing_screen import PrintingScreen\nImportError: cannot import name 'PrintingScreen' from 'ui.printing_screen' (/Users/karthikgoudar/wonder_box/ui/printing_screen.py)\n"}, "error": null}
+{"timestamp": "2025-12-31T20:20:39.732643", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:20:40.530585", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:20:40.530944", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:20:43.037958", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:20:45.550925", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:20:45.552648", "state": "SCREEN_FACTORY", "event": "GET_SCREEN", "details": {"state": "DISPLAYING", "callbacks_keys": ["start_listening", "approve_print", "reset"]}, "error": null}
+{"timestamp": "2025-12-31T20:20:46.509586", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": true}, "error": null}
+{"timestamp": "2025-12-31T20:20:46.510051", "state": "DISPLAYING", "event": "CALL_APPROVE", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:20:46.510195", "state": "DISPLAYING", "event": "APPROVE_PRINT_CALLBACK", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:20:46.510327", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:20:46.511969", "state": "SCREEN_FACTORY", "event": "IMPORT_ERROR", "details": {"module": "ui.printing_screen", "error": "PrintingScreen not found in module", "trace": "Traceback (most recent call last):\n  File \"/Users/karthikgoudar/wonder_box/ui/screen_factory.py\", line 35, in get_screen\n    raise ImportError(\"PrintingScreen not found in module\")\nImportError: PrintingScreen not found in module\n"}, "error": null}
+{"timestamp": "2025-12-31T20:23:21.293390", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:23:22.593073", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:23:25.101382", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:23:27.609164", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:23:27.611601", "state": "SCREEN_FACTORY", "event": "GET_SCREEN", "details": {"state": "DISPLAYING", "callbacks_keys": ["start_listening", "approve_print", "reset"]}, "error": null}
+{"timestamp": "2025-12-31T20:23:28.218748", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": true}, "error": null}
+{"timestamp": "2025-12-31T20:23:28.219299", "state": "DISPLAYING", "event": "CALL_APPROVE", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:23:28.219493", "state": "DISPLAYING", "event": "APPROVE_PRINT_CALLBACK", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:23:28.219656", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:23:31.231570", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2025-12-31T20:23:51.292949", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:23:51.294253", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:23:53.801867", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:23:56.317832", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:23:56.318518", "state": "SCREEN_FACTORY", "event": "GET_SCREEN", "details": {"state": "DISPLAYING", "callbacks_keys": ["start_listening", "approve_print", "reset"]}, "error": null}
+{"timestamp": "2025-12-31T20:23:57.371864", "state": "DISPLAYING", "event": "SCREEN_EVENT", "details": {"has_on_approve": true}, "error": null}
+{"timestamp": "2025-12-31T20:23:57.372498", "state": "DISPLAYING", "event": "CALL_APPROVE", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:23:57.372878", "state": "DISPLAYING", "event": "APPROVE_PRINT_CALLBACK", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:23:57.373115", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:24:00.386455", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2025-12-31T20:25:54.390724", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:25:55.215978", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:25:57.727059", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:26:00.241877", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:26:01.055005", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:26:04.071799", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2025-12-31T20:27:20.941289", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:27:21.699837", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:27:24.211037", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:27:26.719512", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:27:44.565434", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:27:47.582763", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2025-12-31T20:29:11.875739", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2025-12-31T20:29:12.458725", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2025-12-31T20:29:14.967113", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2025-12-31T20:29:17.485962", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2025-12-31T20:29:18.860116", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2025-12-31T20:29:21.877068", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
