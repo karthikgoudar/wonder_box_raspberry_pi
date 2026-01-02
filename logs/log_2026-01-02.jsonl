@@ -34,3 +34,8 @@
 {"timestamp": "2026-01-02T08:37:08.906195", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
 {"timestamp": "2026-01-02T08:37:11.422200", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
 {"timestamp": "2026-01-02T08:37:14.425822", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:49:15.695563", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T08:49:16.802925", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:49:17.972238", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:49:20.480391", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:49:23.494663", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
