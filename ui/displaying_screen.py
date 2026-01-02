@@ -1,30 +1,29 @@
 import pygame
 from ui.screen_base import Screen
+from ui.current_image import get_image
+
 
 class DisplayingScreen(Screen):
-    def __init__(self, on_approve=None):
-        # `on_approve` is optional to avoid instantiation errors
-        # when factories or tests don't provide the callback.
-        self.on_approve = on_approve
-        self.font = pygame.font.SysFont(None, 36)
+    def __init__(self):
+        # Displaying only draws the current image (no texts)
+        pass
 
     def handle_event(self, event):
-        if event.type in (
-            pygame.MOUSEBUTTONDOWN,
-            pygame.FINGERDOWN,
-            pygame.KEYDOWN
-        ):
-            if callable(self.on_approve):
-                self.on_approve()
+        # DISPLAYING is informational only in the new flow; ignore input
+        pass
 
     def render(self, surface):
-        surface.fill((20, 40, 60))
-
-        title = self.font.render("Here is your picture!", True, (255, 255, 255))
-        approve = self.font.render("Tap to Print", True, (200, 255, 200))
-
-        title_rect = title.get_rect(center=(400, 200))
-        approve_rect = approve.get_rect(center=(400, 260))
-
-        surface.blit(title, title_rect)
-        surface.blit(approve, approve_rect)
+        # If a generated image exists, blit it to the screen and keep it
+        img = get_image()
+        if img:
+            # scale to fit while preserving aspect if needed
+            img_rect = img.get_rect()
+            target_rect = surface.get_rect()
+            if img_rect.size != target_rect.size:
+                scaled = pygame.transform.smoothscale(img, target_rect.size)
+                surface.blit(scaled, (0, 0))
+            else:
+                surface.blit(img, (0, 0))
+        else:
+            # fallback blank background when no image is available
+            surface.fill((20, 40, 60))

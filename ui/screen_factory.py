@@ -17,8 +17,7 @@ def get_screen(state, callbacks):
 
     elif state == State.DISPLAYING:
         from ui.displaying_screen import DisplayingScreen
-        approve = callbacks.get("approve_print") if callbacks else None
-        return DisplayingScreen(approve)
+        return DisplayingScreen()
 
     elif state == State.PRINTING:
         from ui.printing_screen import PrintingScreen

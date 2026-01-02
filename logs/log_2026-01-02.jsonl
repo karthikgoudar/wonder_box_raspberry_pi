@@ -1,0 +1,36 @@
+{"timestamp": "2026-01-02T07:42:29.910461", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T07:42:30.891046", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "User tapped screen"}, "error": null}
+{"timestamp": "2026-01-02T07:42:33.396199", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Listening complete"}, "error": null}
+{"timestamp": "2026-01-02T07:42:35.908039", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T07:42:38.319874", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "User approved print"}, "error": null}
+{"timestamp": "2026-01-02T07:42:41.339696", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:28:48.738795", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T08:28:50.172042", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:28:50.374217", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:28:52.884067", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:28:52.901012", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Auto-print from displaying"}, "error": null}
+{"timestamp": "2026-01-02T08:28:55.915882", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:28:59.717295", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:29:02.022787", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:29:04.528822", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:29:04.545798", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Auto-print from displaying"}, "error": null}
+{"timestamp": "2026-01-02T08:29:07.549107", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:29:10.928190", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:29:13.914227", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:29:16.421079", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "DISPLAYING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:29:16.437810", "state": "DISPLAYING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Auto-print from displaying"}, "error": null}
+{"timestamp": "2026-01-02T08:29:19.452880", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:33:48.962071", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T08:33:49.963160", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:33:49.978434", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:33:52.484009", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:33:55.495541", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:33:56.306315", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:34:00.371444", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:34:02.878830", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:34:05.895950", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T08:37:06.612257", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T08:37:07.632857", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:37:08.906195", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T08:37:11.422200", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T08:37:14.425822", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}

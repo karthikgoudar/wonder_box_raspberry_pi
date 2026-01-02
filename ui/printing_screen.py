@@ -1,25 +1,21 @@
-import pygame
 from ui.screen_base import Screen
+from ui.displaying_screen import DisplayingScreen
+
 
 class PrintingScreen(Screen):
     def __init__(self):
-        self.font = pygame.font.SysFont(None, 48)
+        # Delegate rendering to DisplayingScreen so the same image is shown
+        self._delegate = DisplayingScreen()
+
+    def handle_event(self, event):
+        # Printing should not accept input that alters the image
+        pass
+
+    def update(self, dt):
+        # Delegate any update (none currently)
+        if hasattr(self._delegate, 'update'):
+            self._delegate.update(dt)
 
     def render(self, surface):
-        surface.fill((30, 30, 30))
-        text = self.font.render("Printing...", True, (255, 255, 255))
-        rect = text.get_rect(center=surface.get_rect().center)
-        surface.blit(text, rect)
-
-import pygame
-from ui.screen_base import Screen
-
-class PrintingScreen(Screen):
-    def __init__(self):
-        self.font = pygame.font.SysFont(None, 48)
-
-    def render(self, surface):
-        surface.fill((30, 30, 30))
-        text = self.font.render("Printing...", True, (255, 255, 255))
-        rect = text.get_rect(center=surface.get_rect().center)
-        surface.blit(text, rect)
+        # Render exactly as DISPLAYING does (no 'Printing...' text)
+        self._delegate.render(surface)

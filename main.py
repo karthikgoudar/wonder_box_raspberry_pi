@@ -21,7 +21,9 @@ pygame.event.set_allowed([
     pygame.MOUSEBUTTONDOWN,
     pygame.MOUSEBUTTONUP,
     pygame.FINGERDOWN,
-    pygame.KEYDOWN
+    pygame.FINGERUP,
+    pygame.KEYDOWN,
+    pygame.KEYUP
 ])
 
 clock = pygame.time.Clock()
@@ -34,7 +36,6 @@ sm = StateMachine()
 # ------------------------
 # Timers (seconds)
 # ------------------------
-listening_timer = Timer(2.5)
 processing_timer = Timer(2.5)
 printing_timer = Timer(3.0)
 
@@ -42,17 +43,13 @@ printing_timer = Timer(3.0)
 # Callbacks (UI → intent)
 # ------------------------
 def start_listening():
-    sm.transition(State.LISTENING, reason="User tapped screen")
-
-def approve_print():
-    sm.transition(State.PRINTING, reason="User approved print")
+    sm.transition(State.LISTENING, reason="Button pressed (start listening)")
 
 def reset_to_idle():
     sm.transition(State.IDLE, reason="Reset to idle")
 
 callbacks = {
     "start_listening": start_listening,
-    "approve_print": approve_print,
     "reset": reset_to_idle
 }
 
@@ -76,23 +73,35 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        # LISTENING ends on button release -> move to PROCESSING
+        if event.type in (pygame.MOUSEBUTTONUP, pygame.FINGERUP, pygame.KEYUP):
+            if current_state == State.LISTENING:
+                sm.transition(State.PROCESSING, reason="Button released (stop listening)")
+                # don't forward release to screens
+                continue
+
         current_screen.handle_event(event)
 
     # 2. Automatic / timed state transitions
-    if current_state == State.LISTENING:
-        if listening_timer.is_finished():
-            sm.transition(State.PROCESSING, reason="Listening complete")
-
-    elif current_state == State.PROCESSING:
+    if current_state == State.PROCESSING:
         if processing_timer.is_finished():
-            sm.transition(State.DISPLAYING, reason="Processing complete")
+            # generate or capture the image to display during printing
+            from ui import current_image
+            img = pygame.Surface(screen.get_size())
+            img.fill((200, 180, 120))
+            font = pygame.font.SysFont(None, 36)
+            text = font.render("Generated Image", True, (0, 0, 0))
+            rect = text.get_rect(center=img.get_rect().center)
+            img.blit(text, rect)
+            current_image.set_image(img)
+            sm.transition(State.PRINTING, reason="Processing complete")
 
     elif current_state == State.PRINTING:
         if printing_timer.is_finished():
             sm.transition(State.IDLE, reason="Print complete → reset")
 
-    elif current_state == State.DISPLAYING:
-        pass  # waits for user approval
+    # DISPLAYING is informational only (we now auto-advance from PROCESSING to PRINTING)
 
     # 3. State → Screen synchronization
     current_state = sm.get_state()
@@ -102,14 +111,15 @@ while running:
         last_state = current_state
 
         # ---- state entry actions ----
-        if entered_state == State.LISTENING:
-            listening_timer.start()
-
-        elif entered_state == State.PROCESSING:
+        if entered_state == State.PROCESSING:
             processing_timer.start()
 
         elif entered_state == State.PRINTING:
             printing_timer.start()
+        elif entered_state == State.IDLE:
+            # clear any displayed image when returning to idle
+            from ui import current_image
+            current_image.set_image(None)
 
     # 4. Update & render
     current_screen.update(dt)
