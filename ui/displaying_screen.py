@@ -27,3 +27,5 @@ class DisplayingScreen(Screen):
         else:
             # fallback blank background when no image is available
             surface.fill((20, 40, 60))
+            from ui.font import render_text
+            render_text(surface, "Here is your picture!", 36, (255, 255, 255), center=True)

@@ -39,3 +39,416 @@
 {"timestamp": "2026-01-02T08:49:17.972238", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
 {"timestamp": "2026-01-02T08:49:20.480391", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
 {"timestamp": "2026-01-02T08:49:23.494663", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T10:53:52.928797", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T10:54:00.829229", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T10:54:00.845113", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T10:54:03.363450", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T10:54:06.382879", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T10:54:07.786460", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T10:54:12.304471", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T10:54:14.820180", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T10:54:17.824267", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:04:27.622365", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:04:29.072258", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:04:33.188882", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:04:35.709888", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Processing complete"}, "error": null}
+{"timestamp": "2026-01-02T11:04:38.723909", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:08:02.124628", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:08:03.282330", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:08:05.032143", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:08:06.535244", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:08:09.552049", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:09:43.489663", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:09:44.678351", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:09:46.574147", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:09:48.084645", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:09:51.095340", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:14:24.850725", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:14:25.728212", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:14:27.080021", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:14:28.591372", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:23:44.454748", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:23:45.759264", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:23:48.578053", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:23:50.090638", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:23:53.095140", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:27:28.198483", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:27:30.054377", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:27:32.260452", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:27:32.264229", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:27:53.776058", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:27:55.472098", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:27:59.743272", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:27:59.750760", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:28:02.757971", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T11:43:48.987811", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:43:52.666138", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:43:55.502509", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:43:59.838372", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "whisper transcription failed: \n\nYou tried to access openai.Audio, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.\n\nYou can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. \n\nAlternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`\n\nA detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742\n"}, "error": null}
+{"timestamp": "2026-01-02T11:48:43.335747", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:48:44.374759", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:48:47.193335", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:48:51.683963", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "whisper transcription failed: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}"}, "error": null}
+{"timestamp": "2026-01-02T11:55:17.338045", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:55:19.398316", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:55:22.060075", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:55:22.186211", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: [Errno 2] No such file or directory: 'ffmpeg'"}, "error": null}
+{"timestamp": "2026-01-02T11:58:29.835207", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T11:58:31.103274", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:58:33.610519", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T11:58:35.131982", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T11:58:38.134136", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:28:49.515684", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:28:50.615204", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:28:51.685232", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:28:56.041983", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:28:59.047282", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:28:59.813525", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:00.104755", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:01.153058", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T14:29:30.330250", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:29:31.979903", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:33.934191", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:35.243093", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:29:38.253221", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:29:39.680747", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:41.872603", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:42.992296", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:29:46.010050", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:29:46.861130", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:48.390152", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:49.563127", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:29:52.570255", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:29:53.861921", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:55.708382", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:29:56.976549", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:29:59.990998", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:30:02.601048", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:30:04.446975", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:30:05.681873", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:30:08.684921", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:33:58.734662", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:34:00.327013", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:02.688232", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:04.233895", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:34:07.238829", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:34:08.104289", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:10.205286", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:15.363945", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:34:18.376690", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:34:19.125317", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:21.783750", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:37.800220", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:34:40.809958", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:34:41.462786", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:43.682227", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:44.748584", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:34:47.754938", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:34:52.766538", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:54.828522", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:34:55.897619", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:34:58.901268", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:34:59.850819", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:35:03.824192", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:35:05.061362", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:35:08.062755", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:35:48.542294", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:35:49.421787", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:35:49.641523", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:35:50.886159", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T14:37:33.770523", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:37:34.551023", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:37:34.787400", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:37:36.056100", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T14:38:41.817063", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:38:42.799442", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:38:48.201583", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:39:02.616040", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T14:39:04.189189", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T14:40:32.930680", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:40:34.679116", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:40:34.973560", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:40:36.249451", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T14:40:36.862142", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T14:54:54.097778", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:54:56.546335", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:54:58.738246", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:55:00.362446", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:55:03.370525", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:55:03.964002", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:55:06.248022", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:55:07.515351", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:55:10.520504", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T14:55:11.198213", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:55:13.315459", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:55:14.562925", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T14:59:53.897925", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T14:59:55.254885", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:59:57.329849", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T14:59:58.870238", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:00:01.884439", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:00:02.004283", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:02.854081", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:04.023729", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T15:00:04.929014", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T15:00:06.113359", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:07.811487", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:08.876312", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:00:11.890465", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:00:12.737955", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:15.436354", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:00:16.714454", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:04:29.596671", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:04:31.479309", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:04:33.744600", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:04:35.285445", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:04:38.289171", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:06:18.387423", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:06:19.423025", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:22.148984", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:23.613367", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:06:26.630674", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:06:27.306789", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:29.834931", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:31.150769", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:06:34.163227", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:06:39.831679", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:42.226013", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:06:43.548926", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:06:46.550564", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:06:52.901770", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:07:37.429303", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:07:39.125623", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:07:41.016109", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:07:42.708491", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:07:45.728804", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:07:47.593358", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:07:49.917761", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:08:04.919035", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:08:07.935028", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:09:28.068869", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:09:30.577731", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:32.370330", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:33.677022", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:09:36.683473", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:09:37.209935", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:39.252042", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:40.306060", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:09:43.309285", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:09:44.084977", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:46.393984", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:47.424830", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:09:50.437596", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:09:51.510831", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:53.861816", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:09:54.921471", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:09:57.922683", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:09:58.260132", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:12:46.205096", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:12:53.838106", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:12:56.834579", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:12:58.680807", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:01.695746", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:02.204343", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:05.384034", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:06.624454", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:09.631136", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:10.684112", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:12.888508", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:13.984095", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:16.985029", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:17.717578", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:21.678801", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:22.800044", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:25.810805", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:26.438145", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:29.640165", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:30.800732", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:33.802113", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:34.360302", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:37.874549", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:38.979422", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:41.991214", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:45.392410", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:49.933278", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:13:50.997880", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:13:54.013742", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:13:54.675605", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:26.612147", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:16:29.865892", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:33.541545", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:34.278723", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:16:37.283085", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:16:37.963064", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:41.075796", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:41.706276", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:16:44.715409", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:16:57.015608", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:16:59.390052", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:00.020317", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:03.026586", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:17:03.588645", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:06.787455", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:07.406800", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:10.412578", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:17:12.279478", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:16.285350", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:17.253937", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:20.261113", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:17:21.025887", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:23.424508", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:24.058223", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:27.071154", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:17:35.485791", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:37.499061", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:38.134969", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:41.145578", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:17:41.603690", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:43.633483", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:17:44.254596", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:17:47.261336", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:18:24.200425", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:21:51.841266", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:21:53.755600", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:21:56.099212", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:21:57.260381", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:22:00.271153", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:22:01.440848", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:03.240818", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:04.205734", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:22:07.211369", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:22:07.321459", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:08.981762", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:10.991817", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:22:13.996841", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:22:15.778161", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:19.011349", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:22:19.964028", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:24:22.402934", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:24:23.364045", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:25.481372", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:27.465342", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:24:30.476061", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:24:31.360848", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:33.428471", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:35.302266", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:24:38.316888", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:24:39.354620", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:42.487757", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:24:44.356585", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:24:47.362481", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:25:52.425198", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:25:54.343415", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:25:56.086095", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:25:59.090395", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:30:57.929501", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:31:00.584512", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:02.601693", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:04.753273", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:31:07.769073", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:31:11.240943", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:17.322764", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:19.194344", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:31:22.199065", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:31:23.846838", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:27.102127", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:29.002786", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:31:32.004245", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:31:37.932709", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:39.724186", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:31:51.861477", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "language 'ml' not supported"}, "error": null}
+{"timestamp": "2026-01-02T15:32:07.812874", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T15:32:14.774773", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:32:14.775746", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:32:14.775842", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:32:15.295032", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:32:17.049089", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "local whisper transcription failed: no transcription text returned"}, "error": null}
+{"timestamp": "2026-01-02T15:32:22.453742", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T15:32:23.077747", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:32:58.517746", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:33:01.570933", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:03.631915", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:05.674472", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:33:08.681768", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:33:20.489052", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:24.749462", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:26.791506", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:33:29.793249", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:33:31.505506", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:36.576213", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:42.233430", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:33:45.236036", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:33:48.984379", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:52.979819", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:33:55.146184", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:33:58.150263", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:34:00.504516", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:34:03.067969", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:34:04.944559", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:34:07.950920", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:35:01.801781", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:02.480781", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:04.143358", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:35:07.146600", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:35:07.639297", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:08.283256", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:09.939527", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:35:12.950858", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:35:48.072367", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:51.403862", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:53.176354", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "language 'ur' not supported"}, "error": null}
+{"timestamp": "2026-01-02T15:35:54.977246", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T15:35:55.602746", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:57.899813", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:35:59.742646", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:36:02.750288", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:37:36.230521", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:37:37.325202", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:37:39.616950", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:37:41.687844", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:37:44.696244", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:37:46.477767", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:37:50.767283", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:37:52.890454", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:37:55.892650", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:37:56.351088", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:37:58.659038", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:00.382830", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:38:03.394988", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:38:03.778103", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:07.128136", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:09.206609", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:38:12.210143", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:38:12.634756", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:14.878730", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:16.557773", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "ERROR", "reason": "language 'tl' not supported"}, "error": null}
+{"timestamp": "2026-01-02T15:38:17.870827", "state": "ERROR", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Reset from UI/Error"}, "error": null}
+{"timestamp": "2026-01-02T15:38:18.360976", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:20.557283", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:38:22.457238", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:38:25.458511", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:43:25.421391", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:43:27.860168", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:43:29.849107", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:43:32.112190", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:43:35.117482", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:45:34.212501", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:45:35.251329", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:45:37.329448", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:45:43.121772", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:45:46.131759", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:45:46.722967", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:45:49.618122", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:45:51.658851", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:45:54.664850", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:47:19.148322", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:47:20.176437", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:47:22.583940", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:47:25.795158", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:47:28.801483", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}
+{"timestamp": "2026-01-02T15:47:30.799293", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:49:42.514037", "state": "IDLE", "event": "INIT", "details": null, "error": null}
+{"timestamp": "2026-01-02T15:49:45.008056", "state": "IDLE", "event": "STATE_TRANSITION", "details": {"to": "LISTENING", "reason": "Button pressed (start listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:49:47.062706", "state": "LISTENING", "event": "STATE_TRANSITION", "details": {"to": "PROCESSING", "reason": "Button released (stop listening)"}, "error": null}
+{"timestamp": "2026-01-02T15:49:49.223354", "state": "PROCESSING", "event": "STATE_TRANSITION", "details": {"to": "PRINTING", "reason": "Audio processed"}, "error": null}
+{"timestamp": "2026-01-02T15:49:52.224563", "state": "PRINTING", "event": "STATE_TRANSITION", "details": {"to": "IDLE", "reason": "Print complete \u2192 reset"}, "error": null}

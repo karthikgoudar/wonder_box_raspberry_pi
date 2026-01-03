@@ -4,6 +4,13 @@ import time
 from scipy.io.wavfile import write
 from pathlib import Path
 import sys
+import gc
+import re
+import os
+try:
+    import whisper
+except Exception:
+    whisper = None
 
 
 class AudioService:
@@ -22,6 +29,21 @@ class AudioService:
         self._failed = False
         self._error = None
         self._stream = None
+        # Load Whisper model once if available
+        self._whisper_model = None
+        if whisper is not None:
+            try:
+                model_name = os.environ.get("WHISPER_MODEL", "small")
+                self._whisper_model = whisper.load_model(model_name)
+                try:
+                    import torch
+                    torch.set_num_threads(1)
+                except Exception:
+                    pass
+                print(f"[WHISPER LOCAL] model loaded: {model_name}", flush=True)
+            except Exception as e:
+                self._whisper_model = None
+                print(f"[WHISPER LOCAL] model load failed: {e}", flush=True)
 
     # ------------------------
     # Public API (UNCHANGED)
@@ -30,7 +52,7 @@ class AudioService:
         self.reset()
         self._recording = True
         self._start_time = time.time()
-        print(f"[AUDIO] start_recording() samplerate={self.sample_rate} channels={self.channels}", flush=True)
+        print(f"[AUDIO] start_recording: samplerate={self.sample_rate} channels={self.channels}", flush=True)
         try:
             self._stream = sd.InputStream(
                 samplerate=self.sample_rate,
@@ -51,7 +73,7 @@ class AudioService:
 
         self._recording = False
         self._processing = True
-        print("[AUDIO] stop_recording() called — stopping stream and entering processing", flush=True)
+        print("[AUDIO] stop_recording: stopping stream and entering processing", flush=True)
         # Ensure stream is stopped/closed promptly
         try:
             if self._stream is not None:
@@ -71,7 +93,7 @@ class AudioService:
     def update(self):
         if not self._processing:
             return
-        print("[AUDIO] update() entering processing — finalizing WAV", flush=True)
+        print("[AUDIO] update: finalizing WAV", flush=True)
 
         # Ensure recordings directory exists
         output_dir = Path("recordings")
@@ -89,7 +111,7 @@ class AudioService:
         if not self._frames:
             self._failed = True
             self._error = "no audio frames captured"
-            print("[AUDIO ERROR] no audio frames captured — nothing to write", flush=True)
+            print("[AUDIO ERROR] no audio frames captured", flush=True)
             self._processing = False
             return
 
@@ -115,8 +137,62 @@ class AudioService:
             self._processing = False
             return
 
-        # Stub text (unchanged for now)
-        self._text = "Draw a flying dragon"
+        # --- Transcribe WAV using local Whisper model (auto-detect, with forced Hindi fallback) ---
+        if self._whisper_model is None:
+            self._failed = True
+            self._error = "local Whisper model not available"
+            print("[WHISPER LOCAL] model not available; cannot transcribe", flush=True)
+            self._processing = False
+            return
+
+        try:
+            # Main transcription pass: auto-detect language, always transcribe (never translate)
+            result = self._whisper_model.transcribe(str(self._wav_path), task="transcribe")
+            detected_lang = None
+            text = None
+            if isinstance(result, dict):
+                text = result.get("text")
+                detected_lang = result.get("language")
+            elif hasattr(result, "text"):
+                text = result.text
+                detected_lang = getattr(result, "language", None)
+            if not text:
+                raise RuntimeError("no transcription text returned")
+            text = text.strip()
+            print(f"[WHISPER] lang={detected_lang} text={text}", flush=True)
+            # If Whisper detected Hindi but returned romanized (no Devanagari), re-run forcing Hindi
+            if detected_lang == "hi" and not re.search(r"[\u0900-\u097F]", text):
+                try:
+                    forced = self._whisper_model.transcribe(str(self._wav_path), language="hi", task="transcribe")
+                    if isinstance(forced, dict):
+                        forced_text = forced.get("text")
+                    elif hasattr(forced, "text"):
+                        forced_text = forced.text
+                    else:
+                        forced_text = None
+                    if forced_text:
+                        text = forced_text.strip()
+                        print("[WHISPER] forced-hi: obtained Devanagari result", flush=True)
+                except Exception as e:
+                    print(f"[WHISPER] forced-hi failed: {e}", flush=True)
+            self._text = text
+            # cleanup
+            try:
+                del result
+            except Exception:
+                pass
+            try:
+                del audio
+            except Exception:
+                pass
+            self._frames = []
+            gc.collect()
+        except Exception as e:
+            self._failed = True
+            self._error = f"local whisper transcription failed: {e}"
+            print(f"[WHISPER LOCAL ERROR] {e}", flush=True)
+            self._processing = False
+            return
 
         self._processing = False
 
@@ -159,21 +235,9 @@ class AudioService:
     # Internal callback
     # ------------------------
     def _audio_callback(self, indata, frames, time_info, status):
-        # This callback is invoked in the sounddevice thread — keep it minimal.
+        # Only collect frames; avoid per-frame logs for performance and clarity
         try:
-            if status:
-                # report overrun/underrun or other issues
-                print(f"[AUDIO CALLBACK] status: {status}", flush=True)
-
             if self._recording:
-                # indata is a numpy array shape (frames, channels)
                 self._frames.append(indata.copy())
-                # log that we got data (count only, to avoid flooding)
-                if len(self._frames) % 50 == 0:
-                    print(f"[AUDIO CALLBACK] frames buffer size={len(self._frames)}", flush=True)
-        except Exception as e:
-            # Avoid raising in callback
-            try:
-                print(f"[AUDIO CALLBACK ERROR] {e}", flush=True)
-            except Exception:
-                pass
+        except Exception:
+            pass

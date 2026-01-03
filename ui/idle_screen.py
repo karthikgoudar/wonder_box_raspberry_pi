@@ -5,7 +5,6 @@ from ui.screen_base import Screen
 class IdleScreen(Screen):
     def __init__(self, on_start):
         self.on_start = on_start
-        self.font = pygame.font.SysFont(None, 48)
 
     def handle_event(self, event):
         # handle input events
@@ -28,6 +27,5 @@ class IdleScreen(Screen):
             2
         )
 
-        text = self.font.render("Tap to Start", True, (255, 255, 255))
-        rect = text.get_rect(center=surface.get_rect().center)
-        surface.blit(text, rect)
+        from ui.font import render_text
+        render_text(surface, "Tap to Start", 48, (255, 255, 255), center=True)

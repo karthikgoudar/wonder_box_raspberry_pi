@@ -3,7 +3,6 @@ from ui.screen_base import Screen
 
 class ProcessingScreen(Screen):
     def __init__(self):
-        self.font = pygame.font.SysFont(None, 48)
         self.dots = 0
         self.last_update = 0
 
@@ -15,10 +14,5 @@ class ProcessingScreen(Screen):
 
     def render(self, surface):
         surface.fill((40, 20, 20))
-        text = self.font.render(
-            "Thinking" + "." * self.dots,
-            True,
-            (255, 255, 255)
-        )
-        rect = text.get_rect(center=surface.get_rect().center)
-        surface.blit(text, rect)
+        from ui.font import render_text
+        render_text(surface, "Thinking" + "." * self.dots, 48, (255, 255, 255), center=True)
