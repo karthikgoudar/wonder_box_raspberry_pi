@@ -1,9 +1,12 @@
 import json
 import os
 from datetime import datetime
+from pathlib import Path
 
-LOG_DIR = "logs"
-os.makedirs(LOG_DIR, exist_ok=True)
+# Always resolve logs directory relative to the repository root, not cwd
+_BASE = Path(__file__).resolve().parent.parent
+LOG_DIR = _BASE / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 def log_event(state, event, details=None, error=None):
     log = {
@@ -14,6 +17,6 @@ def log_event(state, event, details=None, error=None):
         "error": error
     }
 
-    filename = f"{LOG_DIR}/log_{datetime.utcnow().date()}.jsonl"
+    filename = LOG_DIR / f"log_{datetime.utcnow().date()}.jsonl"
     with open(filename, "a") as f:
         f.write(json.dumps(log) + "\n")

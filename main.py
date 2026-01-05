@@ -1,16 +1,18 @@
-import pygame
-import re
+import os
 
+import pygame
+
+from utils.timer import Timer
+from utils.logger import log_event
 from core.state_machine import StateMachine
 from core.states import State
 from ui.screen_factory import get_screen
+from ui.current_image import set_image
 from services.audio_service import AudioService
-from utils.timer import Timer
+from services.ai_service import AIService
 
-# ------------------------
-# Services
-# ------------------------
-audio_service = AudioService()
+print(f"[MAIN] build 2026-01-04a (ai+audio wiring) file={__file__}", flush=True)
+log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
 
 # ------------------------
 # Pygame initialization
@@ -19,6 +21,9 @@ pygame.init()
 screen = pygame.display.set_mode((800, 480))
 pygame.display.set_caption("Wonder Box")
 
+# ------------------------
+# Explicit event handling (IMPORTANT for macOS)
+# ------------------------
 pygame.event.set_allowed(None)
 pygame.event.set_allowed([
     pygame.QUIT,
@@ -36,62 +41,67 @@ clock = pygame.time.Clock()
 # Core system
 # ------------------------
 sm = StateMachine()
+audio_service = AudioService()
+ai_service = AIService()
+ai_started = False
+last_process_status = None
+print("[MAIN] services ready", flush=True)
+log_event("MAIN", "SERVICES_READY")
 
 # ------------------------
-# Timers
+# Timers (seconds)
 # ------------------------
+listening_timer = Timer(2.5)
+processing_timer = Timer(2.5)
 printing_timer = Timer(3.0)
+displaying_timer = Timer(10.0)
 
 # ------------------------
 # Callbacks (UI → intent)
 # ------------------------
 def start_listening():
+    global ai_started
+    set_image(None)
+    ai_service.reset()
+    audio_service.start_recording()
+    ai_started = False
     sm.transition(State.LISTENING, reason="Button pressed (start listening)")
 
+def stop_listening(reason="Button released (stop listening)"):
+    audio_service.stop_recording()
+    sm.transition(State.PROCESSING, reason=reason)
+
+def approve_print():
+    sm.transition(State.PRINTING, reason="User approved print")
+
 def reset_to_idle():
-    # Clear audio state, displayed image, and return FSM to IDLE
-    try:
-        audio_service.reset()
-    except Exception:
-        pass
-    try:
-        from ui import current_image
-        current_image.set_image(None)
-    except Exception:
-        pass
-    sm.transition(State.IDLE, reason="Reset from UI/Error")
+    sm.transition(State.IDLE, reason="Reset to idle")
+
+def cancel():
+    """Global RED button intent — transition to IDLE from allowed states.
+
+    Mapped to ESC key (red button). Handled centrally in the main loop.
+    """
+    audio_service.reset()
+    ai_service.reset()
+    set_image(None)
+    sm.transition(State.IDLE, reason="Red button (cancel) pressed")
 
 callbacks = {
-    "start_listening": start_listening
+    "start_listening": start_listening,
+    "approve_print": approve_print,
+    "reset": reset_to_idle
 }
-callbacks["reset"] = reset_to_idle
-
-
-# Minimal text normalization: decide whether to treat recognized text as
-# Latin (English/Hinglish) or Devanagari (Hindi) based on presence of
-# Latin letters. This must be applied at the UI boundary only.
-def normalize_text_mode(text: str) -> str:
-    if text is None:
-        return text
-    # If any ASCII Latin letters present, treat as latin (Hinglish/English)
-    if re.search(r"[A-Za-z]", text):
-        try:
-            print("[TEXT MODE] latin", flush=True)
-        except Exception:
-            pass
-        return text
-    else:
-        try:
-            print("[TEXT MODE] devanagari", flush=True)
-        except Exception:
-            pass
-        return text
+# expose cancel intent via callbacks for screens to call (not required)
+callbacks["cancel"] = cancel
 
 # ------------------------
 # Screen + state tracking
 # ------------------------
 current_state = sm.get_state()
 last_state = current_state
+entered_state = current_state
+
 current_screen = get_screen(current_state, callbacks)
 
 # ------------------------
@@ -100,77 +110,125 @@ current_screen = get_screen(current_state, callbacks)
 running = True
 while running:
     dt = clock.tick(60)
+    current_state = sm.get_state()
 
-    # ------------------------
-    # 1. Event handling
-    # ------------------------
+    # 1. Handle system + user events (ONCE)
     for event in pygame.event.get():
+        current_state = sm.get_state()
         if event.type == pygame.QUIT:
             running = False
-
-        # Button RELEASE ends listening
-        if event.type in (pygame.MOUSEBUTTONUP, pygame.FINGERUP, pygame.KEYUP):
-            # check the live FSM state (sm.get_state()) not the cached `current_state`
-            if sm.get_state() == State.LISTENING:
-                audio_service.stop_recording()
-                sm.transition(State.PROCESSING, reason="Button released (stop listening)")
+        # Global RED button handling (ESC) — cancel to IDLE from selected states
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if current_state in (State.LISTENING, State.PROCESSING, State.DISPLAYING):
+                callbacks["cancel"]()
+                # skip forwarding to screen
                 continue
+
+        # When listening, releasing input stops recording
+        if current_state == State.LISTENING and event.type in (pygame.MOUSEBUTTONUP, pygame.FINGERUP, pygame.KEYUP):
+            stop_listening()
+            continue
 
         current_screen.handle_event(event)
 
-    # ------------------------
-    # 2. State logic
-    # ------------------------
-    if current_state == State.PROCESSING:
+    # Sync state after any event-driven transitions
+    current_state = sm.get_state()
+
+    # 2. Automatic / timed state transitions
+    if current_state == State.LISTENING:
+        # Fallback auto-stop if user never releases
+        if listening_timer.is_finished():
+            stop_listening(reason="Listening timeout")
+
+    elif current_state == State.PROCESSING:
+        # Finalize audio capture
         audio_service.update()
-
         if audio_service.has_failed():
-            sm.transition(State.ERROR, reason=audio_service.get_error())
+            sm.transition(State.ERROR, reason=f"Audio failed: {audio_service.get_error()}")
+        elif audio_service.is_done() and not ai_started:
+            text = audio_service.get_text()
+            print(f"[AUDIO DONE] {text}", flush=True)
+            log_event("PROCESSING", "AUDIO_DONE", details={"text": text})
+            ai_service.start_generation(text)
+            log_event("PROCESSING", "AI_START", details={"prompt": text})
+            ai_started = True
+        else:
+            if not audio_service.is_done():
+                print("[AUDIO] still processing", flush=True)
+            elif ai_started:
+                print("[AI] already started; waiting", flush=True)
 
-        elif audio_service.is_done():
-            recognized_text = audio_service.get_text()
-            # Clear, unambiguous, flushed CLI log so recognition is always visible
-            #print(f"[AUDIO DONE] {recognized_text}", flush=True)
+        # Poll AI generation completion
+        if ai_service.has_failed():
+            err = ai_service.get_error()
+            log_event("PROCESSING", "AI_FAILED", error=err)
+            sm.transition(State.ERROR, reason=f"AI failed: {err}")
+        elif ai_started and ai_service.is_done():
+            img = ai_service.get_image()
+            if img is not None:
+                set_image(img)
+                log_event("PROCESSING", "AI_IMAGE_READY")
+            sm.transition(State.PRINTING, reason="AI image generated")
+            ai_started = False
+        elif ai_started:
+            print("[AI] waiting on generation", flush=True)
 
-            # --- generate placeholder image ---
-            from ui import current_image
-            img = pygame.Surface(screen.get_size())
-            img.fill((200, 180, 120))
-            # Use centralized Unicode renderer to support Devanagari + Latin
-            from ui.font import render_text
-            # Apply minimal text-mode normalization at the UI boundary
-            display_text = normalize_text_mode(recognized_text)
-            render_text(img, display_text, 36, (0, 0, 0), center=True)
-            current_image.set_image(img)
-
-            audio_service.reset()
-            sm.transition(State.PRINTING, reason="Audio processed")
+        # Diagnostic snapshot to ensure this branch is executing
+        status = (
+            audio_service.is_done(),
+            audio_service.has_failed(),
+            ai_started,
+            ai_service.is_done(),
+            ai_service.has_failed(),
+        )
+        if status != last_process_status:
+            print(
+                f"[PROCESS] audio_done={status[0]} audio_failed={status[1]} "
+                f"ai_started={status[2]} ai_done={status[3]} ai_failed={status[4]}",
+                flush=True,
+            )
+            log_event(
+                "PROCESSING",
+                "STATUS",
+                details={
+                    "audio_done": status[0],
+                    "audio_failed": status[1],
+                    "ai_started": status[2],
+                    "ai_done": status[3],
+                    "ai_failed": status[4],
+                },
+            )
+            last_process_status = status
 
     elif current_state == State.PRINTING:
         if printing_timer.is_finished():
             sm.transition(State.IDLE, reason="Print complete → reset")
 
-    # ------------------------
-    # 3. State entry actions
-    # ------------------------
+    elif current_state == State.DISPLAYING:
+        if displaying_timer.is_finished():
+            sm.transition(State.IDLE, reason="Display timeout")
+
+    # 3. State → Screen synchronization
     current_state = sm.get_state()
     if current_state != last_state:
+        entered_state = current_state
         current_screen = get_screen(current_state, callbacks)
         last_state = current_state
 
-        if current_state == State.LISTENING:
-            audio_service.start_recording()
+        # ---- state entry actions ----
+        if entered_state == State.LISTENING:
+            listening_timer.start()
 
-        elif current_state == State.PRINTING:
+        elif entered_state == State.PROCESSING:
+            processing_timer.start()
+
+        elif entered_state == State.DISPLAYING:
+            displaying_timer.start()
+
+        elif entered_state == State.PRINTING:
             printing_timer.start()
 
-        elif current_state == State.IDLE:
-            from ui import current_image
-            current_image.set_image(None)
-
-    # ------------------------
-    # 4. Render
-    # ------------------------
+    # 4. Update & render
     current_screen.update(dt)
     current_screen.render(screen)
     pygame.display.flip()
