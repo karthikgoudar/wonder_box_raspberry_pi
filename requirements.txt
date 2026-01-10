@@ -1,0 +1,8 @@
+pygame
+openai
+sounddevice
+numpy
+scipy
+whisper
+torch
+pytest
