@@ -65,6 +65,7 @@ def start_listening():
     ai_service.reset()
     audio_service.start_recording()
     ai_started = False
+    listening_timer.start()  # Reset timer when entering LISTENING
     sm.transition(State.LISTENING, reason="Button pressed (start listening)")
 
 def stop_listening(reason="Button released (stop listening)"):
@@ -82,9 +83,20 @@ def cancel():
 
     Mapped to ESC key (red button). Handled centrally in the main loop.
     """
+    global ai_started
+    # Stop audio recording if active
+    if audio_service._recording:
+        audio_service.stop_recording()
+    # Reset services (will abandon in-flight AI thread)
     audio_service.reset()
     ai_service.reset()
+    ai_started = False
     set_image(None)
+    # Reset all timers to prevent stale state
+    listening_timer.reset()
+    processing_timer.reset()
+    printing_timer.reset()
+    displaying_timer.reset()
     sm.transition(State.IDLE, reason="Red button (cancel) pressed")
 
 callbacks = {
@@ -115,6 +127,7 @@ while running:
     # 1. Handle system + user events (ONCE)
     for event in pygame.event.get():
         current_state = sm.get_state()
+        print("Event received:", event.type, "in state", current_state.name, flush=True)
         if event.type == pygame.QUIT:
             running = False
         # Global RED button handling (ESC) — cancel to IDLE from selected states
@@ -126,6 +139,7 @@ while running:
 
         # When listening, releasing input stops recording
         if current_state == State.LISTENING and event.type in (pygame.MOUSEBUTTONUP, pygame.FINGERUP, pygame.KEYUP):
+            print("[MAIN] input released during LISTENING; stopping", flush=True)
             stop_listening()
             continue
 
@@ -138,6 +152,7 @@ while running:
     if current_state == State.LISTENING:
         # Fallback auto-stop if user never releases
         if listening_timer.is_finished():
+            print("[MAIN] listening timer expired; stopping", flush=True)
             stop_listening(reason="Listening timeout")
 
     elif current_state == State.PROCESSING:
