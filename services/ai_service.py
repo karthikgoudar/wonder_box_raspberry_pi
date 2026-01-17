@@ -10,7 +10,10 @@ import threading
 
 import pygame
 from openai import OpenAI
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 
 class AIService:
     def __init__(self):
@@ -85,7 +88,7 @@ class AIService:
     # Internal helpers
     # ------------------------
     def _make_kid_safe_prompt(self, prompt: str) -> str:
-        return f"A friendly, colorful, kid-safe illustration: {prompt.strip()}"
+        return f" {prompt.strip()}"
 
     def _generate_image(self):
         try:

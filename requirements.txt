@@ -3,6 +3,7 @@ openai
 sounddevice
 numpy
 scipy
-whisper
+openai-whisper
 torch
 pytest
+python-dotenv

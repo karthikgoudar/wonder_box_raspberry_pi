@@ -1,6 +1,10 @@
 import os
 
 import pygame
+from dotenv import load_dotenv
+
+# Load .env early so all services see the same environment
+load_dotenv()
 
 from utils.timer import Timer
 from utils.logger import log_event
@@ -52,9 +56,9 @@ log_event("MAIN", "SERVICES_READY")
 # Timers (seconds)
 # ------------------------
 listening_timer = Timer(2.5)
-processing_timer = Timer(2.5)
+processing_timer = Timer(120)
 printing_timer = Timer(3.0)
-displaying_timer = Timer(10.0)
+displaying_timer = Timer(120.0)
 
 # ------------------------
 # Callbacks (UI → intent)

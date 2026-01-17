@@ -7,6 +7,8 @@ import sys
 import gc
 import re
 import os
+import shutil
+import traceback
 try:
     import whisper
 except Exception:
@@ -128,7 +130,18 @@ class AudioService:
         # Write WAV
         try:
             self._wav_path = output_dir / f"audio_{int(time.time())}.wav"
-            write(str(self._wav_path), self.sample_rate, audio)
+            # Normalize / convert audio to int16 PCM for consistent WAV files
+            audio_arr = np.asarray(audio)
+            print(f"[AUDIO DEBUG] audio shape={audio_arr.shape} dtype={audio_arr.dtype} min={audio_arr.min():.6f} max={audio_arr.max():.6f}", flush=True)
+            if np.issubdtype(audio_arr.dtype, np.floating):
+                # float arrays are expected in range -1.0..1.0 -> convert to int16
+                audio_clipped = np.clip(audio_arr, -1.0, 1.0)
+                audio_int16 = (audio_clipped * 32767).astype(np.int16)
+            else:
+                # If already integer, cast to int16 safely
+                audio_int16 = audio_arr.astype(np.int16)
+
+            write(str(self._wav_path), self.sample_rate, audio_int16)
             print(f"[AUDIO] WAV written: {self._wav_path}", flush=True)
         except Exception as e:
             self._failed = True
@@ -136,6 +149,22 @@ class AudioService:
             print(f"[AUDIO ERROR] writing WAV failed: {e}", flush=True)
             self._processing = False
             return
+
+        # Ensure ffmpeg is discoverable by subprocess calls used by Whisper
+        # ffmpeg_bin = os.environ.get("FFMPEG_BINARY")
+        # if ffmpeg_bin:
+        #     ffmpeg_dir = os.path.dirname(ffmpeg_bin)
+        #     if ffmpeg_dir and ffmpeg_dir not in os.environ.get("PATH", ""):
+        #         os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+        # else:
+        #     try:
+        #         ffpath = shutil.which("ffmpeg")
+        #         if ffpath:
+        #             ffdir = os.path.dirname(ffpath)
+        #             if ffdir and ffdir not in os.environ.get("PATH", ""):
+        #                 os.environ["PATH"] = ffdir + os.pathsep + os.environ.get("PATH", "")
+        #     except Exception:
+        #         pass
 
         # --- Transcribe WAV using local Whisper model (auto-detect, with forced Hindi fallback) ---
         if self._whisper_model is None:
@@ -147,6 +176,22 @@ class AudioService:
 
         try:
             # Main transcription pass: auto-detect language, always transcribe (never translate)
+            # Ensure ffmpeg binary (from FFMPEG_BINARY) or discovered ffmpeg is on PATH
+            ffmpeg_bin = os.environ.get("FFMPEG_BINARY")
+            if ffmpeg_bin:
+                ffmpeg_dir = os.path.dirname(ffmpeg_bin)
+                if ffmpeg_dir and ffmpeg_dir not in os.environ.get("PATH", ""):
+                    os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+            else:
+                try:
+                    ffpath = shutil.which("ffmpeg")
+                    if ffpath:
+                        ffdir = os.path.dirname(ffpath)
+                        if ffdir and ffdir not in os.environ.get("PATH", ""):
+                            os.environ["PATH"] = ffdir + os.pathsep + os.environ.get("PATH", "")
+                except Exception:
+                    pass
+
             result = self._whisper_model.transcribe(str(self._wav_path), task="transcribe")
             detected_lang = None
             text = None
