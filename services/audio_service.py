@@ -132,10 +132,27 @@ class AudioService:
             self._wav_path = output_dir / f"audio_{int(time.time())}.wav"
             # Normalize / convert audio to int16 PCM for consistent WAV files
             audio_arr = np.asarray(audio)
-            print(f"[AUDIO DEBUG] audio shape={audio_arr.shape} dtype={audio_arr.dtype} min={audio_arr.min():.6f} max={audio_arr.max():.6f}", flush=True)
+            # Diagnostic: report raw amplitude stats
+            try:
+                amin = float(np.min(audio_arr))
+                amax = float(np.max(audio_arr))
+            except Exception:
+                amin = 0.0
+                amax = 0.0
+            print(f"[AUDIO DEBUG] audio shape={audio_arr.shape} dtype={audio_arr.dtype} min={amin:.6f} max={amax:.6f}", flush=True)
+
             if np.issubdtype(audio_arr.dtype, np.floating):
-                # float arrays are expected in range -1.0..1.0 -> convert to int16
+                # float arrays are expected in range -1.0..1.0
                 audio_clipped = np.clip(audio_arr, -1.0, 1.0)
+
+                # If the captured audio is very quiet, amplify to a sensible peak
+                peak = max(abs(audio_clipped.min()), abs(audio_clipped.max()), 1e-9)
+                target_peak = 0.9
+                if peak < 0.25:
+                    gain = target_peak / peak
+                    audio_clipped = np.clip(audio_clipped * gain, -1.0, 1.0)
+                    print(f"[AUDIO DEBUG] low-volume capture: peak={peak:.6f} -> applying gain {gain:.2f}", flush=True)
+
                 audio_int16 = (audio_clipped * 32767).astype(np.int16)
             else:
                 # If already integer, cast to int16 safely

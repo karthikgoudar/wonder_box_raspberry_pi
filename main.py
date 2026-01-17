@@ -1,4 +1,5 @@
 import os
+import time
 
 import pygame
 from dotenv import load_dotenv
@@ -22,7 +23,7 @@ log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
 # Pygame initialization
 # ------------------------
 pygame.init()
-screen = pygame.display.set_mode((800, 480))
+screen = pygame.display.set_mode((480, 480))
 pygame.display.set_caption("Wonder Box")
 
 # ------------------------
@@ -55,9 +56,9 @@ log_event("MAIN", "SERVICES_READY")
 # ------------------------
 # Timers (seconds)
 # ------------------------
-listening_timer = Timer(2.5)
+listening_timer = Timer(10.0)
 processing_timer = Timer(120)
-printing_timer = Timer(3.0)
+printing_timer = Timer(10.0)
 displaying_timer = Timer(120.0)
 
 # ------------------------
@@ -187,9 +188,10 @@ while running:
             if img is not None:
                 set_image(img)
                 log_event("PROCESSING", "AI_IMAGE_READY")
-            sm.transition(State.PRINTING, reason="AI image generated")
+                sm.transition(State.DISPLAYING, reason="AI image generated")
             ai_started = False
         elif ai_started:
+            time.sleep(5)   
             print("[AI] waiting on generation", flush=True)
 
         # Diagnostic snapshot to ensure this branch is executing
