@@ -48,6 +48,7 @@ sm = StateMachine()
 audio_service = AudioService()
 ai_service = AIService()
 ai_started = False
+last_process_status = None
 print("[MAIN] services ready", flush=True)
 log_event("MAIN", "SERVICES_READY")
 
@@ -260,3 +261,5 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
+
+
