@@ -1,6 +1,7 @@
 import sounddevice as sd
 import numpy as np
 import time
+import threading
 from scipy.io.wavfile import write
 from pathlib import Path
 import sys
@@ -22,15 +23,18 @@ class AudioService:
 
         self._recording = False
         self._processing = False
+        self._transcribing = False
 
         self._frames = []
         self._start_time = None
 
         self._wav_path = None
-        self._text = None  # still stub
+        self._text = None
         self._failed = False
         self._error = None
         self._stream = None
+        self._thread = None
+        self._lock = threading.Lock()
         # Load Whisper model once if available
         self._whisper_model = None
         if whisper is not None:
@@ -93,9 +97,19 @@ class AudioService:
             print(f"[AUDIO ERROR] stopping stream: {e}", flush=True)
 
     def update(self):
-        if not self._processing:
+        if not self._processing or self._transcribing:
             return
-        print("[AUDIO] update: finalizing WAV", flush=True)
+        
+        self._transcribing = True
+        print("[AUDIO] update: starting WAV write and transcription", flush=True)
+        
+        # Start background thread for WAV writing and transcription
+        self._thread = threading.Thread(target=self._process_and_transcribe, daemon=True)
+        self._thread.start()
+
+    def _process_and_transcribe(self):
+        """Background thread: write WAV and transcribe"""
+        print("[AUDIO] background: finalizing WAV", flush=True)
 
         # Ensure recordings directory exists
         output_dir = Path("recordings")
@@ -103,28 +117,34 @@ class AudioService:
             output_dir.mkdir(parents=True, exist_ok=True)
             print(f"[AUDIO] recordings dir ready: {output_dir.resolve()}", flush=True)
         except Exception as e:
-            self._failed = True
-            self._error = f"failed to create recordings dir: {e}"
+            with self._lock:
+                self._failed = True
+                self._error = f"failed to create recordings dir: {e}"
             print(f"[AUDIO ERROR] cannot create recordings dir: {e}", flush=True)
             self._processing = False
+            self._transcribing = False
             return
 
         # Guard against empty frames
         if not self._frames:
-            self._failed = True
-            self._error = "no audio frames captured"
+            with self._lock:
+                self._failed = True
+                self._error = "no audio frames captured"
             print("[AUDIO ERROR] no audio frames captured", flush=True)
             self._processing = False
+            self._transcribing = False
             return
 
         try:
             audio = np.concatenate(self._frames, axis=0)
             audio = np.squeeze(audio)
         except Exception as e:
-            self._failed = True
-            self._error = f"failed to concatenate frames: {e}"
+            with self._lock:
+                self._failed = True
+                self._error = f"failed to concatenate frames: {e}"
             print(f"[AUDIO ERROR] concatenation failed: {e}", flush=True)
             self._processing = False
+            self._transcribing = False
             return
 
         # Write WAV
@@ -161,39 +181,26 @@ class AudioService:
             write(str(self._wav_path), self.sample_rate, audio_int16)
             print(f"[AUDIO] WAV written: {self._wav_path}", flush=True)
         except Exception as e:
-            self._failed = True
-            self._error = f"failed to write wav: {e}"
+            with self._lock:
+                self._failed = True
+                self._error = f"failed to write wav: {e}"
             print(f"[AUDIO ERROR] writing WAV failed: {e}", flush=True)
             self._processing = False
+            self._transcribing = False
             return
 
-        # Ensure ffmpeg is discoverable by subprocess calls used by Whisper
-        # ffmpeg_bin = os.environ.get("FFMPEG_BINARY")
-        # if ffmpeg_bin:
-        #     ffmpeg_dir = os.path.dirname(ffmpeg_bin)
-        #     if ffmpeg_dir and ffmpeg_dir not in os.environ.get("PATH", ""):
-        #         os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
-        # else:
-        #     try:
-        #         ffpath = shutil.which("ffmpeg")
-        #         if ffpath:
-        #             ffdir = os.path.dirname(ffpath)
-        #             if ffdir and ffdir not in os.environ.get("PATH", ""):
-        #                 os.environ["PATH"] = ffdir + os.pathsep + os.environ.get("PATH", "")
-        #     except Exception:
-        #         pass
-
-        # --- Transcribe WAV using local Whisper model (auto-detect, with forced Hindi fallback) ---
+        # --- Transcribe WAV using local Whisper model ---
         if self._whisper_model is None:
-            self._failed = True
-            self._error = "local Whisper model not available"
+            with self._lock:
+                self._failed = True
+                self._error = "local Whisper model not available"
             print("[WHISPER LOCAL] model not available; cannot transcribe", flush=True)
             self._processing = False
+            self._transcribing = False
             return
 
         try:
-            # Main transcription pass: auto-detect language, always transcribe (never translate)
-            # Ensure ffmpeg binary (from FFMPEG_BINARY) or discovered ffmpeg is on PATH
+            # Ensure ffmpeg is on PATH
             ffmpeg_bin = os.environ.get("FFMPEG_BINARY")
             if ffmpeg_bin:
                 ffmpeg_dir = os.path.dirname(ffmpeg_bin)
@@ -222,7 +229,8 @@ class AudioService:
                 raise RuntimeError("no transcription text returned")
             text = text.strip()
             print(f"[WHISPER] lang={detected_lang} text={text}", flush=True)
-            # If Whisper detected Hindi but returned romanized (no Devanagari), re-run forcing Hindi
+            
+            # If Hindi detected but romanized, force Hindi transcription
             if detected_lang == "hi" and not re.search(r"[\u0900-\u097F]", text):
                 try:
                     forced = self._whisper_model.transcribe(str(self._wav_path), language="hi", task="transcribe")
@@ -237,38 +245,42 @@ class AudioService:
                         print("[WHISPER] forced-hi: obtained Devanagari result", flush=True)
                 except Exception as e:
                     print(f"[WHISPER] forced-hi failed: {e}", flush=True)
-            self._text = text
+            
+            with self._lock:
+                self._text = text
+            
             # cleanup
             try:
                 del result
-            except Exception:
-                pass
-            try:
                 del audio
             except Exception:
                 pass
             self._frames = []
             gc.collect()
         except Exception as e:
-            self._failed = True
-            self._error = f"local whisper transcription failed: {e}"
+            with self._lock:
+                self._failed = True
+                self._error = f"local whisper transcription failed: {e}"
             print(f"[WHISPER LOCAL ERROR] {e}", flush=True)
+        finally:
             self._processing = False
-            return
-
-        self._processing = False
+            self._transcribing = False
 
     def is_done(self):
-        return self._text is not None
+        with self._lock:
+            return self._text is not None
 
     def has_failed(self):
-        return self._failed
+        with self._lock:
+            return self._failed
 
     def get_text(self):
-        return self._text
+        with self._lock:
+            return self._text
 
     def get_error(self):
-        return self._error
+        with self._lock:
+            return self._error
 
     def reset(self):
         self._recording = False
