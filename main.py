@@ -1,5 +1,4 @@
 import os
-import time
 
 import pygame
 from dotenv import load_dotenv
@@ -49,7 +48,6 @@ sm = StateMachine()
 audio_service = AudioService()
 ai_service = AIService()
 ai_started = False
-last_process_status = None
 print("[MAIN] services ready", flush=True)
 log_event("MAIN", "SERVICES_READY")
 
@@ -199,8 +197,7 @@ while running:
                 sm.transition(State.DISPLAYING, reason="AI image generated")
             ai_started = False
         elif ai_started:
-            time.sleep(5)   
-            print("[AI] waiting on generation", flush=True)
+            pass
 
         # Diagnostic snapshot to ensure this branch is executing
         status = (

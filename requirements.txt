@@ -5,5 +5,4 @@ numpy
 scipy
 openai-whisper
 torch
-pytest
 python-dotenv
