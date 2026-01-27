@@ -19,8 +19,8 @@ class ErrorScreen(Screen):
                 self.callbacks["reset"]()
 
     def render(self, surface):
-        surface.fill((80, 20, 20))
+        surface.fill((255, 255, 255))
         from ui.font import render_text
         cx, cy = surface.get_rect().center
-        render_text(surface, "Oops! Something went wrong.", 40, (255, 255, 255), center=(cx, 220))
-        render_text(surface, "Tap to start again", 32, (200, 200, 200), center=(cx, 270))
+        render_text(surface, "Oops! Something went wrong.", 40, (200, 0, 0), center=(cx, 220))
+        render_text(surface, "Tap to start again", 32, (100, 100, 100), center=(cx, 270))

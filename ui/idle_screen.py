@@ -17,15 +17,7 @@ class IdleScreen(Screen):
             self.on_start()
 
     def render(self, surface):
-        surface.fill((20, 20, 40))
-
-        # Debug border to confirm rendering
-        pygame.draw.rect(
-            surface,
-            (255, 255, 255),
-            surface.get_rect(),
-            2
-        )
+        surface.fill((255, 255, 255))
 
         from ui.font import render_text
-        render_text(surface, "Tap to Start", 48, (255, 255, 255), center=True)
+        render_text(surface, "Tap to Start", 48, (0, 0, 0), center=True)

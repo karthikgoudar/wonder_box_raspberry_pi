@@ -113,13 +113,21 @@ callbacks = {
 callbacks["cancel"] = cancel
 
 # ------------------------
+# Services dict for passing to screens
+# ------------------------
+services = {
+    "audio_service": audio_service,
+    "ai_service": ai_service
+}
+
+# ------------------------
 # Screen + state tracking
 # ------------------------
 current_state = sm.get_state()
 last_state = current_state
 entered_state = current_state
 
-current_screen = get_screen(current_state, callbacks)
+current_screen = get_screen(current_state, callbacks, services)
 
 # ------------------------
 # Main loop
@@ -233,7 +241,7 @@ while running:
     current_state = sm.get_state()
     if current_state != last_state:
         entered_state = current_state
-        current_screen = get_screen(current_state, callbacks)
+        current_screen = get_screen(current_state, callbacks, services)
         last_state = current_state
 
         # ---- state entry actions ----

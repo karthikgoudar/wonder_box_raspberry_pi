@@ -1,7 +1,7 @@
 from core.states import State
 
 
-def get_screen(state, callbacks):
+def get_screen(state, callbacks, services=None):
     # Lazy-import screen classes to avoid import-time issues
     if state == State.IDLE:
         from ui.idle_screen import IdleScreen
@@ -13,7 +13,8 @@ def get_screen(state, callbacks):
 
     elif state == State.PROCESSING:
         from ui.processing_screen import ProcessingScreen
-        return ProcessingScreen()
+        audio_service = services.get("audio_service") if services else None
+        return ProcessingScreen(audio_service)
 
     elif state == State.DISPLAYING:
         from ui.displaying_screen import DisplayingScreen

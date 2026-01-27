@@ -49,6 +49,43 @@ def _char_script(ch: str) -> str:
     return 'latin'
 
 
+def calculate_font_size(text: str, surface_width: int, surface_height: int, min_size=24, max_size=72):
+    """Calculate optimal font size for text to fit within surface dimensions.
+    
+    Args:
+        text: Text to display
+        surface_width: Available width in pixels
+        surface_height: Available height in pixels
+        min_size: Minimum font size
+        max_size: Maximum font size
+    
+    Returns:
+        Optimal font size
+    """
+    if not text:
+        return max_size
+    
+    # Estimate based on text length and available space
+    text_len = len(text)
+    
+    # For 480x480 display, adjust font size based on text length
+    if text_len <= 20:
+        size = max_size
+    elif text_len <= 40:
+        size = 56
+    elif text_len <= 60:
+        size = 48
+    elif text_len <= 100:
+        size = 40
+    elif text_len <= 150:
+        size = 32
+    else:
+        size = min_size
+    
+    # Clamp to min/max
+    return max(min_size, min(max_size, size))
+
+
 def render_text(surface: pygame.Surface, text: str, size: int, color, center=True):
     """Render `text` onto `surface` using appropriate fonts per script.
 
