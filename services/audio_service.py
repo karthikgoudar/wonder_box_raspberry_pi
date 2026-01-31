@@ -14,9 +14,14 @@ except Exception:
 
 
 class AudioService:
-    def __init__(self, sample_rate=16000):
+    def __init__(self, sample_rate=44100, device=1):
+        # Force 44.1kHz sample rate and store explicit device index for Raspberry Pi USB mic
+        # `device` is the integer index reported by sd.query_devices()
         self.sample_rate = sample_rate
+        # Force mono input
         self.channels = 1
+        # ALSA device string (explicit USB microphone device)
+        self.device = device
 
         self._recording = False
         self._processing = False
@@ -58,15 +63,26 @@ class AudioService:
         self.reset()
         self._recording = True
         try:
+            # Open the device by integer index (e.g. `1`), force 44.1kHz, mono, 16-bit PCM
+            # Use a non-zero blocksize so callbacks deliver frames predictably on Raspberry Pi
             self._stream = sd.InputStream(
+                device=self.device,
                 samplerate=self.sample_rate,
                 channels=self.channels,
+                dtype='int16',
+                blocksize=1024,
                 callback=self._audio_callback
             )
+            # Explicitly start the stream to ensure callbacks begin
             self._stream.start()
         except Exception as e:
+            # Fail gracefully: record error state and avoid raising to caller/state machine
+            self._stream = None
             self._failed = True
             self._error = f"start_recording failed: {e}"
+            # ensure state machine isn't left thinking recording is active
+            self._recording = False
+            return
 
     def stop_recording(self):
         if not self._recording:
