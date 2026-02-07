@@ -196,3 +196,4 @@ class AudioService:
     def _audio_callback(self, indata, frames, time_info, status):
         if self._recording:
             self._frames.append(indata.copy())
+
