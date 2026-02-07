@@ -4,5 +4,7 @@ sounddevice
 numpy
 scipy
 openai-whisper
+# Install CPU-only torch to save 300-400MB:
+# pip install torch --index-url https://download.pytorch.org/whl/cpu
 torch
 python-dotenv
