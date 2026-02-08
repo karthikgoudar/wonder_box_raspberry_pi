@@ -40,25 +40,5 @@ class DisplayingScreen(Screen):
             render_text(surface, "Here is your picture!", 36, (255, 255, 255), center=True)
         # Render a small prompt/button at the bottom-center
         from ui.font import render_text
-        prompt = "Tap to print — click here to print"
-        text_surf, text_rect = render_text(surface, prompt, 24, (255, 255, 255), center=False)
-        # place bottom-center with some padding
-        sw = surface.get_width()
-        sh = surface.get_height()
-        padding = 16
-        text_rect.centerx = sw // 2
-        text_rect.bottom = sh - padding
-
-        # Draw a subtle rounded rectangle behind the text
-        bg_rect = text_rect.inflate(24, 12)
-        try:
-            pygame.draw.rect(surface, (0, 0, 0, 160), bg_rect, border_radius=8)
-        except Exception:
-            # Some pygame builds may not support alpha in draw.rect background; use solid
-            pygame.draw.rect(surface, (0, 0, 0), bg_rect, border_radius=8)
-
-        # Blit the text again on top of the background
-        surface.blit(text_surf, text_rect)
-
-        # Cache button rect for event handling
-        self._button_rect = bg_rect
+        # Removed prompt text and its rendering
+        # Removed prompt rendering and related background/button code

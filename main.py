@@ -22,7 +22,7 @@ log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
 # Pygame initialization
 # ------------------------
 pygame.init()
-screen = pygame.display.set_mode((480, 480))
+screen = pygame.display.set_mode((600, 600))
 pygame.display.set_caption("Wonder Box")
 
 # ------------------------

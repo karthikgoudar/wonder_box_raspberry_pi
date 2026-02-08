@@ -41,7 +41,7 @@ class AudioService:
         if whisper is not None:
             try:
                 print("[WHISPER] loading model...", flush=True)
-                self._whisper_model = whisper.load_model("small")
+                self._whisper_model = whisper.load_model("tiny")
 
                 try:
                     import torch
