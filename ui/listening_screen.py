@@ -11,14 +11,43 @@ class ListeningScreen(Screen):
         self.dots = 0
         self.last_update = 0
         # optional custom font to better match listening image
-        # if not provided, try to find a bundled Latin font under assets/fonts
+        # if not provided, try to match the system font 'segoemdl2assets' (Segoe MDL2 Assets)
         default_font = os.path.join("assets", "fonts", "NotoSans-Regular.ttf")
+        # prefer explicitly provided font
         if font_path:
             self.font_path = font_path
-        elif os.path.exists(default_font):
-            self.font_path = default_font
         else:
-            self.font_path = None
+            # prefer a bundled Carlito (Calibri replacement) if available
+            carlito = os.path.join("assets", "fonts", "Carlito-Regular.ttf")
+            if os.path.exists(carlito):
+                self.font_path = carlito
+            else:
+                # prefer any TeX Gyre Pagella / Pagella-like font in assets if present
+                pagella = None
+                fonts_dir = os.path.join("assets", "fonts")
+                try:
+                    for fn in os.listdir(fonts_dir):
+                        lname = fn.lower()
+                        if "pagella" in lname or "texgyre" in lname:
+                            pagella = os.path.join(fonts_dir, fn)
+                            break
+                except Exception:
+                    pagella = None
+
+                if pagella and os.path.exists(pagella):
+                    self.font_path = pagella
+                else:
+                    # prefer system Segoe MDL2 Assets if available
+                    try:
+                        match = pygame.font.match_font('segoemdl2assets') or pygame.font.match_font('segoe md l2 assets')
+                    except Exception:
+                        match = None
+                    if match:
+                        self.font_path = match
+                    elif os.path.exists(default_font):
+                        self.font_path = default_font
+                    else:
+                        self.font_path = None
 
         # color will be sampled from the image if not provided
         self.font_color = font_color

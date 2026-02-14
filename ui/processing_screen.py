@@ -16,12 +16,33 @@ class ProcessingScreen(Screen):
 
         # font selection: prefer provided font_path, otherwise try bundled Latin font
         default_font = os.path.join("assets", "fonts", "NotoSans-Regular.ttf")
+        # prefer explicitly provided font
         if font_path:
             self.font_path = font_path
-        elif os.path.exists(default_font):
-            self.font_path = default_font
         else:
-            self.font_path = None
+            # prefer bundled Carlito if available
+            carlito = os.path.join("assets", "fonts", "Carlito-Regular.ttf")
+            if os.path.exists(carlito):
+                self.font_path = carlito
+            else:
+                # try to find a TeX Gyre Pagella / Pagella-like font in assets
+                pagella = None
+                fonts_dir = os.path.join("assets", "fonts")
+                try:
+                    for fn in os.listdir(fonts_dir):
+                        lname = fn.lower()
+                        if "pagella" in lname or "texgyre" in lname:
+                            pagella = os.path.join(fonts_dir, fn)
+                            break
+                except Exception:
+                    pagella = None
+
+                if pagella and os.path.exists(pagella):
+                    self.font_path = pagella
+                elif os.path.exists(default_font):
+                    self.font_path = default_font
+                else:
+                    self.font_path = None
 
         # color to use for text; if None we'll sample from the image when rendering
         self.font_color = font_color
