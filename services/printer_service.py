@@ -104,21 +104,14 @@ class PrinterService:
 
                 # STEP 5: Thermal-safe binarization (NO inversion issues)
                 # Lower threshold = darker print & stronger lines
-                threshold = 130
+                threshold = 200
                 pil = pil.point(lambda x: 0 if x > threshold else 255, mode='1')
 
                 # STEP 6: Crop blank borders (keeps tight margins)
                 bbox = pil.getbbox()
-                # STEP 6: Strong crop to remove top whitespace (fixes top padding)
-                bbox = pil.getbbox()
                 if bbox:
-                    left, top, right, bottom = bbox
+                    pil = pil.crop(bbox)
 
-                    # Reduce top padding aggressively (key line)
-                    TOP_TRIM = 20  # try 2–5 pixels depending on how tight you want
-                    top = max(0, top - TOP_TRIM)
-
-                    pil = pil.crop((left, top, right, bottom))
                 pil_img = pil
 
             # Fallback simulation
@@ -149,14 +142,10 @@ class PrinterService:
                 )
 
             for i in range(max(1, copies)):
-                # 🔥 RESET printer spacing (CRITICAL for top padding)
-                self._serial.write(b'\x1b\x32')   # Set default line spacing
-                self._serial.write(b'\x1b\x33\x00')  # Line spacing = 0 (removes top gap)
+                # Set higher print density & heat (darker like self-test)
+                self._serial.write(b'\x1d\x28\x45\x04\x00\x20\x20\x20\x20')
 
-                # Print density (keep your darkness setting)
-                self._serial.write(b'\x1d\x28\x45\x04\x00\x08\x08\x08\x08')
-
-                # Print image
+                # Print image (correct polarity, no inversion)
                 self._serial.write(cmd)
                 self._serial.flush()
                 time.sleep(0.08)

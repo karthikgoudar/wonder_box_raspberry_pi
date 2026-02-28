@@ -60,7 +60,7 @@ log_event("MAIN", "SERVICES_READY")
 listening_timer = Timer(10.0)
 processing_timer = Timer(120)
 printing_timer = Timer(10.0)
-displaying_timer = Timer(120.0)
+displaying_timer = Timer(16.5)
 
 # ------------------------
 # Callbacks (UI → intent)
@@ -235,7 +235,8 @@ while running:
             sm.transition(State.IDLE, reason="Print complete → reset")
 
     elif current_state == State.DISPLAYING:
-        # If a print job was started, wait for it to finish, then return to IDLE
+        if displaying_timer.is_finished():
+            sm.transition(State.IDLE, reason="15s display complete")
         try:
             if printer_service and printer_service.is_done():
                 sm.transition(State.IDLE, reason="Print complete → reset")
