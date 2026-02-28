@@ -14,6 +14,7 @@ from ui.screen_factory import get_screen
 from ui.current_image import set_image
 from services.audio_service import AudioService
 from services.ai_service import AIService
+from services.printer_service import PrinterService
 
 print(f"[MAIN] build 2026-01-04a (ai+audio wiring) file={__file__}", flush=True)
 log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
@@ -47,6 +48,7 @@ clock = pygame.time.Clock()
 sm = StateMachine()
 audio_service = AudioService()
 ai_service = AIService()
+printer_service = PrinterService()
 ai_started = False
 last_process_status = None
 print("[MAIN] services ready", flush=True)
@@ -116,7 +118,8 @@ callbacks["cancel"] = cancel
 # ------------------------
 services = {
     "audio_service": audio_service,
-    "ai_service": ai_service
+    "ai_service": ai_service,
+    "printer_service": printer_service,
 }
 
 # ------------------------
@@ -232,8 +235,16 @@ while running:
             sm.transition(State.IDLE, reason="Print complete → reset")
 
     elif current_state == State.DISPLAYING:
-        if displaying_timer.is_finished():
-            sm.transition(State.IDLE, reason="Display timeout")
+        # If a print job was started, wait for it to finish, then return to IDLE
+        try:
+            if printer_service and printer_service.is_done():
+                sm.transition(State.IDLE, reason="Print complete → reset")
+            elif displaying_timer.is_finished():
+                sm.transition(State.IDLE, reason="Display timeout")
+        except Exception:
+            # Fallback to regular timeout on error
+            if displaying_timer.is_finished():
+                sm.transition(State.IDLE, reason="Display timeout")
 
     # 3. State → Screen synchronization
     current_state = sm.get_state()
@@ -251,6 +262,14 @@ while running:
 
         elif entered_state == State.DISPLAYING:
             displaying_timer.start()
+            # Start printing the currently displayed image (non-blocking)
+            try:
+                from ui.current_image import get_image
+                img = get_image()
+                if img is not None:
+                    printer_service.start_print(img)
+            except Exception:
+                print("[MAIN] failed to start printer_service", flush=True)
 
         elif entered_state == State.PRINTING:
             printing_timer.start()
