@@ -5,6 +5,7 @@ import threading
 from scipy.io.wavfile import write
 from pathlib import Path
 import re
+import gc
 import os
 
 try:
