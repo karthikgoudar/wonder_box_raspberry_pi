@@ -6,3 +6,5 @@ venv/
 *.wav
 .env
 outputs/
+__pycache__/
+*.pyc
