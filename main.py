@@ -140,19 +140,7 @@ running = True
 while running:
     dt = clock.tick(60)
     current_state = sm.get_state()
-
-    current_state = sm.get_state()
-
-    if button._is_rpi:
-        # Start listening on physical press
-        if button.was_pressed() and current_state == State.IDLE:
-            print("[MAIN] Hardware button pressed → start listening", flush=True)
-            start_listening()
-
-        # Stop listening on physical release
-        if current_state == State.LISTENING and not button.is_held():
-            print("[MAIN] Hardware button released → stop listening", flush=True)
-            stop_listening(reason="Hardware button released")
+    
 
     # 1. Handle system + user events (ONCE)
     for event in pygame.event.get():
