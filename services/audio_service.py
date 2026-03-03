@@ -93,6 +93,7 @@ class AudioService:
 
         try:
             if self._stream:
+                time.sleep(0.05)  # allow final callback delivery on Raspberry Pi
                 self._stream.stop()
                 self._stream.close()
         except Exception:
@@ -211,5 +212,8 @@ class AudioService:
     # ------------------------
 
     def _audio_callback(self, indata, frames, time_info, status):
-        if self._recording:
-            self._frames.append(indata.copy())
+        if status:
+            print("Audio status:", status, flush=True)
+
+        # Always collect frames while stream is active (avoid race on Raspberry Pi)
+        self._frames.append(indata.copy())
