@@ -1,9 +1,8 @@
 import os
 import time
-from services.button_service import ButtonService
-button = ButtonService()
 import pygame
 from dotenv import load_dotenv
+
 
 # Load .env early so all services see the same environment
 load_dotenv()
@@ -27,6 +26,12 @@ log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
 pygame.init()
 screen = pygame.display.set_mode((600, 600))
 pygame.display.set_caption("Wonder Box")
+
+# Instantiate ButtonService after pygame init so non-RPi input can be
+# handled consistently by main (and so pygame is available if needed).
+from services.button_service import ButtonService
+button = ButtonService()
+button_prev_held = False
 
 # ------------------------
 # Explicit event handling (IMPORTANT for macOS)
@@ -155,6 +160,11 @@ while running:
                 # skip forwarding to screen
                 continue
 
+        # Global input-to-start: Pressing mouse/keyboard starts LISTENING from IDLE
+        if event.type in (pygame.MOUSEBUTTONDOWN, pygame.FINGERDOWN, pygame.KEYDOWN):
+            if current_state == State.IDLE:
+                start_listening()
+
         # When listening, releasing input stops recording
         if current_state == State.LISTENING and event.type in (pygame.MOUSEBUTTONUP, pygame.FINGERUP, pygame.KEYUP):
             print("[MAIN] input released during LISTENING; stopping", flush=True)
@@ -165,6 +175,26 @@ while running:
 
     # Sync state after any event-driven transitions
     current_state = sm.get_state()
+
+    # --- Physical button polling/edge detection ---
+    try:
+        held = False
+        if button is not None:
+            held = bool(button.is_held())
+    except Exception:
+        held = False
+
+    if held and not button_prev_held:
+        # button pressed (edge)
+        if current_state != State.LISTENING:
+            start_listening()
+
+    if not held and button_prev_held:
+        # button released (edge)
+        if sm.get_state() == State.LISTENING:
+            stop_listening(reason="Button released (physical)")
+
+    button_prev_held = held
 
     # 2. Automatic / timed state transitions
     if current_state == State.LISTENING:
