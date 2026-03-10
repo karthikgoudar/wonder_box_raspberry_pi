@@ -7,11 +7,15 @@ from pathlib import Path
 import re
 import gc
 import os
+import sys
+import traceback
 
+_WHISPER_IMPORT_ERROR = None
 try:
     import whisper
-except Exception:
+except Exception as exc:
     whisper = None
+    _WHISPER_IMPORT_ERROR = exc
 
 
 class AudioService:
@@ -38,6 +42,7 @@ class AudioService:
         self._lock = threading.Lock()
 
         self._whisper_model = None
+        self._whisper_status = "not attempted"
 
         if whisper is not None:
             try:
@@ -50,11 +55,24 @@ class AudioService:
                 except Exception:
                     pass
 
-                print("[WHISPER] model loaded: small", flush=True)
+                self._whisper_status = "loaded"
+                print("[WHISPER] model loaded: tiny", flush=True)
 
             except Exception as e:
+                self._whisper_status = f"model load failed: {e}"
                 print(f"[WHISPER] model load failed: {e}", flush=True)
+                print(traceback.format_exc(), flush=True)
                 self._whisper_model = None
+        else:
+            self._whisper_status = f"import failed: {_WHISPER_IMPORT_ERROR}"
+            print(
+                f"[WHISPER] import failed: {_WHISPER_IMPORT_ERROR} "
+                f"(python={sys.executable} version={sys.version.split()[0]})",
+                flush=True,
+            )
+
+    def get_whisper_status(self):
+        return self._whisper_status
 
     # ------------------------
     # Public API

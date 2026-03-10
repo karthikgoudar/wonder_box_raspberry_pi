@@ -59,6 +59,7 @@ printer_service = PrinterService()
 ai_started = False
 last_process_status = None
 print("[MAIN] services ready", flush=True)
+print(f"[MAIN] whisper status: {audio_service.get_whisper_status()}", flush=True)
 log_event("MAIN", "SERVICES_READY")
 
 # ------------------------
