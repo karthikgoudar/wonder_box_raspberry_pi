@@ -111,7 +111,7 @@ Rules:
 - Output ONLY clean line art
 - No colors, minimal shading, minimal gradients, minimal textures
 - Use clear, closed outlines
-- Minimal details, easy for a child (ages 4–8) to color
+- Minimal details, easy for a child (ages 4 to 8) to color
 {text_rule}
 - Center the main subject and make it large
 - Friendly, non-scary, child-safe style

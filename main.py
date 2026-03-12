@@ -3,6 +3,11 @@ import time
 import pygame
 from dotenv import load_dotenv
 
+import sys
+import os
+
+sys.stdout.reconfigure(encoding="utf-8")
+os.environ["PYTHONIOENCODING"] = "utf-8"
 
 # Load .env early so all services see the same environment
 load_dotenv()
