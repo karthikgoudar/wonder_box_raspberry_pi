@@ -24,6 +24,7 @@ from services.printer_service import PrinterService
 
 print(f"[MAIN] build 2026-01-04a (ai+audio wiring) file={__file__}", flush=True)
 log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
+DEBUG_EVENTS = os.getenv("DEBUG_EVENTS", "0").lower() in ("1", "true", "yes")
 
 # ------------------------
 # Pygame initialization
@@ -63,6 +64,9 @@ ai_service = AIService()
 printer_service = PrinterService()
 ai_started = False
 last_process_status = None
+last_event_log = None
+audio_wait_logged = False
+ai_wait_logged = False
 print("[MAIN] services ready", flush=True)
 print(f"[MAIN] whisper status: {audio_service.get_whisper_status()}", flush=True)
 log_event("MAIN", "SERVICES_READY")
@@ -156,7 +160,20 @@ while running:
     # 1. Handle system + user events (ONCE)
     for event in pygame.event.get():
         current_state = sm.get_state()
-        print("Event received:", event.type, "in state", current_state.name, flush=True)
+        should_log_event = DEBUG_EVENTS or event.type in (
+            pygame.QUIT,
+            pygame.MOUSEBUTTONDOWN,
+            pygame.MOUSEBUTTONUP,
+            pygame.FINGERDOWN,
+            pygame.FINGERUP,
+            pygame.KEYDOWN,
+            pygame.KEYUP,
+        )
+        if should_log_event:
+            event_key = (event.type, current_state)
+            if event_key != last_event_log:
+                print("Event received:", event.type, "in state", current_state.name, flush=True)
+                last_event_log = event_key
         if event.type == pygame.QUIT:
             running = False
         # Global RED button handling (ESC) — cancel to IDLE from selected states
@@ -221,11 +238,18 @@ while running:
             ai_service.start_generation(text)
             log_event("PROCESSING", "AI_START", details={"prompt": text})
             ai_started = True
+            audio_wait_logged = False
+            ai_wait_logged = False
         else:
             if not audio_service.is_done():
-                print("[AUDIO] still processing", flush=True)
+                if not audio_wait_logged:
+                    print("[AUDIO] still processing", flush=True)
+                    audio_wait_logged = True
             elif ai_started:
-                print("[AI] already started; waiting", flush=True)
+                audio_wait_logged = False
+                if not ai_wait_logged:
+                    print("[AI] already started; waiting", flush=True)
+                    ai_wait_logged = True
 
         # Poll AI generation completion
         if ai_service.has_failed():
@@ -239,6 +263,7 @@ while running:
                 log_event("PROCESSING", "AI_IMAGE_READY")
                 sm.transition(State.DISPLAYING, reason="AI image generated")
             ai_started = False
+            ai_wait_logged = False
         elif ai_started:
             pass
 
@@ -274,17 +299,16 @@ while running:
             sm.transition(State.IDLE, reason="Print complete → reset")
 
     elif current_state == State.DISPLAYING:
+        # Keep image on screen for the full timer duration, regardless of
+        # whether printing finishes early.
         if displaying_timer.is_finished():
-            sm.transition(State.IDLE, reason="15s display complete")
-        try:
-            if printer_service and printer_service.is_done():
-                sm.transition(State.IDLE, reason="Print complete → reset")
-            elif displaying_timer.is_finished():
-                sm.transition(State.IDLE, reason="Display timeout")
-        except Exception:
-            # Fallback to regular timeout on error
-            if displaying_timer.is_finished():
-                sm.transition(State.IDLE, reason="Display timeout")
+            try:
+                if printer_service and printer_service.has_failed():
+                    sm.transition(State.ERROR, reason=f"Printer failed: {printer_service.get_error()}")
+                else:
+                    sm.transition(State.IDLE, reason="16.5s display complete")
+            except Exception:
+                sm.transition(State.IDLE, reason="16.5s display complete")
 
     # 3. State → Screen synchronization
     current_state = sm.get_state()
@@ -292,6 +316,9 @@ while running:
         entered_state = current_state
         current_screen = get_screen(current_state, callbacks, services)
         last_state = current_state
+        if entered_state != State.PROCESSING:
+            audio_wait_logged = False
+            ai_wait_logged = False
 
         # ---- state entry actions ----
         if entered_state == State.LISTENING:
