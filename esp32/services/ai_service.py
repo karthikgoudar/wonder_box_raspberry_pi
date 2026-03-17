@@ -75,11 +75,11 @@ class AIService:
                 "Content-Type": "application/json",
             }
             body = ujson.dumps({
-                "model": "dall-e-2",        # dall-e-2 is cheaper and faster
+                "model": "dall-e-2",
                 "prompt": prompt,
                 "n": 1,
                 "size": IMAGE_SIZE,
-                "response_format": "b64_json",
+                "response_format": "url",
             })
 
             resp = urequests.post(
@@ -93,11 +93,14 @@ class AIService:
 
             data = ujson.loads(resp.text)
             resp.close()
+            gc.collect()  # ← free resp immediately
 
-            b64_str = data["data"][0]["b64_json"]
-            # Decode base64 → raw PNG bytes
-            self._image_bytes = ubinascii.a2b_base64(b64_str)
-            del b64_str
+            image_url = data["data"][0]["url"]
+            print("[AIService] image URL:", image_url)
+
+            # ← removed: del b64_str  (that variable doesn't exist anymore)
+
+            self._image_bytes = self._fetch_image_chunked(image_url)
             gc.collect()
 
             self._done = True
@@ -109,6 +112,72 @@ class AIService:
             print("[AIService ERROR]", self._error)
             gc.collect()
 
+
+    def _fetch_image_chunked(self, url):
+        resp = urequests.get(url)
+
+        if resp.status_code != 200:
+            resp.close()
+            raise ValueError("HTTP error: " + str(resp.status_code))
+
+        buf = bytearray()
+        chunk_size = 4096
+
+        try:
+            while True:
+                chunk = resp._r.read(chunk_size)
+                if not chunk:
+                    break
+                buf.extend(chunk)
+                gc.collect()
+        finally:
+            resp.close()
+
+        return bytes(buf)  
+    
+    #this is complex code
+    def _fetch_image_chunked_usocket(self, url):
+        import usocket
+        import ussl
+        
+        # Parse URL manually
+        # url looks like: https://oaidalleapiprodscus.blob.core.windows.net/...
+        proto, _, host, path = url.split('/', 3)
+        path = '/' + path
+        
+        # Open raw SSL socket
+        addr = usocket.getaddrinfo(host, 443)[0][-1]
+        sock = usocket.socket()
+        sock.connect(addr)
+        sock = ussl.wrap_socket(sock, server_hostname=host)
+        
+        # Send HTTP GET manually
+        request = (
+            "GET {} HTTP/1.0\r\n"
+            "Host: {}\r\n"
+            "Connection: close\r\n"
+            "\r\n"
+        ).format(path, host)
+        sock.write(request.encode())
+        
+        # Skip HTTP headers
+        while True:
+            line = sock.readline()
+            if line in (b'\r\n', b''):
+                break
+        
+        # Read body in chunks
+        buf = bytearray()
+        chunk = bytearray(4096)
+        while True:
+            n = sock.readinto(chunk)
+            if not n:
+                break
+            buf.extend(chunk[:n])
+            gc.collect()
+        
+        sock.close()
+        return bytes(buf)
     # --------------------------------------------------------
     # Kid-safe prompt wrapper (mirrors original logic)
     # --------------------------------------------------------
