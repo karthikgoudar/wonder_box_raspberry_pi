@@ -80,24 +80,22 @@ class DisplayService:
     def show_idle(self):
         if not self._tft:
             return
-        self._tft.clear(BLACK)
-        self._draw_centered_text("Hold button", 80,  WHITE, font_size=2)
-        self._draw_centered_text("to record",   110, WHITE, font_size=2)
-        self._draw_centered_text("your idea!",  140, YELLOW, font_size=2)
+        self._tft.clear(WHITE)
+        self._draw_centered_text("Hold button to talk", 80,  BLACK, font_size=2)
 
     def show_listening(self):
         if not self._tft:
             return
-        self._tft.clear(RED)
-        self._draw_centered_text("Listening...", 100, WHITE, font_size=2)
-        self._draw_centered_text("Release when done", 130, WHITE, font_size=1)
+        self._tft.clear(WHITE)
+        self._draw_centered_text("Listening...", 100, BLACK, font_size=2)
+        self._draw_centered_text("Release when done", 130, BLACK, font_size=2)
 
     def show_processing(self, dots=0):
         if not self._tft:
             return
-        self._tft.clear(BLACK)
+        self._tft.clear(WHITE)
         label = "Thinking" + "." * dots
-        self._draw_centered_text(label, 110, YELLOW, font_size=2)
+        self._draw_centered_text(label, 110, BLACK, font_size=2)
 
     def show_image(self, png_bytes):
         """
@@ -108,7 +106,7 @@ class DisplayService:
         if not self._tft:
             return
         try:
-            self._tft.clear(BLACK)
+            self._tft.clear(WHITE)
             self._render_png(png_bytes)
         except Exception as e:
             print("[DisplayService] image render error:", e)
@@ -117,15 +115,15 @@ class DisplayService:
     def show_printing(self):
         if not self._tft:
             return
-        self._tft.clear(BLACK)
-        self._draw_centered_text("Printing...", 110, GREEN, font_size=2)
+        self._tft.clear(WHITE)
+        self._draw_centered_text("Printing...", 110, BLACK, font_size=2)
 
     def show_error(self, message="Error"):
         if not self._tft:
             return
-        self._tft.clear(RED)
-        self._draw_centered_text("ERROR", 80, WHITE, font_size=3)
-        self._draw_centered_text(str(message)[:30], 130, WHITE, font_size=1)
+        self._tft.clear(WHITE)
+        self._draw_centered_text("ERROR", 80, BLACK, font_size=2)
+        self._draw_centered_text(str(message)[:30], 130, BLACK, font_size=1)
 
     def update_dots(self):
         """
@@ -142,21 +140,21 @@ class DisplayService:
     # Internal helpers
     # --------------------------------------------------------
 
-    def _draw_centered_text(self, text, y, color, font_size=2):
-        """Draw text horizontally centered on the display."""
+    def _draw_centered_text(self, text, y, color, font_size=2, bold=True):
         if not self._tft:
             return
         char_width = 8 * font_size
         text_width = len(text) * char_width
         x = max(0, (DISPLAY_WIDTH - text_width) // 2)
         try:
-            self._tft.draw_text8x8(x, y, text, color, font_size=font_size)
+            if bold:
+                # Draw twice — offset by 1px to fake bold
+                self._tft.draw_text8x8(x,     y, text, color, font_size=font_size)
+                self._tft.draw_text8x8(x + 1, y, text, color, font_size=font_size)
+            else:
+                self._tft.draw_text8x8(x, y, text, color, font_size=font_size)
         except Exception:
-            # Fallback: try basic draw_text if draw_text8x8 is unavailable
-            try:
-                self._tft.draw_text(x, y, text, color)
-            except Exception:
-                pass
+            pass
 
     def _render_png(self, png_bytes):
         """

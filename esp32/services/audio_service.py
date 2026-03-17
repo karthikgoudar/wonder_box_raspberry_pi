@@ -20,6 +20,7 @@ import utime
 import ujson
 import ubinascii
 import gc
+import _thread
 
 from machine import I2S, Pin
 import urequests
@@ -111,18 +112,24 @@ class AudioService:
         self._processing = True
         print("[AudioService] recording stopped,", self._bytes_recorded, "bytes captured")
 
+    # def update(self):
+    #     """
+    #     Call every loop. When processing is flagged, performs the
+    #     HTTP transcription request (blocking — expect ~2-5 sec).
+    #     No threading on ESP32; use in a cooperative loop.
+    #     """
+    #     if not self._processing or self._transcribing:
+    #         return
+
+    #     self._transcribing = True
+    #     self._transcribe()
+
     def update(self):
-        """
-        Call every loop. When processing is flagged, performs the
-        HTTP transcription request (blocking — expect ~2-5 sec).
-        No threading on ESP32; use in a cooperative loop.
-        """
-        if not self._processing or self._transcribing:
-            return
-
-        self._transcribing = True
-        self._transcribe()
-
+        if self._processing and not self._transcribing:
+            print("[AudioService] calling audio service for transcription stopped,")
+            # start background thread the first time
+            self._transcribing = True
+            _thread.start_new_thread(self._transcribe, ())
     # --------------------------------------------------------
     # Transcription (blocking HTTP call to OpenAI Whisper)
     # --------------------------------------------------------
