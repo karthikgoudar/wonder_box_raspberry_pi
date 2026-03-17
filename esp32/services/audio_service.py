@@ -26,6 +26,7 @@ import urequests
 
 from config import (
     OPENAI_API_KEY,
+    GROQ_API_KEY,
     SAMPLE_RATE, RECORD_SECONDS,
     I2S_SCK_PIN, I2S_WS_PIN, I2S_SD_PIN,
 )
@@ -139,6 +140,17 @@ class AudioService:
 
             print("[AudioService] sending", len(wav_data), "bytes to Whisper API")
 
+            # --- DEBUG: save WAV locally so we can inspect audio later ---
+            try:
+                ts = utime.ticks_ms()
+                fname = "recording_%d.wav" % ts 
+                with open(fname, "wb") as f:
+                    f.write(wav_data)
+                print("[AudioService] saved debug WAV to", fname)
+            except Exception as e:
+                print("[AudioService] failed to save debug WAV:", e)
+            # --- end DEBUG block ---
+            
             # Build multipart/form-data body manually
             boundary = "WonderBoxBoundary"
             body = (
@@ -154,16 +166,27 @@ class AudioService:
             headers = {
                 "Authorization": "Bearer " + OPENAI_API_KEY,
                 "Content-Type": "multipart/form-data; boundary=" + boundary,
+                "Content-Length": str(len(body)),
             }
 
             resp = urequests.post(
-                "https://api.openai.com/v1/audio/transcriptions",
-                headers=headers,
-                data=body,
+                    "https://api.groq.com/openai/v1/audio/transcriptions",  # ← swap URL
+                    headers={
+                    "Authorization": "Bearer " + GROQ_API_KEY,  # ← swap key
+                    "Content-Type": "multipart/form-data; boundary=" + boundary,
+                    "Content-Length": str(len(body)),
+                    },
+                    data=body,
             )
-
             if resp.status_code != 200:
-                raise RuntimeError("Whisper API error " + str(resp.status_code))
+                resp = urequests.post(
+                    "https://api.openai.com/v1/audio/transcriptions",
+                    headers=headers,
+                    data=body,
+                )
+
+                if resp.status_code != 200:
+                    raise RuntimeError("Whisper API error " + str(resp.status_code))
 
             data = ujson.loads(resp.text)
             resp.close()

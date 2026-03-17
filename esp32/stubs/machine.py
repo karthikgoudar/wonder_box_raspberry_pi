@@ -13,6 +13,13 @@ PULL_UP = 1
 PULL_DOWN = 2
 
 class Pin:
+    
+    # make class attributes match MicroPython's Pin API
+    IN = IN
+    OUT = OUT
+    PULL_UP = PULL_UP
+    PULL_DOWN = PULL_DOWN
+    
     """
     GPIO pin stub.
     For the button pin (PULL_UP), reads pygame keyboard / mouse state.

@@ -4,12 +4,20 @@
 # Fill in your credentials and pin numbers here before
 # flashing to the ESP32.
 
+IDLE_TIMEOUT_SEC = 30      # Return to idle after this many seconds on DISPLAYING screen
+
+# Toggle AI image generation (for debugging audio only)
+ENABLE_AI_IMAGE_GEN = False
+
 # --- WiFi ---
 WIFI_SSID     = "YOUR_SSID"
 WIFI_PASSWORD = "YOUR_PASSWORD"
 
 # --- OpenAI API ---
-OPENAI_API_KEY = "sk-YOUR_OPENAI_KEY"
+OPENAI_API_KEY = "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"
+
+# --- GROQ API (for future use, not currently implemented) ---
+GROQ_API_KEY = "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"
 
 # --- GPIO Pin Numbers ---
 # Physical button (hold to record, release to stop)

@@ -27,8 +27,7 @@ from services.printer_service import PrinterService
 from services.display_service import DisplayService
 from utils.logger import log_event
 from utils.timer  import Timer
-from config       import IDLE_TIMEOUT_SEC
-
+from config       import IDLE_TIMEOUT_SEC, ENABLE_AI_IMAGE_GEN
 # ---- Initialise services -----------------------------------
 print("[MAIN] Wonder Box ESP32 starting")
 
@@ -142,8 +141,12 @@ while True:
         elif audio.is_done() and not ai_started:
             text = audio.get_text()
             print("[MAIN] transcribed:", text)
-            ai.start_generation(text)
-            ai_started = True
+            if not ENABLE_AI_IMAGE_GEN:
+                # Skip image generation entirely; go straight back to IDLE
+                enter_idle()
+            else:
+                ai.start_generation(text)
+                ai_started = True
 
         elif ai_started and not ai.is_done() and not ai.has_failed():
             ai.update()      # blocking ~5-15 sec on first call
