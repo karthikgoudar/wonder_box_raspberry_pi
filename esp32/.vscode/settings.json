@@ -1,0 +1,10 @@
+{
+  "python.analysis.extraPaths": ["d:/WonderBox/Wonder-Box/esp32"],
+  "python.analysis.include": ["d:/WonderBox/Wonder-Box/esp32"],
+  "python.analysis.exclude": [
+    "d:/WonderBox/Wonder-Box/services",
+    "d:/WonderBox/Wonder-Box/core",
+    "d:/WonderBox/Wonder-Box/utils",
+    "d:/WonderBox/Wonder-Box/ui"
+  ]
+}

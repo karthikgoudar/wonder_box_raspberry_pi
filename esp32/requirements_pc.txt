@@ -1,0 +1,9 @@
+# Requirements for running the ESP32 Wonder Box code on a PC
+# Install with:
+#   pip install -r requirements_pc.txt
+
+pygame
+sounddevice
+numpy
+requests
+python-dotenv
