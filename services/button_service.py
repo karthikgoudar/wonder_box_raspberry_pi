@@ -55,24 +55,46 @@ class ButtonService:
         except Exception as e:
             print(f"[ButtonService] RPi.GPIO not available: {e}", flush=True)
 
-        # 3) Try lgpio (low-level)
+        # 3) Try lgpio (low-level) — be defensive: import may succeed but chip init can fail
         try:
             import lgpio
             self.lgpio = lgpio
-            self._gpio = lgpio.gpiochip_open(0)
-            try:
-                lgpio.gpio_claim_input(self._gpio, lgpio.SET_PULL_UP, BUTTON_PIN)
-            except TypeError:
-                lgpio.gpio_claim_input(self._gpio, BUTTON_PIN, lgpio.SET_PULL_UP)
-            self._use_lgpio = True
             self._backend = "lgpio"
-            threading.Thread(target=self._gpio_loop, daemon=True).start()
-            print(f"[ButtonService] lgpio ready on pin {BUTTON_PIN}", flush=True)
-            return
+            try:
+                # Try to open the gpiochip and claim input. If this fails, we will
+                # still start the poll thread which will retry initialization.
+                handle = lgpio.gpiochip_open(0)
+                try:
+                    lgpio.gpio_claim_input(handle, lgpio.SET_PULL_UP, BUTTON_PIN)
+                except TypeError:
+                    lgpio.gpio_claim_input(handle, BUTTON_PIN, lgpio.SET_PULL_UP)
+                self._gpio = handle
+                self._use_lgpio = True
+                threading.Thread(target=self._gpio_loop, daemon=True).start()
+                print(f"[ButtonService] lgpio ready on pin {BUTTON_PIN}", flush=True)
+                return
+            except Exception as inner_e:
+                # Initialization failed but lgpio is present — start poll thread to retry.
+                print(f"[ButtonService] lgpio present but init failed: {inner_e}; will retry in background",
+                      flush=True)
+                self._gpio = None
+                self._use_lgpio = True
+                threading.Thread(target=self._gpio_loop, daemon=True).start()
+                return
         except Exception as e:
-            print(f"[ButtonService] no GPIO backend available: {e}", flush=True)
+            # lgpio import failed
+            print(f"[ButtonService] lgpio not available: {e}", flush=True)
+
+        # No backend succeeded
+        if self._backend is None:
+            print(
+                "[ButtonService] no GPIO backend available. Button input disabled. "
+                "Install gpiozero, RPi.GPIO, or lgpio, or set FORCE_RPI_BUTTON=0 to run in dev mode.",
+                flush=True,
+            )
             self._gpio = None
             self._use_lgpio = False
+            self._backend = "none"
 
     def _on_pressed(self):
         with self._lock:
