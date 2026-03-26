@@ -206,14 +206,16 @@ while running:
             held = bool(button.is_held())
     except Exception:
         held = False
-
+    # Log physical button edges once for easier debugging
     if held and not button_prev_held:
         # button pressed (edge)
+        print("[MAIN] physical button pressed (edge)", flush=True)
         if current_state != State.LISTENING:
             start_listening()
 
     if not held and button_prev_held:
         # button released (edge)
+        print("[MAIN] physical button released (edge)", flush=True)
         if sm.get_state() == State.LISTENING:
             stop_listening(reason="Button released (physical)")
 

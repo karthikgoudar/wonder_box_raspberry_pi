@@ -1,8 +1,9 @@
 import threading
 import time
 import platform
+import os
 
-BUTTON_PIN = 13  # Your wiring: GPIO13 → Button → GND (Pin 9)
+BUTTON_PIN = 27  # Your wiring: GPIO27 (BCM) / physical pin 13 → Button → GND (pin 9)
 
 class ButtonService:
     def __init__(self):
@@ -10,7 +11,7 @@ class ButtonService:
         self._held = False
         self._lock = threading.Lock()
         self._running = True
-        self._is_rpi = platform.system() == "Linux"
+        self._is_rpi = platform.system() == "Linux" or os.getenv("FORCE_RPI_BUTTON", "0").lower() in ("1", "true", "yes")
         self._gpio = None
 
         if self._is_rpi:
@@ -18,6 +19,11 @@ class ButtonService:
             # If using lgpio we start the polling thread; gpiozero uses callbacks.
             if getattr(self, "_use_lgpio", False) and self._gpio is not None:
                 threading.Thread(target=self._gpio_loop, daemon=True).start()
+            # Diagnostic summary
+            print(
+                f"[ButtonService] init: is_rpi={self._is_rpi} use_lgpio={getattr(self, '_use_lgpio', None)} gpio_set={self._gpio is not None} pin={BUTTON_PIN}",
+                flush=True,
+            )
         else:
             # Mac/dev mode — silent (no fake input)
             print("[ButtonService] Dev mode (no GPIO)")
@@ -42,7 +48,15 @@ class ButtonService:
             self.lgpio = lgpio
             self._gpio = lgpio.gpiochip_open(0)
             # Pull-up because button goes to GND
-            lgpio.gpio_claim_input(self._gpio, BUTTON_PIN, lgpio.SET_PULL_UP)
+            # Claim input with pull-up; flags then pin (lgpio uses flags first)
+            try:
+                lgpio.gpio_claim_input(self._gpio, lgpio.SET_PULL_UP, BUTTON_PIN)
+            except TypeError:
+                # Some lgpio versions accept (chip, pin, flags)
+                try:
+                    lgpio.gpio_claim_input(self._gpio, BUTTON_PIN, lgpio.SET_PULL_UP)
+                except Exception:
+                    raise
             self._use_lgpio = True
             print(f"[ButtonService] lgpio ready on pin {BUTTON_PIN}")
         except Exception as e:
