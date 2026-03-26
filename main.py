@@ -30,7 +30,19 @@ DEBUG_EVENTS = os.getenv("DEBUG_EVENTS", "0").lower() in ("1", "true", "yes")
 # Pygame initialization
 # ------------------------
 pygame.init()
-screen = pygame.display.set_mode((600, 600))
+# Logical (app) size
+LOGICAL_W, LOGICAL_H = 600, 600
+# Rotate degrees (clockwise). Use env var SCREEN_ROTATE_DEG, e.g. 90 or 270.
+ROTATE_DEGREES = int(os.getenv("SCREEN_ROTATE_DEG", "-90"))
+
+# If rotating by 90/270 swap the physical display dimensions.
+if ROTATE_DEGREES in (90, 270, -270, -90):
+    screen = pygame.display.set_mode((LOGICAL_H, LOGICAL_W))
+else:
+    screen = pygame.display.set_mode((LOGICAL_W, LOGICAL_H))
+
+# Offscreen buffer where UI is rendered at logical size
+buffer = pygame.Surface((LOGICAL_W, LOGICAL_H))
 pygame.display.set_caption("Wonder Box")
 
 # Instantiate ButtonService after pygame init so non-RPi input can be
@@ -343,7 +355,22 @@ while running:
 
     # 4. Update & render
     current_screen.update(dt)
-    current_screen.render(screen)
+    # Render to logical buffer then rotate/blit to the actual screen
+    try:
+        current_screen.render(buffer)
+        if ROTATE_DEGREES == 0:
+            screen.blit(buffer, (0, 0))
+        else:
+            rotated = pygame.transform.rotate(buffer, ROTATE_DEGREES)
+            rect = rotated.get_rect(center=screen.get_rect().center)
+            screen.fill((0, 0, 0))
+            screen.blit(rotated, rect)
+    except Exception:
+        # Fallback: render directly if something expects the real screen
+        try:
+            current_screen.render(screen)
+        except Exception:
+            pass
     pygame.display.flip()
 
 pygame.quit()
