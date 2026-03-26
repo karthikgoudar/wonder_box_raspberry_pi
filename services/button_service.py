@@ -112,8 +112,34 @@ class ButtonService:
         last_state = 1
         debounce_time = 0.05
         last_press_time = 0
+        retry_backoff = 1.0
         while self._running:
             try:
+                # If lgpio module isn't available for some reason, pause and retry
+                if getattr(self, "lgpio", None) is None:
+                    time.sleep(1.0)
+                    continue
+
+                # If handle is not ready, try to open and claim the input here
+                if self._gpio is None:
+                    try:
+                        handle = self.lgpio.gpiochip_open(0)
+                        try:
+                            self.lgpio.gpio_claim_input(handle, self.lgpio.SET_PULL_UP, BUTTON_PIN)
+                        except TypeError:
+                            self.lgpio.gpio_claim_input(handle, BUTTON_PIN, self.lgpio.SET_PULL_UP)
+                        self._gpio = handle
+                        self._use_lgpio = True
+                        retry_backoff = 1.0
+                        print(f"[ButtonService] lgpio background init succeeded on pin {BUTTON_PIN}", flush=True)
+                    except Exception as e:
+                        print(f"[ButtonService] lgpio background init failed: {e}; retrying in {retry_backoff}s",
+                              flush=True)
+                        time.sleep(retry_backoff)
+                        retry_backoff = min(retry_backoff * 2, 10.0)
+                        continue
+
+                # Safe to read now
                 state = self.lgpio.gpio_read(self._gpio, BUTTON_PIN)
                 if state == 0 and last_state == 1:
                     now = time.time()
@@ -128,8 +154,20 @@ class ButtonService:
                         self._held = False
                 last_state = state
                 time.sleep(0.01)
-            except Exception:
-                time.sleep(0.1)
+            except Exception as e:
+                # On error, drop the handle so the init path can retry
+                try:
+                    print(f"[ButtonService] lgpio read/error: {e}; will retry init", flush=True)
+                    if getattr(self, "lgpio", None) is not None and self._gpio is not None:
+                        try:
+                            self.lgpio.gpiochip_close(self._gpio)
+                        except Exception:
+                            pass
+                    self._gpio = None
+                    self._use_lgpio = True
+                except Exception:
+                    pass
+                time.sleep(0.5)
 
     def _rpi_poll_loop(self):
         # RPi.GPIO polling loop
