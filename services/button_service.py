@@ -3,7 +3,8 @@ import time
 import platform
 import os
 
-BUTTON_PIN = 27  # Your wiring: GPIO27 (BCM) / physical pin 13 → Button → GND (pin 9)
+# Use BCM numbering: your wiring is GPIO27 (BCM) → Button → GND (physical pin 13 → GND pin 9)
+BUTTON_PIN = int(os.getenv("BUTTON_PIN", "27"))
 
 class ButtonService:
     def __init__(self):
@@ -13,54 +14,63 @@ class ButtonService:
         self._running = True
         self._is_rpi = platform.system() == "Linux" or os.getenv("FORCE_RPI_BUTTON", "0").lower() in ("1", "true", "yes")
         self._gpio = None
+        self._backend = None
+        self._rpi_gpio = None
+        self._use_lgpio = False
 
         if self._is_rpi:
             self._setup_gpio()
-            # If using lgpio we start the polling thread; gpiozero uses callbacks.
-            if getattr(self, "_use_lgpio", False) and self._gpio is not None:
-                threading.Thread(target=self._gpio_loop, daemon=True).start()
             # Diagnostic summary
             print(
-                f"[ButtonService] init: is_rpi={self._is_rpi} use_lgpio={getattr(self, '_use_lgpio', None)} gpio_set={self._gpio is not None} pin={BUTTON_PIN}",
+                f"[ButtonService] init: is_rpi={self._is_rpi} backend={self._backend} gpio_set={self._gpio is not None or self._rpi_gpio is not None} pin={BUTTON_PIN}",
                 flush=True,
             )
         else:
-            # Mac/dev mode — silent (no fake input)
             print("[ButtonService] Dev mode (no GPIO)")
 
     def _setup_gpio(self):
-        # Try gpiozero first (high-level), fall back to lgpio low-level
+        # 1) Try gpiozero (preferred)
         try:
             from gpiozero import Button as GZButton
-            b = GZButton(BUTTON_PIN, pull_up=True, bounce_time=0.15)
-            # gpiozero callbacks run in background threads
+            b = GZButton(BUTTON_PIN, pull_up=True, bounce_time=0.05)
             b.when_pressed = lambda: self._on_pressed()
             b.when_released = lambda: self._on_released()
             self._gpio = b
-            self._use_lgpio = False
-            print(f"[ButtonService] gpiozero Button ready on pin {BUTTON_PIN}")
+            self._backend = "gpiozero"
+            print(f"[ButtonService] gpiozero ready on pin {BUTTON_PIN}", flush=True)
             return
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[ButtonService] gpiozero not available: {e}", flush=True)
 
+        # 2) Try RPi.GPIO (polling)
+        try:
+            import RPi.GPIO as GPIO
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            self._rpi_gpio = GPIO
+            self._backend = "RPi.GPIO"
+            threading.Thread(target=self._rpi_poll_loop, daemon=True).start()
+            print(f"[ButtonService] RPi.GPIO polling started on pin {BUTTON_PIN}", flush=True)
+            return
+        except Exception as e:
+            print(f"[ButtonService] RPi.GPIO not available: {e}", flush=True)
+
+        # 3) Try lgpio (low-level)
         try:
             import lgpio
             self.lgpio = lgpio
             self._gpio = lgpio.gpiochip_open(0)
-            # Pull-up because button goes to GND
-            # Claim input with pull-up; flags then pin (lgpio uses flags first)
             try:
                 lgpio.gpio_claim_input(self._gpio, lgpio.SET_PULL_UP, BUTTON_PIN)
             except TypeError:
-                # Some lgpio versions accept (chip, pin, flags)
-                try:
-                    lgpio.gpio_claim_input(self._gpio, BUTTON_PIN, lgpio.SET_PULL_UP)
-                except Exception:
-                    raise
+                lgpio.gpio_claim_input(self._gpio, BUTTON_PIN, lgpio.SET_PULL_UP)
             self._use_lgpio = True
-            print(f"[ButtonService] lgpio ready on pin {BUTTON_PIN}")
+            self._backend = "lgpio"
+            threading.Thread(target=self._gpio_loop, daemon=True).start()
+            print(f"[ButtonService] lgpio ready on pin {BUTTON_PIN}", flush=True)
+            return
         except Exception as e:
-            print("[ButtonService] GPIO init failed:", e)
+            print(f"[ButtonService] no GPIO backend available: {e}", flush=True)
             self._gpio = None
             self._use_lgpio = False
 
@@ -68,23 +78,21 @@ class ButtonService:
         with self._lock:
             self._held = True
             self._pressed = True
-        print("[ButtonService] gpiozero: pressed")
+        print(f"[ButtonService] ({self._backend}) pressed", flush=True)
 
     def _on_released(self):
         with self._lock:
             self._held = False
-        print("[ButtonService] gpiozero: released")
+        print(f"[ButtonService] ({self._backend}) released", flush=True)
 
     def _gpio_loop(self):
-        last_state = 1  # pull-up idle = HIGH
-        debounce_time = 0.15
+        # lgpio polling loop
+        last_state = 1
+        debounce_time = 0.05
         last_press_time = 0
-
         while self._running:
             try:
                 state = self.lgpio.gpio_read(self._gpio, BUTTON_PIN)
-
-                # Detect falling edge (button press)
                 if state == 0 and last_state == 1:
                     now = time.time()
                     if now - last_press_time > debounce_time:
@@ -92,15 +100,37 @@ class ButtonService:
                             self._pressed = True
                             self._held = True
                         last_press_time = now
-                        print("[ButtonService] Physical button pressed")
-                # Detect rising edge (button release)
+                        print("[ButtonService] (lgpio) Physical button pressed", flush=True)
                 if state == 1 and last_state == 0:
                     with self._lock:
                         self._held = False
-
                 last_state = state
-                time.sleep(0.01)  # 10ms polling (fast + low CPU)
+                time.sleep(0.01)
+            except Exception:
+                time.sleep(0.1)
 
+    def _rpi_poll_loop(self):
+        # RPi.GPIO polling loop
+        last_state = 1
+        debounce_time = 0.05
+        last_press_time = 0
+        GPIO = self._rpi_gpio
+        while self._running:
+            try:
+                state = GPIO.input(BUTTON_PIN)
+                if state == 0 and last_state == 1:
+                    now = time.time()
+                    if now - last_press_time > debounce_time:
+                        with self._lock:
+                            self._pressed = True
+                            self._held = True
+                        last_press_time = now
+                        print("[ButtonService] (RPi.GPIO) Physical button pressed", flush=True)
+                if state == 1 and last_state == 0:
+                    with self._lock:
+                        self._held = False
+                last_state = state
+                time.sleep(0.01)
             except Exception:
                 time.sleep(0.1)
 
@@ -117,22 +147,30 @@ class ButtonService:
     
     def is_held(self):
         with self._lock:
-            if self._is_rpi and self._gpio is not None:
+            if self._is_rpi:
                 try:
+                    if self._backend == "gpiozero" and self._gpio is not None:
+                        return bool(self._gpio.is_pressed)
+                    if self._backend == "RPi.GPIO" and self._rpi_gpio is not None:
+                        return self._rpi_gpio.input(BUTTON_PIN) == 0
                     if getattr(self, "_use_lgpio", False):
                         return self.lgpio.gpio_read(self._gpio, BUTTON_PIN) == 0
-                    else:
-                        # gpiozero Button exposes is_pressed
-                        return bool(self._gpio.is_pressed)
                 except Exception:
                     return False
-            # Non-RPi: not physically held
             return False
 
     def cleanup(self):
         self._running = False
         try:
-            if self._gpio is not None:
-                self.lgpio.gpiochip_close(self._gpio)
+            if getattr(self, "_rpi_gpio", None) is not None:
+                try:
+                    self._rpi_gpio.cleanup()
+                except Exception:
+                    pass
+            if getattr(self, "lgpio", None) is not None and self._gpio is not None:
+                try:
+                    self.lgpio.gpiochip_close(self._gpio)
+                except Exception:
+                    pass
         except Exception:
             pass
