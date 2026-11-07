@@ -4,19 +4,7 @@ import time
 import threading
 from scipy.io.wavfile import write
 from pathlib import Path
-import re
 import gc
-import os
-import sys
-import traceback
-
-_WHISPER_IMPORT_ERROR = None
-try:
-    import whisper
-except Exception as exc:
-    whisper = None
-    _WHISPER_IMPORT_ERROR = exc
-
 
 class AudioService:
     def __init__(self, sample_rate=44100, device=1):
@@ -30,49 +18,16 @@ class AudioService:
 
         self._recording = False
         self._processing = False
-        self._transcribing = False
+        self._saving = False
 
         self._frames = []
         self._wav_path = None
-        self._text = None
+        self._done = False
         self._failed = False
         self._error = None
         self._stream = None
         self._thread = None
         self._lock = threading.Lock()
-
-        self._whisper_model = None
-        self._whisper_status = "not attempted"
-
-        if whisper is not None:
-            try:
-                print("[WHISPER] loading model...", flush=True)
-                self._whisper_model = whisper.load_model("tiny")
-
-                try:
-                    import torch
-                    torch.set_num_threads(1)
-                except Exception:
-                    pass
-
-                self._whisper_status = "loaded"
-                print("[WHISPER] model loaded: tiny", flush=True)
-
-            except Exception as e:
-                self._whisper_status = f"model load failed: {e}"
-                print(f"[WHISPER] model load failed: {e}", flush=True)
-                print(traceback.format_exc(), flush=True)
-                self._whisper_model = None
-        else:
-            self._whisper_status = f"import failed: {_WHISPER_IMPORT_ERROR}"
-            print(
-                f"[WHISPER] import failed: {_WHISPER_IMPORT_ERROR} "
-                f"(python={sys.executable} version={sys.version.split()[0]})",
-                flush=True,
-            )
-
-    def get_whisper_status(self):
-        return self._whisper_status
 
     # ------------------------
     # Public API
@@ -120,18 +75,18 @@ class AudioService:
         self._stream = None
 
     def update(self):
-        if not self._processing or self._transcribing:
+        if not self._processing or self._saving:
             return
 
-        self._transcribing = True
-        self._thread = threading.Thread(target=self._process_and_transcribe, daemon=True)
+        self._saving = True
+        self._thread = threading.Thread(target=self._process_and_save, daemon=True)
         self._thread.start()
 
     # ------------------------
     # Background processing
     # ------------------------
 
-    def _process_and_transcribe(self):
+    def _process_and_save(self):
         try:
             output_dir = Path("recordings")
             output_dir.mkdir(parents=True, exist_ok=True)
@@ -154,26 +109,10 @@ class AudioService:
 
             write(str(self._wav_path), self.sample_rate, audio_int16)
 
-            if not self._whisper_model:
-                raise RuntimeError("Whisper model not loaded")
-
-            # Single transcription call with auto language detection
-            result = self._whisper_model.transcribe(
-                str(self._wav_path),
-                task="transcribe",
-                temperature=0,
-                fp16=False
-            )
-
-            text = result.get("text", "").strip()
-            lang = result.get("language", "unknown")
-            print(f"[WHISPER] lang={lang} text={text}", flush=True)
-
-            if not text:
-                raise RuntimeError("empty transcription")
-
+            # Transcription now happens in the cloud backend (see ai_service).
+            print(f"[AUDIO] saved {self._wav_path}", flush=True)
             with self._lock:
-                self._text = text
+                self._done = True
 
         except Exception as e:
             with self._lock:
@@ -184,23 +123,25 @@ class AudioService:
             self._frames.clear()
             gc.collect()
             self._processing = False
-            self._transcribing = False
+            self._saving = False
 
     # ------------------------
     # Status API
     # ------------------------
 
     def is_done(self):
+        """True once the WAV file has been written and is ready to upload."""
         with self._lock:
-            return self._text is not None
+            return self._done
 
     def has_failed(self):
         with self._lock:
             return self._failed
 
-    def get_text(self):
+    def get_wav_path(self):
+        """Path of the recorded WAV (str), or None until is_done()."""
         with self._lock:
-            return self._text
+            return str(self._wav_path) if self._done and self._wav_path else None
 
     def get_error(self):
         with self._lock:
@@ -209,10 +150,10 @@ class AudioService:
     def reset(self):
         self._recording = False
         self._processing = False
-        self._transcribing = False
+        self._saving = False
         self._frames.clear()
         self._wav_path = None
-        self._text = None
+        self._done = False
         self._failed = False
         self._error = None
 
