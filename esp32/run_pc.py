@@ -31,9 +31,9 @@ sys.path.insert(1, _here)
 # ── 2. Verify config.py credentials ─────────────────────────
 try:
     import config
-    if config.OPENAI_API_KEY.startswith("sk-YOUR"):
+    if not config.OPENAI_API_KEY or config.OPENAI_API_KEY.startswith("sk-YOUR"):
         print("=" * 60)
-        print("  ERROR: Please set your OPENAI_API_KEY in esp32/config.py")
+        print("  ERROR: Set OPENAI_API_KEY in your environment or esp32/local_secrets.py")
         print("=" * 60)
         sys.exit(1)
     if config.WIFI_SSID == "YOUR_SSID":

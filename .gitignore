@@ -12,3 +12,6 @@ __pycache__/
 # Environment files in any variant; keep only the example
 .env*
 !.env.example
+
+# Device secrets (copy from local_secrets.example.py)
+local_secrets.py

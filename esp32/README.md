@@ -58,7 +58,7 @@ mip.install("github:rdagger/micropython-ili9341")
 ### 3. Configure credentials
 Edit `config.py` and fill in:
 - `WIFI_SSID` and `WIFI_PASSWORD`
-- `OPENAI_API_KEY`
+- `OPENAI_API_KEY`: NOT in config.py. Copy `local_secrets.example.py` to `local_secrets.py` (gitignored), fill in keys, and upload it with the other files. On PC, exporting `OPENAI_API_KEY` / `GROQ_API_KEY` also works.
 - Verify pin numbers match your wiring
 
 ### 4. Upload files

@@ -13,11 +13,31 @@ ENABLE_AI_IMAGE_GEN = False
 WIFI_SSID     = "YOUR_SSID"
 WIFI_PASSWORD = "YOUR_PASSWORD"
 
+# --- API keys ---
+# Never hardcode keys here. Resolution order:
+#   1. Environment variables OPENAI_API_KEY / GROQ_API_KEY (PC via run_pc.py)
+#   2. esp32/local_secrets.py (gitignored; copy from local_secrets.example.py
+#      and upload alongside config.py when flashing the ESP32, since
+#      MicroPython has no environment variables)
+def _secret(name):
+    try:
+        import os
+        val = os.getenv(name)  # CPython only; MicroPython's os has no getenv
+        if val:
+            return val
+    except (ImportError, AttributeError):
+        pass
+    try:
+        import local_secrets
+        return getattr(local_secrets, name, "") or ""
+    except ImportError:
+        return ""
+
 # --- OpenAI API ---
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = _secret("OPENAI_API_KEY")
 
 # --- GROQ API (for future use, not currently implemented) ---
-GROQ_API_KEY = "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"
+GROQ_API_KEY = _secret("GROQ_API_KEY")
 
 # --- GPIO Pin Numbers ---
 # Physical button (hold to record, release to stop)
