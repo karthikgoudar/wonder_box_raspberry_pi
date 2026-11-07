@@ -8,3 +8,7 @@ venv/
 outputs/
 __pycache__/
 *.pyc
+
+# Environment files in any variant; keep only the example
+.env*
+!.env.example
