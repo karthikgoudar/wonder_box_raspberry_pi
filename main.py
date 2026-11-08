@@ -31,7 +31,8 @@ DEBUG_EVENTS = os.getenv("DEBUG_EVENTS", "0").lower() in ("1", "true", "yes")
 # ------------------------
 pygame.init()
 # Logical (app) size
-LOGICAL_W, LOGICAL_H = 600, 600
+LOGICAL_W = int(os.getenv("SCREEN_W", "600"))
+LOGICAL_H = int(os.getenv("SCREEN_H", "600"))
 # Rotate degrees (clockwise). Use env var SCREEN_ROTATE_DEG, e.g. 90 or 270.
 ROTATE_DEGREES = int(os.getenv("SCREEN_ROTATE_DEG", "-90"))
 
@@ -80,7 +81,6 @@ last_event_log = None
 audio_wait_logged = False
 ai_wait_logged = False
 print("[MAIN] services ready", flush=True)
-print(f"[MAIN] whisper status: {audio_service.get_whisper_status()}", flush=True)
 log_event("MAIN", "SERVICES_READY")
 
 # ------------------------
@@ -244,11 +244,11 @@ while running:
         if audio_service.has_failed():
             sm.transition(State.ERROR, reason=f"Audio failed: {audio_service.get_error()}")
         elif audio_service.is_done() and not ai_started:
-            text = audio_service.get_text()
-            print(f"[AUDIO DONE] {text}", flush=True)
-            log_event("PROCESSING", "AUDIO_DONE", details={"text": text})
-            ai_service.start_generation(text)
-            log_event("PROCESSING", "AI_START", details={"prompt": text})
+            wav_path = audio_service.get_wav_path()
+            print(f"[AUDIO DONE] {wav_path}", flush=True)
+            log_event("PROCESSING", "AUDIO_DONE", details={"wav": wav_path})
+            ai_service.start_generation(wav_path)
+            log_event("PROCESSING", "AI_START", details={"wav": wav_path})
             ai_started = True
             audio_wait_logged = False
             ai_wait_logged = False
@@ -345,8 +345,12 @@ while running:
             try:
                 from ui.current_image import get_image
                 img = get_image()
-                if img is not None:
-                    printer_service.start_print(img)
+                strips = ai_service.get_print_strips()
+                if strips:
+                    # Backend pre-rendered the thermal payload
+                    printer_service.start_print_strips(strips)
+                elif img is not None:
+                    printer_service.start_print(img)  # local Pillow fallback
             except Exception:
                 print("[MAIN] failed to start printer_service", flush=True)
 

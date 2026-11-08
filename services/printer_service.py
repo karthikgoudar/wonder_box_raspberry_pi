@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import time
 import threading
 import os
@@ -25,6 +27,8 @@ import pygame
 PRINTER_WIDTH = int(os.getenv("PRINTER_WIDTH", "384"))
 PRINTER_SIMULATE = os.getenv("PRINTER_SIMULATE", "0").lower() in ("1", "true", "yes")
 PRINTER_THRESHOLD = int(os.getenv("PRINTER_THRESHOLD", "200"))
+# Pause after each pre-rendered strip so the printer's buffer can drain
+PRINTER_STRIP_DELAY = float(os.getenv("PRINTER_STRIP_DELAY", "0.08"))
 
 
 def _parse_baud_candidates(default_baud: int) -> list[int]:
@@ -158,6 +162,66 @@ class PrinterService:
         )
         self._thread.start()
         print("[PRINTER] start_print (threaded)", flush=True)
+
+    def start_print_strips(self, strips, copies: int = 1, feed: int | None = 3):
+        """Print a backend-rendered payload: a list of 1,160-byte ESC/POS strips.
+
+        Each strip is a complete GS v 0 command (384px wide, 24 rows), so no
+        local image processing is needed. Falls back to nothing here; callers
+        use start_print(surface) when the backend sent no payload.
+        """
+        with self._lock:
+            self._done = False
+            self._failed = False
+            self._error = None
+
+        self._thread = threading.Thread(
+            target=self._do_print_strips,
+            args=(list(strips), copies, feed),
+            daemon=True,
+        )
+        self._thread.start()
+        print(f"[PRINTER] start_print_strips ({len(strips)} strips, threaded)", flush=True)
+
+    def _do_print_strips(self, strips, copies: int, feed: int | None):
+        printed = 0
+        try:
+            if PRINTER_SIMULATE:
+                print("[PRINTER] Simulating strip print", flush=True)
+                time.sleep(self._simulate_duration)
+                with self._lock:
+                    self._done = True
+                return
+
+            if not _HAS_SERIAL:
+                raise RuntimeError("pyserial is not installed; cannot send data to printer")
+            if not self._is_serial_open():
+                self._open_serial()
+
+            for i in range(max(1, copies)):
+                self._serial.write(b"\x1b\x40")  # init
+                self._serial.write(b"\x1d\x28\x45\x04\x00\x20\x20\x20\x20")  # density
+                for strip in strips:
+                    self._serial.write(strip)
+                    self._serial.flush()
+                    time.sleep(PRINTER_STRIP_DELAY)
+                printed += 1
+                lines = 4 if feed is None else max(0, int(feed))
+                if lines:
+                    self._serial.write(b"\n" * lines)
+                print(f"[PRINTER] Printed copy {i+1}/{copies} (strips) on {self._port_name}", flush=True)
+
+            with self._lock:
+                self._done = True
+        except Exception as e:
+            if printed > 0 and e.__class__.__name__ == "SerialTimeoutException":
+                with self._lock:
+                    self._done = True
+                return
+            with self._lock:
+                self._failed = True
+                self._error = str(e) + "\n" + traceback.format_exc()
+            print(f"[PRINTER ERROR] {e}", flush=True)
 
     def _do_print(self, surface: pygame.Surface, copies: int, feed: int | None):
         printed_copies = 0

@@ -1,10 +1,7 @@
 pygame
-openai
 sounddevice
 numpy
 scipy
-openai-whisper
-torch
 python-dotenv
 pyserial
 Pillow
