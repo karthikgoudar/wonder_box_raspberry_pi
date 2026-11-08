@@ -12,3 +12,6 @@ __pycache__/
 # Environment files in any variant; keep only the example
 .env*
 !.env.example
+
+# keep the tiny sample used for hardware-free testing
+!tools/sample_hello.wav
