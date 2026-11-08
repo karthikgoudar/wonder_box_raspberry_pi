@@ -31,7 +31,8 @@ DEBUG_EVENTS = os.getenv("DEBUG_EVENTS", "0").lower() in ("1", "true", "yes")
 # ------------------------
 pygame.init()
 # Logical (app) size
-LOGICAL_W, LOGICAL_H = 600, 600
+LOGICAL_W = int(os.getenv("SCREEN_W", "600"))
+LOGICAL_H = int(os.getenv("SCREEN_H", "600"))
 # Rotate degrees (clockwise). Use env var SCREEN_ROTATE_DEG, e.g. 90 or 270.
 ROTATE_DEGREES = int(os.getenv("SCREEN_ROTATE_DEG", "-90"))
 

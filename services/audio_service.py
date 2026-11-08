@@ -5,16 +5,25 @@ import threading
 from scipy.io.wavfile import write
 from pathlib import Path
 import gc
+import os
+import shutil
 
 class AudioService:
-    def __init__(self, sample_rate=44100, device=1):
+    def __init__(self, sample_rate=44100, device=None):
         # Force 44.1kHz sample rate and store explicit device index for Raspberry Pi USB mic
         # `device` is the integer index reported by sd.query_devices()
         self.sample_rate = sample_rate
         # Force mono input
         self.channels = 1
         # ALSA device string (explicit USB microphone device)
+        # Audio input device index. Set AUDIO_DEVICE in .env if the default is wrong
+        # (list devices with: python -c "import sounddevice as sd; print(sd.query_devices())")
+        if device is None:
+            device = int(os.getenv("AUDIO_DEVICE", "1"))
         self.device = device
+        # Hardware-free testing: if AUDIO_TEST_WAV points at a WAV file, use it
+        # instead of the microphone.
+        self.test_wav = os.getenv("AUDIO_TEST_WAV") or None
 
         self._recording = False
         self._processing = False
@@ -36,6 +45,9 @@ class AudioService:
     def start_recording(self):
         self.reset()
         self._recording = True
+        if self.test_wav:
+            print(f"[AUDIO] AUDIO_TEST_WAV set; not opening the microphone", flush=True)
+            return
         try:
             # Open the device by integer index (e.g. `1`), force 44.1kHz, mono, 16-bit PCM
             # Use a non-zero blocksize so callbacks deliver frames predictably on Raspberry Pi
@@ -90,6 +102,17 @@ class AudioService:
         try:
             output_dir = Path("recordings")
             output_dir.mkdir(parents=True, exist_ok=True)
+
+            if self.test_wav:
+                src = Path(self.test_wav)
+                if not src.is_file():
+                    raise RuntimeError(f"AUDIO_TEST_WAV not found: {src}")
+                self._wav_path = output_dir / f"audio_{int(time.time())}.wav"
+                shutil.copyfile(src, self._wav_path)
+                print(f"[AUDIO] using test WAV {src}", flush=True)
+                with self._lock:
+                    self._done = True
+                return
 
             if not self._frames:
                 raise RuntimeError("no audio frames captured")

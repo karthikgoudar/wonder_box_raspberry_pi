@@ -57,3 +57,21 @@ def test_reset_clears_state(monkeypatch, tmp_path):
     _wait(svc)
     svc.reset()
     assert not svc.is_done() and svc.get_wav_path() is None
+
+
+def test_test_wav_replaces_microphone(monkeypatch, tmp_path):
+    src = tmp_path / "in.wav"
+    src.write_bytes(b"RIFFfake")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("AUDIO_TEST_WAV", str(src))
+    svc = AudioService()
+    svc.start_recording()  # must not open a microphone
+    assert svc._stream is None and svc._recording
+    svc.stop_recording()
+    _wait(svc)
+    assert svc.is_done() and open(svc.get_wav_path(), "rb").read() == b"RIFFfake"
+
+
+def test_audio_device_from_env(monkeypatch):
+    monkeypatch.setenv("AUDIO_DEVICE", "0")
+    assert AudioService().device == 0
