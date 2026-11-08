@@ -36,8 +36,16 @@ LOGICAL_H = int(os.getenv("SCREEN_H", "600"))
 # Rotate degrees (clockwise). Use env var SCREEN_ROTATE_DEG, e.g. 90 or 270.
 ROTATE_DEGREES = int(os.getenv("SCREEN_ROTATE_DEG", "-90"))
 
+# FULLSCREEN=1 covers the whole display (no title bar) at its native size.
+FULLSCREEN = os.getenv("FULLSCREEN", "0").lower() in ("1", "true", "yes")
+# ESC closes the app. Set ESC_QUITS=0 to get the old behaviour (ESC cancels
+# the current job and returns to idle).
+ESC_QUITS = os.getenv("ESC_QUITS", "1").lower() in ("1", "true", "yes")
+
+if FULLSCREEN:
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 # If rotating by 90/270 swap the physical display dimensions.
-if ROTATE_DEGREES in (90, 270, -270, -90):
+elif ROTATE_DEGREES in (90, 270, -270, -90):
     screen = pygame.display.set_mode((LOGICAL_H, LOGICAL_W))
 else:
     screen = pygame.display.set_mode((LOGICAL_W, LOGICAL_H))
@@ -188,6 +196,11 @@ while running:
                 last_event_log = event_key
         if event.type == pygame.QUIT:
             running = False
+        # ESC closes the app
+        if ESC_QUITS and event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            print("[MAIN] ESC pressed; closing app", flush=True)
+            running = False
+            continue
         # Global RED button handling (ESC) — cancel to IDLE from selected states
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             if current_state in (State.LISTENING, State.PROCESSING, State.DISPLAYING):
