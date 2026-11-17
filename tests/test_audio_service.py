@@ -33,7 +33,8 @@ def test_saves_wav_and_exposes_path(monkeypatch, tmp_path):
     path = svc.get_wav_path()
     assert path.endswith(".wav")
     with wave.open(path) as w:
-        assert w.getframerate() == 48000 and w.getnchannels() == 1
+        assert w.getframerate() == 16000 and w.getnchannels() == 1
+        assert w.getnframes() == 4410 // 3  # 48 kHz recording shrunk 3x
 
 
 def test_no_wav_path_before_done():
@@ -117,3 +118,22 @@ def test_quiet_mic_is_boosted_but_capped(monkeypatch, tmp_path):
     tiny = (0.0001 * np.sin(2 * np.pi * 440 * t)).reshape(-1, 1)
     out = _save(AudioService(), tiny)
     assert np.abs(out).max() < 0.01 * 32767  # near-silence capped at 40x
+
+
+def test_save_rate_zero_keeps_recording_rate(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("AUDIO_SAVE_RATE", "0")
+    svc = AudioService()
+    _save(svc, np.zeros((4800, 1), dtype=np.float32))
+    with wave.open(svc.get_wav_path()) as w:
+        assert w.getframerate() == 48000 and w.getnframes() == 4800
+
+
+def test_downsampled_speech_keeps_its_loudness(monkeypatch, tmp_path):
+    """A 440 Hz tone survives the 48 to 16 kHz step (filtering keeps speech)."""
+    monkeypatch.chdir(tmp_path)
+    t = np.arange(48000, dtype=np.float32) / 48000
+    tone = (0.5 * np.sin(2 * np.pi * 440 * t)).reshape(-1, 1)
+    out = _save(AudioService(), tone)
+    assert len(out) == 16000
+    assert np.abs(out[1000:-1000]).max() > 0.8 * 32767  # boosted to about 90%
