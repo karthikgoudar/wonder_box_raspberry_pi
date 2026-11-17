@@ -71,6 +71,17 @@ def calculate_font_size(text: str, surface_width: int, surface_height: int, min_
     return min_size
 
 
+def ui_scale(surface: pygame.Surface) -> float:
+    """Text-size multiplier for bigger screens.
+
+    Sizes in the screens were tuned for the old 320x480 display. On a larger
+    display (e.g. the 720x720 HDMI screen) text grows with the shorter side;
+    it never shrinks below the original size.
+    """
+    w, h = surface.get_size()
+    return max(1.0, min(w, h) / 480)
+
+
 def render_text(surface: pygame.Surface, text: str, size: int, color, center=True):
     """Render `text` onto `surface` using appropriate fonts per script.
 
