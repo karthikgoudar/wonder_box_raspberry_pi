@@ -33,6 +33,10 @@ class AudioService:
         # Quiet microphones are boosted so the loudest moment reaches 90%, but
         # never by more than AUDIO_MAX_GAIN times (so silence is not blown up).
         self.max_gain = float(os.getenv("AUDIO_MAX_GAIN", "40"))
+        # The saved WAV is shrunk to this rate before upload. Speech needs no
+        # more than 16 kHz, and a 3x smaller file made speech-to-text about
+        # 1 s instead of 4.6-9 s in 17 Nov tests. 0 keeps the recording rate.
+        self.save_rate = int(os.getenv("AUDIO_SAVE_RATE", "16000"))
         self.device = device if device is not None else _device_from_env()
         # Hardware-free testing: if AUDIO_TEST_WAV points at a WAV file, use it
         # instead of the microphone.
@@ -137,10 +141,11 @@ class AudioService:
                 ch = min(self.mic_channel, audio.shape[1] - 1)
                 audio = audio[:, ch]
 
+            audio, rate = self._downsample(audio)
             self._wav_path = output_dir / f"audio_{int(time.time())}.wav"
             audio_int16 = self._boost_to_int16(audio)
 
-            write(str(self._wav_path), self.sample_rate, audio_int16)
+            write(str(self._wav_path), rate, audio_int16)
 
             # Transcription now happens in the cloud backend (see ai_service).
             print(f"[AUDIO] saved {self._wav_path}", flush=True)
@@ -157,6 +162,19 @@ class AudioService:
             gc.collect()
             self._processing = False
             self._saving = False
+
+    def _downsample(self, audio):
+        """Lower the sample rate to AUDIO_SAVE_RATE (filtered, so no hiss)."""
+        target = self.save_rate
+        if not target or target >= self.sample_rate:
+            return audio, self.sample_rate
+        from math import gcd
+        from scipy.signal import resample_poly  # imported here: slow to load
+        g = gcd(self.sample_rate, target)
+        if np.issubdtype(audio.dtype, np.integer):
+            audio = audio.astype(np.float32) / np.iinfo(audio.dtype).max
+        out = resample_poly(audio.astype(np.float32), target // g, self.sample_rate // g)
+        return out.astype(np.float32), target
 
     def _boost_to_int16(self, audio):
         """Remove any constant offset, boost quiet audio, return 16-bit samples."""
