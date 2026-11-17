@@ -20,4 +20,5 @@ class IdleScreen(Screen):
         surface.fill((255, 255, 255))
 
         from ui.font import render_text
-        render_text(surface, "Tap to Start", 48, (0, 0, 0), center=True)
+        from ui.font import ui_scale
+        render_text(surface, "Tap to Start", int(48 * ui_scale(surface)), (0, 0, 0), center=True)

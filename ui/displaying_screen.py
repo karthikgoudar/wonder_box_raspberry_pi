@@ -37,7 +37,8 @@ class DisplayingScreen(Screen):
             # fallback blank background when no image is available
             surface.fill((20, 40, 60))
             from ui.font import render_text
-            render_text(surface, "Here is your picture!", 36, (255, 255, 255), center=True)
+            from ui.font import ui_scale
+            render_text(surface, "Here is your picture!", int(36 * ui_scale(surface)), (255, 255, 255), center=True)
         # Render a small prompt/button at the bottom-center
         from ui.font import render_text
         # Removed prompt text and its rendering
