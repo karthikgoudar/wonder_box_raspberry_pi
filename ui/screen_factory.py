@@ -13,8 +13,8 @@ def get_screen(state, callbacks, services=None):
 
     elif state == State.PROCESSING:
         from ui.processing_screen import ProcessingScreen
-        audio_service = services.get("audio_service") if services else None
-        return ProcessingScreen(audio_service)
+        services = services or {}
+        return ProcessingScreen(services.get("audio_service"), services.get("ai_service"))
 
     elif state == State.DISPLAYING:
         from ui.displaying_screen import DisplayingScreen

@@ -2,8 +2,11 @@ import pygame
 from ui.screen_base import Screen
 
 class ProcessingScreen(Screen):
-    def __init__(self, audio_service=None):
+    def __init__(self, audio_service=None, text_source=None):
         self.audio_service = audio_service
+        # What the child said comes back from the backend via ai_service.get_text();
+        # AudioService only records, it has no text.
+        self.text_source = text_source
         self.dots = 0
         self.last_update = 0
 
@@ -52,32 +55,25 @@ class ProcessingScreen(Screen):
 
     def render(self, surface):
         surface.fill((255, 255, 255))
-        from ui.font import render_text
+        from ui.font import render_text, ui_scale
         
-        # Check if audio transcription is complete
-        if self.audio_service and self.audio_service.is_done():
-            # Show the transcribed text with auto-sized font
-            text = self.audio_service.get_text()
-            if text:
-                sw, sh = surface.get_size()
-                horizontal_padding = 28
-                vertical_padding = 24
-                max_width = sw - (horizontal_padding * 2)
-                max_height = sh - (vertical_padding * 2)
+        # What the child said, once the backend has transcribed it
+        get_text = getattr(self.text_source, "get_text", None)
+        text = get_text() if callable(get_text) else None
+        if not text:
+            # Still waiting for the backend - show thinking animation
+            render_text(surface, "Thinking" + "." * self.dots, int(48 * ui_scale(surface)), (0, 0, 0), center=True)
+            return
 
-                font_size, lines, line_height = self._fit_wrapped_text(text, max_width, max_height)
+        sw, sh = surface.get_size()
+        horizontal_padding = 28
+        vertical_padding = 24
+        max_width = sw - (horizontal_padding * 2)
+        max_height = sh - (vertical_padding * 2)
+        font_size, lines, line_height = self._fit_wrapped_text(text, max_width, max_height)
 
-                # Keep short text centered; start longer text from top for readability
-                if len(lines) <= 1:
-                    render_text(surface, lines[0], font_size, (0, 0, 0), center=True)
-                else:
-                    y = vertical_padding
-                    for line in lines:
-                        render_text(surface, line, font_size, (0, 0, 0), center=(sw // 2, y + line_height // 2))
-                        y += line_height
-            else:
-                # Fallback if text is empty
-                render_text(surface, "Thinking" + "." * self.dots, 48, (0, 0, 0), center=True)
-        else:
-            # Still transcribing audio - show thinking animation
-            render_text(surface, "Thinking" + "." * self.dots, 48, (0, 0, 0), center=True)
+        # Centre the block of lines vertically
+        y = max(vertical_padding, (sh - line_height * len(lines)) // 2)
+        for line in lines:
+            render_text(surface, line, font_size, (0, 0, 0), center=(sw // 2, y + line_height // 2))
+            y += line_height
