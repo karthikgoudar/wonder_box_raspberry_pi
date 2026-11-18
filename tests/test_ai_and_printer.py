@@ -96,6 +96,67 @@ def test_missing_config_disables_without_crashing(monkeypatch):
     assert ai.has_failed()
 
 
+class FakeStreamClient(FakeClient):
+    """Backend in stream mode: the words arrive before the picture."""
+
+    def __init__(self, gate=None, **kw):
+        super().__init__(**kw)
+        self.gate = gate  # threading.Event; picture waits until it is set
+
+    def submit_sticker(self, wav):
+        raise AssertionError("stream mode should not use direct submit")
+
+    def submit_sticker_stream(self, wav):
+        self.submitted.append(wav)
+        yield "job", {"job_id": "j2"}
+        yield "status", {"state": "processing"}
+        yield "text", {"text": "a lion playing football", "language": "en"}
+        if self.gate:
+            self.gate.wait(3)
+        if self.fail:
+            raise self.fail
+        yield "image_ready", {"image_url": "/i.png", "print_url": "/p.bin"}
+        yield "done", {"sticker_id": "s2", "image_url": "/i.png", "print_url": "/p.bin"}
+
+
+def test_stream_shows_words_before_picture(monkeypatch):
+    import threading
+    monkeypatch.delenv("AI_BACKEND_MODE", raising=False)
+    gate = threading.Event()
+    ai = AIService(client=FakeStreamClient(gate=gate))
+    ai.start_generation("rec.wav")
+    end = time.time() + 3
+    while time.time() < end and ai.get_text() is None:
+        time.sleep(0.01)
+    assert ai.get_text() == "a lion playing football"
+    assert not ai.is_done() and ai.get_image() is None  # picture still coming
+    gate.set()
+    _wait(ai)
+    assert ai.is_done() and ai.get_image() is not None
+    assert len(ai.get_print_strips()) == 16
+
+
+def test_stream_error_after_words_sets_failed(monkeypatch):
+    monkeypatch.delenv("AI_BACKEND_MODE", raising=False)
+    ai = AIService(client=FakeStreamClient(fail=BackendError("Image generation failed")))
+    ai.start_generation("rec.wav")
+    _wait(ai)
+    assert ai.has_failed() and "Image generation failed" in ai.get_error()
+
+
+def test_direct_mode_setting_skips_stream(monkeypatch):
+    monkeypatch.setenv("AI_BACKEND_MODE", "direct")
+
+    class Both(FakeClient):
+        def submit_sticker_stream(self, wav):
+            raise AssertionError("direct mode should not stream")
+
+    ai = AIService(client=Both())
+    ai.start_generation("rec.wav")
+    _wait(ai)
+    assert ai.is_done() and ai.get_text() == "a penguin"
+
+
 class FakeSerial:
     is_open = True
 

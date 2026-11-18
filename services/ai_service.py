@@ -16,12 +16,13 @@ Public API (used by main.py):
 """
 
 import io
+import os
 import threading
 
 import pygame
 from dotenv import load_dotenv
 
-from services.backend_client import BackendClient, BackendError
+from services.backend_client import BackendClient, BackendError, StickerResult
 
 load_dotenv()
 
@@ -112,9 +113,43 @@ class AIService:
         with self._lock:
             return gen == self._generation
 
+    def _use_stream(self) -> bool:
+        """Stream mode sends the spoken words as soon as speech-to-text is
+        done (about 1 s), so the thinking screen can show them while the
+        picture is made. AI_BACKEND_MODE=direct waits for everything at once."""
+        mode = (os.getenv("AI_BACKEND_MODE") or "stream").strip().lower()
+        return mode != "direct" and hasattr(self._client, "submit_sticker_stream")
+
+    def _submit_stream(self, wav_path: str, gen: int) -> StickerResult:
+        """Follow the backend's step-by-step events; publish the text early."""
+        job_id, text, language, urls = "", None, None, {}
+        for event, data in self._client.submit_sticker_stream(wav_path):
+            if event == "job":
+                job_id = data.get("job_id", "")
+            elif event == "text":
+                text, language = data.get("text"), data.get("language")
+                with self._lock:
+                    if gen == self._generation:
+                        self._text = text  # thinking screen shows it now
+                print(f"[AI] heard: {text!r}", flush=True)
+            elif event in ("image_ready", "done"):
+                urls.update({k: v for k, v in data.items() if v})
+        return StickerResult(
+            job_id=job_id,
+            sticker_id=urls.get("sticker_id"),
+            text=text,
+            language=language,
+            image_url=urls.get("image_url"),
+            print_url=urls.get("print_url"),
+            print_png_url=urls.get("print_png_url"),
+        )
+
     def _run(self, wav_path: str, gen: int):
         try:
-            result = self._client.submit_sticker(wav_path)
+            if self._use_stream():
+                result = self._submit_stream(wav_path, gen)
+            else:
+                result = self._client.submit_sticker(wav_path)
             if not self._current(gen):
                 print("[AI] job cancelled; discarding result", flush=True)
                 return
