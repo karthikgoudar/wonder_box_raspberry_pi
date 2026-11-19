@@ -171,6 +171,7 @@ class FakeSerial:
 
 
 def test_strips_written_whole_with_pacing(monkeypatch):
+    monkeypatch.setattr(ps, "PRINTER_IMAGE_MODE", "raster")
     monkeypatch.setattr(ps, "PRINTER_SIMULATE", False)
     monkeypatch.setattr(ps, "_HAS_SERIAL", True)
     monkeypatch.setattr(ps, "PRINTER_STRIP_DELAY", 0.02)
@@ -191,3 +192,53 @@ def test_strip_print_simulated(monkeypatch):
     p.start_print_strips([STRIP])
     p._thread.join(2)
     assert p.is_done()
+
+
+def _raster(width_bytes, height, black):
+    """1-bit rows with the given (x, y) dots black."""
+    rows = bytearray(width_bytes * height)
+    for x, y in black:
+        rows[y * width_bytes + x // 8] |= 0x80 >> (x % 8)
+    return bytes(rows)
+
+
+def test_band_puts_top_left_and_bottom_right_dots_in_place():
+    data = _raster(48, 24, [(0, 0), (383, 23), (5, 9)])
+    out = ps.raster_to_bands(data, 48, 24)
+    assert out[:5] == b"\x1b\x2a\x21\x80\x01"  # ESC * 33, 384 columns
+    cols = out[5:-1]
+    assert len(cols) == 384 * 3 and out[-1:] == b"\n"
+    assert cols[0:3] == b"\x80\x00\x00"        # x=0, y=0: top bit
+    assert cols[5 * 3 + 1] == 0x40              # x=5, y=9: second byte, bit 1
+    assert cols[383 * 3:] == b"\x00\x00\x01"    # x=383, y=23: last bit
+
+
+def test_short_last_band_is_padded_with_white():
+    out = ps.raster_to_bands(_raster(48, 30, [(0, 29)]), 48, 30)
+    bands = out.split(b"\x1b\x2a\x21\x80\x01")[1:]
+    assert len(bands) == 2 and all(len(b) == 384 * 3 + 1 for b in bands)
+    assert bands[1][0:3] == b"\x04\x00\x00"     # row 29 = 6th row of band 2
+
+
+def test_strip_to_bands_reads_backend_header():
+    strip = b"\x1d\x76\x30\x00" + bytes([48, 0, 24, 0]) + _raster(48, 24, [(0, 0)])
+    assert ps.strip_to_bands(strip) == ps.raster_to_bands(strip[8:], 48, 24)
+    with pytest.raises(ValueError):
+        ps.strip_to_bands(b"junk")
+
+
+def test_band_mode_is_the_default_for_strips(monkeypatch):
+    monkeypatch.setattr(ps, "PRINTER_IMAGE_MODE", "band")
+    monkeypatch.setattr(ps, "PRINTER_SIMULATE", False)
+    monkeypatch.setattr(ps, "_HAS_SERIAL", True)
+    monkeypatch.setattr(ps, "PRINTER_STRIP_DELAY", 0)
+    strip = b"\x1d\x76\x30\x00" + bytes([48, 0, 24, 0]) + b"\xff" * (48 * 24)
+    p = ps.PrinterService(port="fake")
+    p._serial = FakeSerial()
+    p.start_print_strips([strip] * 2, feed=0)
+    p._thread.join(3)
+    assert p.is_done() and not p.has_failed()
+    sent = b"".join(b for _, b in p._serial.writes)
+    assert b"\x1d\x76\x30" not in sent                  # no raster rows
+    assert sent.count(b"\x1b\x2a\x21") == 2             # one band per strip
+    assert b"\x1b\x33\x18" in sent and sent.rstrip(b"\n").endswith(b"\x1b\x32")
