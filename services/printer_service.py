@@ -29,6 +29,48 @@ PRINTER_SIMULATE = os.getenv("PRINTER_SIMULATE", "0").lower() in ("1", "true", "
 PRINTER_THRESHOLD = int(os.getenv("PRINTER_THRESHOLD", "200"))
 # Pause after each pre-rendered strip so the printer's buffer can drain
 PRINTER_STRIP_DELAY = float(os.getenv("PRINTER_STRIP_DELAY", "0.08"))
+# How pictures are sent to the printer:
+#   "band"   (default) ESC * 24-dot bands. The printer collects a whole band,
+#            then prints it in one pass, like text. Crisp and black.
+#   "raster" GS v 0 rows. On the demo printer at 9600 baud the rows trickle in,
+#            the printer starts and stops, and pictures come out grey and
+#            dotted at any heat setting (tested 19 Nov 2026).
+PRINTER_IMAGE_MODE = os.getenv("PRINTER_IMAGE_MODE", "band").strip().lower()
+
+_BAND_ROWS = 24
+_LINE_SPACING_24 = b"\x1b\x33\x18"  # bands touch with no gap
+_LINE_SPACING_DEFAULT = b"\x1b\x32"
+
+
+def raster_to_bands(data: bytes, width_bytes: int, height: int) -> bytes:
+    """Turn 1-bit raster rows (1 = black, MSB = left) into ESC * 33 bands.
+
+    Each band is 24 rows tall and ends with a line feed, which tells the
+    printer to print it. A last band shorter than 24 rows is padded with white.
+    """
+    import numpy as np
+
+    width = width_bytes * 8
+    bits = np.unpackbits(np.frombuffer(data, dtype=np.uint8)[: width_bytes * height])
+    bits = bits.reshape(height, width)
+    out = bytearray()
+    for top in range(0, height, _BAND_ROWS):
+        band = bits[top:top + _BAND_ROWS]
+        if band.shape[0] < _BAND_ROWS:
+            band = np.vstack([band, np.zeros((_BAND_ROWS - band.shape[0], width), dtype=np.uint8)])
+        # One column = 3 bytes, top dot in the high bit of the first byte
+        columns = np.packbits(band.T, axis=1)
+        out += b"\x1b\x2a\x21" + bytes([width & 0xFF, width >> 8]) + columns.tobytes() + b"\n"
+    return bytes(out)
+
+
+def strip_to_bands(strip: bytes) -> bytes:
+    """Convert one backend GS v 0 strip (8-byte header + rows) to bands."""
+    if len(strip) < 8 or strip[:3] != b"\x1d\x76\x30":
+        raise ValueError("not a GS v 0 raster strip")
+    width_bytes = strip[4] | (strip[5] << 8)
+    height = strip[6] | (strip[7] << 8)
+    return raster_to_bands(strip[8:], width_bytes, height)
 
 
 def _parse_baud_candidates(default_baud: int) -> list[int]:
@@ -198,13 +240,20 @@ class PrinterService:
             if not self._is_serial_open():
                 self._open_serial()
 
+            band_mode = PRINTER_IMAGE_MODE != "raster"
+            payload = [strip_to_bands(s) for s in strips] if band_mode else strips
+
             for i in range(max(1, copies)):
                 self._serial.write(b"\x1b\x40")  # init
                 self._serial.write(b"\x1d\x28\x45\x04\x00\x20\x20\x20\x20")  # density
-                for strip in strips:
-                    self._serial.write(strip)
+                if band_mode:
+                    self._serial.write(_LINE_SPACING_24)
+                for chunk in payload:
+                    self._serial.write(chunk)
                     self._serial.flush()
                     time.sleep(PRINTER_STRIP_DELAY)
+                if band_mode:
+                    self._serial.write(_LINE_SPACING_DEFAULT)
                 printed += 1
                 lines = 4 if feed is None else max(0, int(feed))
                 if lines:
@@ -300,7 +349,12 @@ class PrinterService:
                 self._serial.write(b'\x1d\x28\x45\x04\x00\x20\x20\x20\x20')
 
                 # Print image (correct polarity, no inversion)
-                self._serial.write(cmd)
+                if PRINTER_IMAGE_MODE != "raster":
+                    self._serial.write(_LINE_SPACING_24)
+                    self._serial.write(raster_to_bands(img_bytes, width_bytes, height))
+                    self._serial.write(_LINE_SPACING_DEFAULT)
+                else:
+                    self._serial.write(cmd)
                 self._serial.flush()
                 time.sleep(0.08)
                 printed_copies += 1
