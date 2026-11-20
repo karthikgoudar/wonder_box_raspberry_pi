@@ -26,7 +26,7 @@ def get_screen(state, callbacks, services=None):
 
     elif state == State.ERROR:
         from ui.error_screen import ErrorScreen
-        return ErrorScreen(callbacks)
+        return ErrorScreen(callbacks, (services or {}).get("ai_service"))
 
     else:
         raise ValueError(f"Unhandled state: {state}")

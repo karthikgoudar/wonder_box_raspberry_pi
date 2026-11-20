@@ -34,6 +34,7 @@ class AIService:
         self._strips = None
         self._text = None
         self._error = None
+        self._error_code = None  # backend code, e.g. LANGUAGE_NOT_SUPPORTED
         self._done = False
         self._failed = False
         self._generation = 0  # bumped by reset(); stale threads discard results
@@ -93,6 +94,11 @@ class AIService:
         with self._lock:
             return self._error
 
+    def get_error_code(self):
+        """The backend's error code for the last failure, or None."""
+        with self._lock:
+            return self._error_code
+
     def reset(self):
         with self._lock:
             self._generation += 1
@@ -103,6 +109,7 @@ class AIService:
             # A disabled service (no config) stays failed with its reason.
             if self._client is not None:
                 self._error = None
+                self._error_code = None
                 self._failed = False
         self._thread = None  # in-flight thread may finish; its result is dropped
 
@@ -181,5 +188,6 @@ class AIService:
                 if gen != self._generation:
                     return
                 self._error = str(e)
+                self._error_code = getattr(e, "code", None)
                 self._failed = True
             print(f"[AI ERROR] {e}", flush=True)
