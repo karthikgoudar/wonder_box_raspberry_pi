@@ -242,3 +242,24 @@ def test_band_mode_is_the_default_for_strips(monkeypatch):
     assert b"\x1d\x76\x30" not in sent                  # no raster rows
     assert sent.count(b"\x1b\x2a\x21") == 2             # one band per strip
     assert b"\x1b\x33\x18" in sent and sent.rstrip(b"\n").endswith(b"\x1b\x32")
+
+
+def test_language_refusal_keeps_backend_code_and_shows_friendly_screen(monkeypatch):
+    monkeypatch.delenv("AI_BACKEND_MODE", raising=False)
+    err = BackendError("Please speak in English, Kannada or Hindi", code="LANGUAGE_NOT_SUPPORTED")
+    ai = AIService(client=FakeStreamClient(fail=err))
+    ai.start_generation("rec.wav")
+    _wait(ai)
+    assert ai.has_failed() and ai.get_error_code() == "LANGUAGE_NOT_SUPPORTED"
+
+    from ui.error_screen import ErrorScreen
+    from ui.screen_factory import get_screen
+    from core.states import State
+    screen = get_screen(State.ERROR, {"reset": lambda: None}, {"ai_service": ai})
+    assert screen.lines == ("Please speak in English,", "Kannada or Hindi")
+    screen.render(pygame.Surface((720, 720)))  # draws without error
+
+    ai.reset()
+    assert ai.get_error_code() is None
+    assert ErrorScreen({}, ai).lines is None  # other failures keep the usual message
+    assert ErrorScreen({}).lines is None
