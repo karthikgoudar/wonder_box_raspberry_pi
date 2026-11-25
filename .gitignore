@@ -18,3 +18,4 @@ __pycache__/
 
 # Story content comes from Google Drive, not git
 /stories/
+!assets/sounds/*.wav

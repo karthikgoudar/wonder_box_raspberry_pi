@@ -23,6 +23,7 @@ from services.ai_service import AIService
 from services.printer_service import PrinterService
 from services.story_library import StoryPicker
 from services.story_player import StoryPlayer
+from services.sound_service import SoundService
 
 print(f"[MAIN] build 2026-01-04a (ai+audio wiring) file={__file__}", flush=True)
 log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
@@ -88,6 +89,7 @@ audio_service = AudioService()
 ai_service = AIService()
 printer_service = PrinterService()
 story_picker = StoryPicker()
+sounds = SoundService()
 try:
     story_player = StoryPlayer(printer_service)
 except Exception as e:  # no sound output: stories cannot play, stickers still work
@@ -100,6 +102,7 @@ audio_wait_logged = False
 ai_wait_logged = False
 print("[MAIN] services ready", flush=True)
 log_event("MAIN", "SERVICES_READY")
+sounds.play_boot()
 
 # ------------------------
 # Timers (seconds)
@@ -116,6 +119,7 @@ def start_listening():
     global ai_started
     if story_player is not None:
         story_player.stop()
+    sounds.stop_all()  # nothing playing while the microphone records
     set_image(None)
     ai_service.reset()
     audio_service.start_recording()
@@ -377,6 +381,12 @@ while running:
         entered_state = current_state
         current_screen = get_screen(current_state, callbacks, services)
         button_light.show(current_state)
+        if current_state == State.PROCESSING:
+            sounds.start_waiting()   # recording has stopped: safe to play
+        elif current_state == State.DISPLAYING:
+            sounds.play_ready()
+        else:
+            sounds.stop_waiting()
         last_state = current_state
         if entered_state != State.PROCESSING:
             audio_wait_logged = False
