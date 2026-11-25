@@ -4,6 +4,7 @@ from typing import Dict
 
 # Centralized font loader and renderer. Place the TTF files under a `fonts/` directory
 # in the project root: `fonts/NotoSans-Regular.ttf` and `fonts/NotoSansDevanagari-Regular.ttf`.
+# assets/fonts/ holds the Hindi (Devanagari) and Kannada fonts (SIL Open Font License).
 
 _FONT_CACHE: Dict[str, pygame.font.Font] = {}
 
@@ -20,6 +21,7 @@ def _find_font(filename: str) -> Path:
 
 DEFAULT_LATIN = _find_font("NotoSans-Regular.ttf")
 DEFAULT_DEVANAGARI = _find_font("NotoSansDevanagari-Regular.ttf")
+DEFAULT_KANNADA = _find_font("NotoSansKannada-Regular.ttf")
 _FONT_INFO_PRINTED = False
 
 
@@ -36,6 +38,42 @@ def _load_font(path: Path, size: int) -> pygame.font.Font:
     return font
 
 
+_PIL_FONTS: Dict[str, object] = {}
+
+
+def _shaping_available() -> bool:
+    try:
+        from PIL import features
+        return bool(features.check("raqm"))
+    except Exception:
+        return False
+
+
+_SHAPING = _shaping_available()
+
+
+def _render_shaped(path: Path, text: str, size: int, color) -> pygame.Surface:
+    """Draw Kannada or Hindi with Pillow's text shaping (Raqm).
+
+    pygame places letters one by one, so vowel signs overlap and joined
+    letters fall apart. Raqm joins them the way the script needs.
+    """
+    from PIL import Image, ImageDraw, ImageFont
+    key = f"{path}:{size}"
+    font = _PIL_FONTS.get(key)
+    if font is None:
+        font = ImageFont.truetype(str(path), size, layout_engine=ImageFont.Layout.RAQM)
+        _PIL_FONTS[key] = font
+    left, top, right, bottom = font.getbbox(text)
+    ascent, descent = font.getmetrics()
+    dx, dy = -min(0, left), -min(0, top)
+    w = max(1, right + dx)
+    h = max(1, max(bottom, ascent + descent) + dy)
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    ImageDraw.Draw(img).text((dx, dy), text, font=font, fill=tuple(color[:3]) + (255,))
+    return pygame.image.frombytes(img.tobytes(), img.size, "RGBA")
+
+
 def _contains_devanagari(text: str) -> bool:
     for ch in text:
         if '\u0900' <= ch <= '\u097F':
@@ -46,6 +84,10 @@ def _contains_devanagari(text: str) -> bool:
 def _char_script(ch: str) -> str:
     if '\u0900' <= ch <= '\u097F':
         return 'devanagari'
+    if '\u0C80' <= ch <= '\u0CFF':
+        return 'kannada'
+    if ch.isspace() or ch in '.,!?;:\'"-()':
+        return 'neutral'  # stays with the words around it
     return 'latin'
 
 
@@ -98,13 +140,16 @@ def render_text(surface: pygame.Surface, text: str, size: int, color, center=Tru
         rect = empty.get_rect(topleft=(0, 0))
         return empty, rect
 
-    # Build runs by script
+    # Build runs by script. Spaces and punctuation join the run they are in,
+    # so a whole Kannada or Hindi sentence is shaped as one piece.
     runs = []
     current_script = _char_script(text[0])
+    if current_script == 'neutral':
+        current_script = 'latin'
     current_run = text[0]
     for ch in text[1:]:
         script = _char_script(ch)
-        if script == current_script:
+        if script == 'neutral' or script == current_script:
             current_run += ch
         else:
             runs.append((current_script, current_run))
@@ -117,6 +162,14 @@ def render_text(surface: pygame.Surface, text: str, size: int, color, center=Tru
     max_h = 0
     total_w = 0
     for script, run_text in runs:
+        shaped_font = {'devanagari': DEFAULT_DEVANAGARI, 'kannada': DEFAULT_KANNADA}.get(script)
+        if _SHAPING and shaped_font is not None and shaped_font.exists():
+            run_surf = _render_shaped(shaped_font, run_text, size, color)
+            run_surfs.append(run_surf)
+            w, h = run_surf.get_size()
+            total_w += w
+            max_h = max(max_h, h)
+            continue
         if script == 'devanagari' and DEFAULT_DEVANAGARI.exists():
             font = _load_font(DEFAULT_DEVANAGARI, size)
             global _FONT_INFO_PRINTED
@@ -126,6 +179,8 @@ def render_text(surface: pygame.Surface, text: str, size: int, color, center=Tru
                 except Exception:
                     pass
                 _FONT_INFO_PRINTED = True
+        elif script == 'kannada' and DEFAULT_KANNADA.exists():
+            font = _load_font(DEFAULT_KANNADA, size)
         elif DEFAULT_LATIN.exists():
             font = _load_font(DEFAULT_LATIN, size)
         else:
