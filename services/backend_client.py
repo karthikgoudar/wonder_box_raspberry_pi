@@ -85,6 +85,7 @@ class StickerResult:
     image_url: Optional[str]
     print_url: Optional[str]
     print_png_url: Optional[str]
+    intent: str = "sticker"  # "story": the child asked for a story; no picture
 
     @classmethod
     def from_json(cls, job_id: str, data: dict) -> "StickerResult":
@@ -96,6 +97,7 @@ class StickerResult:
             image_url=data.get("image_url"),
             print_url=data.get("print_url"),
             print_png_url=data.get("print_png_url"),
+            intent=data.get("intent") or "sticker",
         )
 
 
