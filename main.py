@@ -418,6 +418,7 @@ while running:
             printing_timer.start()
 
     # 4. Update & render
+    sounds.update()
     current_screen.update(dt)
     # Render to logical buffer then rotate/blit to the actual screen
     try:

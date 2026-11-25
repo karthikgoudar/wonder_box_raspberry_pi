@@ -5,12 +5,17 @@ Runs on a Mac with ffmpeg (to read MP3/MP4/WAV).
     venv/bin/python tools/prepare_sounds.py boot  ~/Downloads/boot.mp3
     venv/bin/python tools/prepare_sounds.py loop  ~/Downloads/loop.mp3 --bpm 120 --bars 2
     venv/bin/python tools/prepare_sounds.py ready ~/Downloads/ding.mp3 --seconds 1.2
+    venv/bin/python tools/prepare_sounds.py buildup assets/sounds/waiting_loop.wav
     venv/bin/python tools/prepare_sounds.py placeholders   # simple made-up sounds for testing
 
 boot   keeps the first few seconds from where the music starts, with a fade.
 loop   finds the real length of `bars` bars near the given tempo, picks the
        start where the end flows best back into the beginning, and blends
        the join so it repeats without a click.
+buildup  takes a finished loop and makes waiting_build.wav: the loop played
+       a few times, starting quieter and muffled (far away) and opening up to
+       full (arriving). Its last bar is the loop untouched and at the same
+       loudness, so the app can go straight from the build-up into the loop.
 All sounds are evened out to the same loudness and saved as 44.1 kHz WAV.
 """
 
@@ -95,8 +100,10 @@ def find_period(audio: np.ndarray, bpm=120.0, bars=2, beats_per_bar=4, search=0.
     return max(cands, key=match) if window.size > centre + hop else centre
 
 
-def make_loop(audio: np.ndarray, bpm=120.0, bars=2, skip=4.0, xfade=0.03) -> np.ndarray:
-    period = find_period(audio, bpm, bars)
+def make_loop(audio: np.ndarray, bpm=120.0, bars=2, skip=4.0, xfade=0.03, period=None) -> np.ndarray:
+    """`period` (samples) fixes the loop length; otherwise it is measured.
+    Measure on the whole track: a short piece can give a wrong length."""
+    period = int(period) if period else find_period(audio, bpm, bars)
     x = int(xfade * RATE)
     first = min(int(skip * RATE), max(0, audio.size - 2 * period - x - 1))
     if audio.size < first + period + x:
@@ -113,6 +120,26 @@ def make_loop(audio: np.ndarray, bpm=120.0, bars=2, skip=4.0, xfade=0.03) -> np.
     ramp = np.linspace(0.0, 1.0, x)
     loop[:x] = seg[:x] * ramp + seg[period:period + x] * (1.0 - ramp)  # end flows into start
     return loop
+
+
+def make_buildup(loop: np.ndarray, repeats=3, start_gain=0.5, start_cut=900.0) -> np.ndarray:
+    """The loop `repeats` times, growing louder and brighter until the last
+    half loop, which is left exactly as the loop is."""
+    from scipy.signal import stft, istft
+    n = loop.size
+    total = repeats * n
+    ramp = (repeats - 0.5) * n / RATE                      # seconds of growing
+    x = np.tile(loop, repeats + 1).astype(np.float32)      # extra loop: clean tail
+    f, t, Z = stft(x, RATE, nperseg=2048, noverlap=1536)
+    k = np.clip(t / ramp, 0, 1)
+    cut = start_cut * (20000.0 / start_cut) ** k           # 900 Hz -> fully open
+    mask = 1.0 / (1.0 + (f[:, None] / cut[None, :]) ** 4)
+    mask[:, k >= 1] = 1.0
+    _, y = istft(Z * mask, RATE, nperseg=2048, noverlap=1536)
+    y = y[:x.size]
+    g = np.clip(np.arange(x.size) / RATE / ramp, 0, 1)
+    y = y * (start_gain + (1 - start_gain) * g * g * (3 - 2 * g))
+    return y[:total].astype(np.float32)
 
 
 def chime(freq, length, decay=3.0):
@@ -154,12 +181,13 @@ def save(name: str, audio: np.ndarray, out_dir: Path = OUT_DIR) -> Path:
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("kind", choices=["boot", "loop", "ready", "placeholders"])
+    p.add_argument("kind", choices=["boot", "loop", "ready", "buildup", "placeholders"])
     p.add_argument("source", nargs="?", type=Path)
     p.add_argument("--seconds", type=float, help="boot/ready length (default 3 / 1.2)")
     p.add_argument("--bpm", type=float, default=120.0)
     p.add_argument("--bars", type=int, default=2)
     p.add_argument("--skip", type=float, default=4.0, help="loop: seconds of the track to skip first")
+    p.add_argument("--repeats", type=int, default=3, help="buildup: loop plays this many times while growing")
     p.add_argument("--out", type=Path, default=OUT_DIR)
     a = p.parse_args(argv)
     if a.kind == "placeholders":
@@ -168,6 +196,16 @@ def main(argv=None):
         return
     if a.source is None:
         p.error("give the Gemini file to use")
+    if a.kind == "buildup":
+        # keep the loop's own loudness so the build-up hands over without a jump
+        rate, data = wavfile.read(a.source)
+        loop = data.astype(np.float32) / 32767
+        build = make_buildup(loop, a.repeats)
+        a.out.mkdir(parents=True, exist_ok=True)
+        path = a.out / "waiting_build.wav"
+        wavfile.write(path, RATE, (np.clip(build, -1, 1) * 32767).astype(np.int16))
+        print(f"saved {path} ({build.size / RATE:.2f} s, then {a.source.name} repeats)")
+        return
     audio = decode(a.source)
     if a.kind == "boot":
         save("boot", make_boot(audio, a.seconds or 3.0), a.out)

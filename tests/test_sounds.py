@@ -17,8 +17,8 @@ RATE = ps.RATE
 # ── Sound service (fake mixer) ───────────────────────────────────────────────
 
 class FakeSound:
-    def __init__(self, path):
-        self.path, self.volume = Path(path).name, None
+    def __init__(self, path=None, buffer=None):
+        self.path, self.volume = (Path(path).name if path else "silence"), None
 
     def set_volume(self, v):
         self.volume = v
@@ -27,9 +27,18 @@ class FakeSound:
 class FakeChannel:
     def __init__(self):
         self.log = []
+        self.queued = None
 
     def play(self, sound, loops=0, fade_ms=0):
+        self.queued = None                      # like pygame: play() clears the queue
         self.log.append(("play", sound.path, loops))
+
+    def queue(self, sound):
+        self.queued = sound
+        self.log.append(("queue", sound.path))
+
+    def get_queue(self):
+        return self.queued
 
     def fadeout(self, ms):
         self.log.append(("fadeout",))
@@ -153,3 +162,44 @@ def test_placeholders_and_saved_loudness(tmp_path):
         rate, data = wavfile.read(ps.save(name, audio, tmp_path))
         x = data.astype(np.float32) / 32767
         assert rate == RATE and np.max(np.abs(x)) <= ps.PEAK + 1e-3
+
+
+def test_buildup_then_loop_with_no_gap(tmp_path):
+    s, log = _service(tmp_path, ("waiting_build.wav", "waiting_loop.wav", "ready.wav"))
+    s.start_waiting()
+    assert log == [("play", "waiting_build.wav", 0), ("queue", "waiting_loop.wav")]
+    s.update()                                  # loop still queued: nothing to do
+    assert len(log) == 2
+    s._channel.queued = None                    # build-up ended, loop started playing
+    s.update()
+    assert log[-1] == ("queue", "waiting_loop.wav")   # loop queued behind itself
+    s.play_ready()
+    assert log[-1] == ("play", "ready.wav", 0) and s._channel.queued is None
+    s.update()                                  # no longer waiting: no re-queue
+    assert log[-1] == ("play", "ready.wav", 0)
+
+
+def test_fading_out_the_buildup_starts_nothing_after_it(tmp_path):
+    s, log = _service(tmp_path, ("waiting_build.wav", "waiting_loop.wav"))
+    s.start_waiting()
+    s.stop_waiting()
+    assert log[-2:] == [("queue", "silence"), ("fadeout",)]   # loop no longer queued
+    s.update()
+    assert log[-1] == ("fadeout",)
+
+
+def test_without_buildup_the_loop_repeats_as_before(tmp_path):
+    s, log = _service(tmp_path, ("waiting_loop.wav",))
+    s.start_waiting(); s.update()
+    assert log == [("play", "waiting_loop.wav", -1)]
+
+
+def test_build_up_file_hands_over_exactly(tmp_path):
+    loop = ps.make_loop(_music(120.0), 120.0, 2)
+    build = ps.make_buildup(loop, repeats=3)
+    n = loop.size
+    assert build.size == 3 * n
+    tail = n // 2 - 4096                     # after the filter's last frames have passed
+    assert np.max(np.abs(build[-tail:] - loop[-tail:])) < 1e-3          # it ends exactly as the loop does
+    first = float(np.sqrt(np.mean(build[:n] ** 2))); last = float(np.sqrt(np.mean(build[-n:] ** 2)))
+    assert first < 0.75 * last                                        # starts quieter
