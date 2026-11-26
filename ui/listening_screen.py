@@ -10,7 +10,8 @@ class ListeningScreen(Screen):
         pass
 
     def render(self, surface):
-        surface.fill((255, 255, 255))
+        from ui.background import draw_background
+        draw_background(surface)
         from ui.font import render_text
         from ui.font import ui_scale
         render_text(surface, "Listening...", int(48 * ui_scale(surface)), (0, 0, 0), center=True)

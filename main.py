@@ -111,6 +111,7 @@ listening_timer = Timer(10.0)
 processing_timer = Timer(120)
 printing_timer = Timer(10.0)
 displaying_timer = Timer(16.5)
+error_timer = Timer(4.0)  # guidance messages close by themselves
 
 # ------------------------
 # Callbacks (UI → intent)
@@ -136,6 +137,23 @@ def approve_print():
 
 def reset_to_idle():
     sm.transition(State.IDLE, reason="Reset to idle")
+
+def something_went_wrong(reason):
+    """Log the problem and go straight back to "Press to Start" (no error
+    message for the child). Only guidance they can act on, such as "Please
+    speak in English, Kannada or Hindi", is shown, for a few seconds."""
+    global ai_started
+    print(f"[MAIN] problem: {reason}", flush=True)
+    log_event("MAIN", "PROBLEM", error=reason)
+    from ui.error_screen import ErrorScreen
+    if ErrorScreen.message_for(ai_service):
+        sm.transition(State.ERROR, reason=reason)
+        return
+    audio_service.reset()
+    ai_service.reset()
+    ai_started = False
+    set_image(None)
+    sm.transition(State.IDLE, reason=f"{reason} -> back to start")
 
 def cancel():
     """Global RED button intent — transition to IDLE from allowed states.
@@ -276,7 +294,7 @@ while running:
         # Finalize audio capture
         audio_service.update()
         if audio_service.has_failed():
-            sm.transition(State.ERROR, reason=f"Audio failed: {audio_service.get_error()}")
+            something_went_wrong(f"Audio failed: {audio_service.get_error()}")
         elif audio_service.is_done() and not ai_started:
             wav_path = audio_service.get_wav_path()
             print(f"[AUDIO DONE] {wav_path}", flush=True)
@@ -301,7 +319,7 @@ while running:
         if ai_service.has_failed():
             err = ai_service.get_error()
             log_event("PROCESSING", "AI_FAILED", error=err)
-            sm.transition(State.ERROR, reason=f"AI failed: {err}")
+            something_went_wrong(f"AI failed: {err}")
         elif ai_started and ai_service.is_done() and ai_service.get_story_language():
             language = ai_service.get_story_language()
             story = story_picker.pick(language) if story_player is not None else None
@@ -309,7 +327,7 @@ while running:
             ai_wait_logged = False
             if story is None:
                 ai_service.fail("NO_STORY", f"No {language} story stored on this box")
-                sm.transition(State.ERROR, reason="Story asked for, none stored")
+                something_went_wrong("Story asked for, none stored")
             else:
                 log_event("PROCESSING", "STORY_START", details={"story": story.name})
                 story_player.start(story)
@@ -359,6 +377,10 @@ while running:
             story_player.stop()
             sm.transition(State.IDLE, reason="Story finished")
 
+    elif current_state == State.ERROR:
+        if error_timer.is_finished():
+            sm.transition(State.IDLE, reason="Message shown; back to start")
+
     elif current_state == State.PRINTING:
         if printing_timer.is_finished():
             sm.transition(State.IDLE, reason="Print complete → reset")
@@ -369,7 +391,7 @@ while running:
         if displaying_timer.is_finished():
             try:
                 if printer_service and printer_service.has_failed():
-                    sm.transition(State.ERROR, reason=f"Printer failed: {printer_service.get_error()}")
+                    something_went_wrong(f"Printer failed: {printer_service.get_error()}")
                 else:
                     sm.transition(State.IDLE, reason="16.5s display complete")
             except Exception:
@@ -416,6 +438,9 @@ while running:
 
         elif entered_state == State.PRINTING:
             printing_timer.start()
+
+        elif entered_state == State.ERROR:
+            error_timer.start()
 
     # 4. Update & render
     sounds.update()

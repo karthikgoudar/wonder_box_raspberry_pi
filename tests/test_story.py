@@ -300,3 +300,34 @@ def test_button_light_without_hardware(monkeypatch):
     light = ButtonLight()
     light.show(State.IDLE)  # no LED: nothing happens, nothing breaks
     assert light.pattern == "on"
+
+
+def test_no_oops_message_for_unexpected_problems():
+    """Unexpected problems have no message: main.py goes straight back to
+    Press to Start. Only guidance codes show words."""
+    from ui.error_screen import ErrorScreen
+
+    class AI:
+        def __init__(self, code):
+            self.code = code
+
+        def get_error_code(self):
+            return self.code
+
+    assert ErrorScreen.message_for(AI("STT_FAILED")) is None
+    assert ErrorScreen.message_for(AI(None)) is None
+    assert ErrorScreen.message_for(None) is None
+    assert ErrorScreen.message_for(AI("LANGUAGE_NOT_SUPPORTED"))
+    screen = ErrorScreen({}, AI("STT_FAILED"))
+    surface = pygame.Surface((720, 720))
+    screen.render(surface)
+    red = sum(1 for x in range(0, 720, 4) for y in range(0, 720, 4)
+              if surface.get_at((x, y))[0] > 150 and surface.get_at((x, y))[1] < 60)
+    assert red == 0                                   # the red "Oops" line is gone
+
+
+def test_main_routes_every_problem_through_one_place():
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[1] / "main.py").read_text()
+    assert src.count("sm.transition(State.ERROR") == 1          # only inside something_went_wrong
+    assert src.count("something_went_wrong(") >= 5              # definition + 4 callers
