@@ -24,8 +24,7 @@ class IdleScreen(Screen):
 
         from ui.font import fit_text_block
         sw, sh = surface.get_size()
-        # As big as fits on one line across most of the screen
-        size, lines, step = fit_text_block(START_TEXT, int(sw * 0.92), int(sh * 0.4), int(sh * 0.22), 24, max_lines=1)
-        top = (sh - step * len(lines)) // 2
-        for i, line in enumerate(lines):
-            surface.blit(line, line.get_rect(midtop=(sw // 2, top + i * step)))
+        # One line, about 70% of the screen width, centred both ways
+        size, lines, step = fit_text_block(START_TEXT, int(sw * 0.70), int(sh * 0.3), int(sh * 0.16), 24, max_lines=1)
+        line = lines[0]
+        surface.blit(line, line.get_rect(center=(sw // 2, sh // 2)))

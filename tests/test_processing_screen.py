@@ -82,15 +82,13 @@ def test_short_words_are_big_and_long_ones_shrink_to_fit():
     assert right < 720 - 20 and bottom < 720 - 20        # stays inside the screen
 
 
-def test_start_screen_says_press_to_start_in_big_letters():
+def test_start_screen_says_press_to_start_centred_on_one_line():
     from ui import idle_screen
-    from ui.font import fit_text_block
     assert idle_screen.START_TEXT == "Press to Start"
-    size, lines, _ = fit_text_block(idle_screen.START_TEXT, int(720 * 0.92), int(720 * 0.4), int(720 * 0.22), 24,
-                                    max_lines=1)
-    assert len(lines) == 1 and lines[0].get_width() >= 600     # one line, nearly full width
     left, top, right, bottom = _ink_box(_render(idle_screen.IdleScreen(lambda: None)))
-    assert abs((left + right) / 2 - 360) < 30            # centred left to right
+    assert 0.55 * 720 <= right - left <= 0.8 * 720      # about 70% of the width
+    assert bottom - top < 120                          # one line
+    assert abs((left + right) / 2 - 360) < 15 and abs((top + bottom) / 2 - 360) < 15   # centred both ways
 
 
 def test_max_lines_keeps_text_on_one_line():
