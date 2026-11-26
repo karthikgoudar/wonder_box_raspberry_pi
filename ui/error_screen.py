@@ -3,6 +3,9 @@ from ui.screen_base import Screen
 
 
 class ErrorScreen(Screen):
+    """Only for guidance a child can act on. Any other problem sends the
+    app straight back to "Press to Start" (see main.py), with no message."""
+
     # Friendly words for backend error codes a child can fix by trying again
     MESSAGES = {
         "LANGUAGE_NOT_SUPPORTED": ("Please speak in English,", "Kannada or Hindi"),
@@ -12,8 +15,13 @@ class ErrorScreen(Screen):
     def __init__(self, callbacks, ai_service=None):
         self.callbacks = callbacks
         self.font = None
+        self.lines = self.message_for(ai_service)
+
+    @classmethod
+    def message_for(cls, ai_service):
+        """The friendly message for the last failure, or None for any other problem."""
         code = ai_service.get_error_code() if ai_service else None
-        self.lines = self.MESSAGES.get(code)
+        return cls.MESSAGES.get(code)
 
     def handle_event(self, event):
         # Any interaction resets the system
@@ -37,8 +45,4 @@ class ErrorScreen(Screen):
             first, second = self.lines
             render_text(surface, first, int(40 * s), (40, 40, 160), center=(cx, cy - int(60 * s)))
             render_text(surface, second, int(40 * s), (40, 40, 160), center=(cx, cy - int(15 * s)))
-            render_text(surface, "Tap to try again", int(32 * s), (100, 100, 100), center=(cx, cy + int(45 * s)))
-            return
-        # Centred on the screen (the old fixed y=220/270 only suited 320x480)
-        render_text(surface, "Oops! Something went wrong.", int(40 * s), (200, 0, 0), center=(cx, cy - int(25 * s)))
-        render_text(surface, "Tap to start again", int(32 * s), (100, 100, 100), center=(cx, cy + int(25 * s)))
+            render_text(surface, "Press to try again", int(32 * s), (100, 100, 100), center=(cx, cy + int(45 * s)))
