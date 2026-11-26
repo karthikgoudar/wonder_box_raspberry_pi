@@ -36,8 +36,8 @@ def _render(screen):
 
 def test_shows_text_from_ai_service():
     surface = _render(ProcessingScreen(_Recorder(), _Text("A happy cat on a rocket")))
-    # Something dark was drawn on the white background
-    assert any(surface.get_at((x, 360))[:3] != (255, 255, 255) for x in range(0, 720, 2))
+    # Something dark was drawn on the white background (text starts top left)
+    assert any(surface.get_at((x, y))[:3] != (255, 255, 255) for x in range(0, 720, 4) for y in range(0, 360, 4))
 
 
 def test_recorder_without_text_does_not_crash():
@@ -48,3 +48,45 @@ def test_factory_passes_ai_service():
     ai = _Text("hello")
     screen = get_screen(State.PROCESSING, {}, {"audio_service": _Recorder(), "ai_service": ai})
     assert screen.text_source is ai
+
+
+LONG = ("A big friendly dragon with purple wings flying over a busy city full of tall buildings while "
+        "children wave from the windows and a little dog chases a red balloon down the street on a sunny afternoon")
+
+
+def _ink_box(surface):
+    """Bounding box of everything that is not white."""
+    w, h = surface.get_size()
+    xs, ys = [], []
+    for y in range(0, h, 3):
+        for x in range(0, w, 3):
+            if surface.get_at((x, y))[:3] != (255, 255, 255):
+                xs.append(x); ys.append(y)
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def test_words_start_top_left():
+    left, top, right, bottom = _ink_box(_render(ProcessingScreen(None, _Text("A lion"))))
+    assert left < 60 and top < 80             # starts at the top left, not centred
+    assert bottom < 300                       # short text stays at the top
+
+
+def test_short_words_are_big_and_long_ones_shrink_to_fit():
+    from ui.font import fit_text_block
+    short, _, _ = fit_text_block("A lion", 660, 660, int(720 * 0.18), 20)
+    long_size, lines, step = fit_text_block(LONG, 660, 660, int(720 * 0.18), 20)
+    assert short >= 120 and long_size < short
+    assert step * len(lines) <= 660 and all(l.get_width() <= 660 for l in lines)
+    assert " ".join(LONG.split()) and len(lines) > 3     # wrapped, nothing dropped
+    left, top, right, bottom = _ink_box(_render(ProcessingScreen(None, _Text(LONG))))
+    assert right < 720 - 20 and bottom < 720 - 20        # stays inside the screen
+
+
+def test_start_screen_says_press_to_start_in_big_letters():
+    from ui import idle_screen
+    from ui.font import fit_text_block
+    assert idle_screen.START_TEXT == "Press to Start"
+    size, lines, _ = fit_text_block(idle_screen.START_TEXT, int(720 * 0.88), int(720 * 0.62), int(720 * 0.22), 24)
+    assert size >= 100
+    left, top, right, bottom = _ink_box(_render(idle_screen.IdleScreen(lambda: None)))
+    assert abs((left + right) / 2 - 360) < 30            # centred left to right

@@ -16,43 +16,6 @@ class ProcessingScreen(Screen):
             self.dots = (self.dots + 1) % 4
             self.last_update = 0
 
-    def _measure_line_width(self, text, size):
-        from ui.font import render_text
-        temp = pygame.Surface((1, 1), flags=pygame.SRCALPHA)
-        surf, _ = render_text(temp, text, size, (0, 0, 0), center=False)
-        return surf.get_width()
-
-    def _wrap_text(self, text, size, max_width):
-        words = text.split()
-        if not words:
-            return []
-
-        lines = []
-        current = words[0]
-
-        for word in words[1:]:
-            candidate = f"{current} {word}"
-            if self._measure_line_width(candidate, size) <= max_width:
-                current = candidate
-            else:
-                lines.append(current)
-                current = word
-
-        lines.append(current)
-        return lines
-
-    def _fit_wrapped_text(self, text, max_width, max_height):
-        for size in range(56, 19, -2):
-            lines = self._wrap_text(text, size, max_width)
-            line_height = int(size * 1.35)
-            total_height = line_height * max(1, len(lines))
-            if total_height <= max_height:
-                return size, lines, line_height
-
-        min_size = 20
-        lines = self._wrap_text(text, min_size, max_width)
-        return min_size, lines, int(min_size * 1.35)
-
     def render(self, surface):
         surface.fill((255, 255, 255))
         from ui.font import render_text, ui_scale
@@ -65,15 +28,10 @@ class ProcessingScreen(Screen):
             render_text(surface, "Thinking" + "." * self.dots, int(48 * ui_scale(surface)), (0, 0, 0), center=True)
             return
 
+        # Left-aligned from the top left, as big as the words allow
+        from ui.font import fit_text_block
         sw, sh = surface.get_size()
-        horizontal_padding = 28
-        vertical_padding = 24
-        max_width = sw - (horizontal_padding * 2)
-        max_height = sh - (vertical_padding * 2)
-        font_size, lines, line_height = self._fit_wrapped_text(text, max_width, max_height)
-
-        # Centre the block of lines vertically
-        y = max(vertical_padding, (sh - line_height * len(lines)) // 2)
-        for line in lines:
-            render_text(surface, line, font_size, (0, 0, 0), center=(sw // 2, y + line_height // 2))
-            y += line_height
+        pad = max(20, sw // 24)
+        size, lines, step = fit_text_block(text, sw - 2 * pad, sh - 2 * pad, int(sh * 0.18), 20)
+        for i, line in enumerate(lines):
+            surface.blit(line, (pad, pad + i * step))

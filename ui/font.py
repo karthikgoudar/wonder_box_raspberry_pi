@@ -214,3 +214,48 @@ def render_text(surface: pygame.Surface, text: str, size: int, color, center=Tru
 
     surface.blit(comp, dest_rect)
     return comp, dest_rect
+
+
+_BLOCK_CACHE: Dict[tuple, tuple] = {}
+
+
+def _line_surface(text: str, size: int, color):
+    probe = pygame.Surface((1, 1), flags=pygame.SRCALPHA)
+    return render_text(probe, text, size, color, center=False)[0]
+
+
+def fit_text_block(text: str, max_width: int, max_height: int, max_size: int, min_size: int = 20,
+                   color=(0, 0, 0), spacing: float = 1.12):
+    """Biggest font size (stepping down from max_size) at which `text`,
+    wrapped at word breaks, fits inside max_width x max_height.
+
+    Returns (size, [line surfaces], line_step). Line heights are measured
+    from the drawn lines, so tall Kannada and Hindi letters never overlap.
+    Results are cached: screens can call this every frame.
+    """
+    key = (text, max_width, max_height, max_size, min_size, tuple(color), spacing)
+    if key in _BLOCK_CACHE:
+        return _BLOCK_CACHE[key]
+    words = text.split()
+    best = None
+    for size in range(max_size, min_size - 1, -2):
+        lines, current = [], ""
+        for word in words:
+            candidate = f"{current} {word}".strip()
+            if not current or _line_surface(candidate, size, color).get_width() <= max_width:
+                current = candidate
+            else:
+                lines.append(current)
+                current = word
+        if current:
+            lines.append(current)
+        surfs = [_line_surface(line, size, color) for line in lines]
+        step = int(max([size] + [sf.get_height() for sf in surfs]) * spacing)
+        widest = max([0] + [sf.get_width() for sf in surfs])
+        best = (size, surfs, step)
+        if step * len(surfs) <= max_height and widest <= max_width:
+            break
+    if len(_BLOCK_CACHE) > 64:
+        _BLOCK_CACHE.clear()
+    _BLOCK_CACHE[key] = best
+    return best
