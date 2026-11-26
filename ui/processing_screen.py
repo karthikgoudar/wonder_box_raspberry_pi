@@ -32,6 +32,8 @@ class ProcessingScreen(Screen):
         from ui.font import fit_text_block
         sw, sh = surface.get_size()
         pad = max(20, sw // 24)
-        size, lines, step = fit_text_block(text, sw - 2 * pad, sh - 2 * pad, int(sh * 0.18), 20)
+        # Very short phrases ("A lion") may grow much bigger; longer ones keep the usual limit
+        biggest = int(sh * (0.30 if len(text.split()) <= 3 else 0.18))
+        size, lines, step = fit_text_block(text, sw - 2 * pad, sh - 2 * pad, biggest, 20)
         for i, line in enumerate(lines):
             surface.blit(line, (pad, pad + i * step))

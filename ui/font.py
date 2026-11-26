@@ -225,15 +225,16 @@ def _line_surface(text: str, size: int, color):
 
 
 def fit_text_block(text: str, max_width: int, max_height: int, max_size: int, min_size: int = 20,
-                   color=(0, 0, 0), spacing: float = 1.12):
+                   color=(0, 0, 0), spacing: float = 1.12, max_lines: int = 0):
     """Biggest font size (stepping down from max_size) at which `text`,
     wrapped at word breaks, fits inside max_width x max_height.
 
     Returns (size, [line surfaces], line_step). Line heights are measured
     from the drawn lines, so tall Kannada and Hindi letters never overlap.
+    max_lines (if set) keeps the text on at most that many lines.
     Results are cached: screens can call this every frame.
     """
-    key = (text, max_width, max_height, max_size, min_size, tuple(color), spacing)
+    key = (text, max_width, max_height, max_size, min_size, tuple(color), spacing, max_lines)
     if key in _BLOCK_CACHE:
         return _BLOCK_CACHE[key]
     words = text.split()
@@ -253,7 +254,7 @@ def fit_text_block(text: str, max_width: int, max_height: int, max_size: int, mi
         step = int(max([size] + [sf.get_height() for sf in surfs]) * spacing)
         widest = max([0] + [sf.get_width() for sf in surfs])
         best = (size, surfs, step)
-        if step * len(surfs) <= max_height and widest <= max_width:
+        if step * len(surfs) <= max_height and widest <= max_width and (not max_lines or len(surfs) <= max_lines):
             break
     if len(_BLOCK_CACHE) > 64:
         _BLOCK_CACHE.clear()
