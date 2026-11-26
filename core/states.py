@@ -7,3 +7,4 @@ class State(Enum):
     DISPLAYING = auto()
     PRINTING = auto()
     ERROR = auto()
+    STORY = auto()

@@ -12,6 +12,7 @@ Public API (used by main.py):
     get_image()                  pygame.Surface for the LCD
     get_print_strips()           list of 1,160-byte ESC/POS strips, or None
     get_text()                   what the child said, as transcribed
+    get_story_language()         set when the child asked for a story (en/kn/hi)
     reset()                      abandon any in-flight job
 """
 
@@ -35,6 +36,7 @@ class AIService:
         self._text = None
         self._error = None
         self._error_code = None  # backend code, e.g. LANGUAGE_NOT_SUPPORTED
+        self._story_language = None
         self._done = False
         self._failed = False
         self._generation = 0  # bumped by reset(); stale threads discard results
@@ -99,12 +101,23 @@ class AIService:
         with self._lock:
             return self._error_code
 
+    def get_story_language(self):
+        """Language of a story request ("en", "kn", "hi"), or None for a picture."""
+        with self._lock:
+            return self._story_language
+
+    def fail(self, code, message):
+        """Mark the current job failed (e.g. a story was asked for but none is stored)."""
+        with self._lock:
+            self._error, self._error_code, self._failed = message, code, True
+
     def reset(self):
         with self._lock:
             self._generation += 1
             self._image_surface = None
             self._strips = None
             self._text = None
+            self._story_language = None
             self._done = False
             # A disabled service (no config) stays failed with its reason.
             if self._client is not None:
@@ -142,10 +155,11 @@ class AIService:
             elif event in ("image_ready", "done"):
                 urls.update({k: v for k, v in data.items() if v})
         return StickerResult(
+            intent=urls.get("intent") or "sticker",
             job_id=job_id,
             sticker_id=urls.get("sticker_id"),
             text=text,
-            language=language,
+            language=urls.get("language") or language,
             image_url=urls.get("image_url"),
             print_url=urls.get("print_url"),
             print_png_url=urls.get("print_png_url"),
@@ -159,6 +173,16 @@ class AIService:
                 result = self._client.submit_sticker(wav_path)
             if not self._current(gen):
                 print("[AI] job cancelled; discarding result", flush=True)
+                return
+
+            if result.intent == "story":
+                with self._lock:
+                    if gen != self._generation:
+                        return
+                    self._story_language = result.language or "en"
+                    self._text = result.text
+                    self._done = True
+                print(f"[AI] story requested ({self._story_language}): {result.text!r}", flush=True)
                 return
 
             if not result.image_url:

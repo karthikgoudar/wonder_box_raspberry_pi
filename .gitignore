@@ -15,3 +15,7 @@ __pycache__/
 
 # keep the tiny sample used for hardware-free testing
 !tools/sample_hello.wav
+
+# Story content comes from Google Drive, not git
+/stories/
+!assets/sounds/*.wav

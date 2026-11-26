@@ -6,6 +6,7 @@ class ErrorScreen(Screen):
     # Friendly words for backend error codes a child can fix by trying again
     MESSAGES = {
         "LANGUAGE_NOT_SUPPORTED": ("Please speak in English,", "Kannada or Hindi"),
+        "NO_STORY": ("No stories yet.", "Ask me for a picture!"),
     }
 
     def __init__(self, callbacks, ai_service=None):

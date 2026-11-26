@@ -24,6 +24,10 @@ def get_screen(state, callbacks, services=None):
         from ui.printing_screen import PrintingScreen
         return PrintingScreen()
 
+    elif state == State.STORY:
+        from ui.story_screen import StoryScreen
+        return StoryScreen((services or {}).get("story_player"))
+
     elif state == State.ERROR:
         from ui.error_screen import ErrorScreen
         return ErrorScreen(callbacks, (services or {}).get("ai_service"))

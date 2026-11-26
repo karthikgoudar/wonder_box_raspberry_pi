@@ -395,6 +395,10 @@ class PrinterService:
         with self._lock:
             return self._done
 
+    def is_busy(self) -> bool:
+        """True while a print is still being sent (one print at a time)."""
+        return self._thread is not None and self._thread.is_alive()
+
     def has_failed(self) -> bool:
         with self._lock:
             return self._failed

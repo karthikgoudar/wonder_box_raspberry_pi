@@ -21,6 +21,9 @@ from ui.current_image import set_image
 from services.audio_service import AudioService
 from services.ai_service import AIService
 from services.printer_service import PrinterService
+from services.story_library import StoryPicker
+from services.story_player import StoryPlayer
+from services.sound_service import SoundService
 
 print(f"[MAIN] build 2026-01-04a (ai+audio wiring) file={__file__}", flush=True)
 log_event("MAIN", "START", details={"file": __file__, "cwd": os.getcwd()})
@@ -58,6 +61,8 @@ pygame.display.set_caption("Wonder Box")
 # handled consistently by main (and so pygame is available if needed).
 from services.button_service import ButtonService
 button = ButtonService()
+from services.button_light import ButtonLight
+button_light = ButtonLight()
 button_prev_held = False
 
 # ------------------------
@@ -83,6 +88,13 @@ sm = StateMachine()
 audio_service = AudioService()
 ai_service = AIService()
 printer_service = PrinterService()
+story_picker = StoryPicker()
+sounds = SoundService()
+try:
+    story_player = StoryPlayer(printer_service)
+except Exception as e:  # no sound output: stories cannot play, stickers still work
+    print(f"[STORY] player unavailable: {e}", flush=True)
+    story_player = None
 ai_started = False
 last_process_status = None
 last_event_log = None
@@ -90,6 +102,7 @@ audio_wait_logged = False
 ai_wait_logged = False
 print("[MAIN] services ready", flush=True)
 log_event("MAIN", "SERVICES_READY")
+sounds.play_boot()
 
 # ------------------------
 # Timers (seconds)
@@ -104,6 +117,9 @@ displaying_timer = Timer(16.5)
 # ------------------------
 def start_listening():
     global ai_started
+    if story_player is not None:
+        story_player.stop()
+    sounds.stop_all()  # nothing playing while the microphone records
     set_image(None)
     ai_service.reset()
     audio_service.start_recording()
@@ -134,6 +150,8 @@ def cancel():
     audio_service.reset()
     ai_service.reset()
     ai_started = False
+    if story_player is not None:
+        story_player.stop()
     set_image(None)
     # Reset all timers to prevent stale state
     listening_timer.reset()
@@ -157,6 +175,7 @@ services = {
     "audio_service": audio_service,
     "ai_service": ai_service,
     "printer_service": printer_service,
+    "story_player": story_player,
 }
 
 # ------------------------
@@ -167,6 +186,7 @@ last_state = current_state
 entered_state = current_state
 
 current_screen = get_screen(current_state, callbacks, services)
+button_light.show(current_state)
 
 # ------------------------
 # Main loop
@@ -234,7 +254,8 @@ while running:
 
     if held and not button_prev_held:
         # button pressed (edge)
-        if current_state != State.LISTENING:
+        # The button is ignored while a story plays; it ends on its own
+        if current_state not in (State.LISTENING, State.STORY):
             start_listening()
 
     if not held and button_prev_held:
@@ -281,6 +302,18 @@ while running:
             err = ai_service.get_error()
             log_event("PROCESSING", "AI_FAILED", error=err)
             sm.transition(State.ERROR, reason=f"AI failed: {err}")
+        elif ai_started and ai_service.is_done() and ai_service.get_story_language():
+            language = ai_service.get_story_language()
+            story = story_picker.pick(language) if story_player is not None else None
+            ai_started = False
+            ai_wait_logged = False
+            if story is None:
+                ai_service.fail("NO_STORY", f"No {language} story stored on this box")
+                sm.transition(State.ERROR, reason="Story asked for, none stored")
+            else:
+                log_event("PROCESSING", "STORY_START", details={"story": story.name})
+                story_player.start(story)
+                sm.transition(State.STORY, reason=f"Story requested ({language})")
         elif ai_started and ai_service.is_done():
             img = ai_service.get_image()
             if img is not None:
@@ -319,6 +352,13 @@ while running:
             )
             last_process_status = status
 
+    elif current_state == State.STORY:
+        story_player.update()
+        if story_player.is_finished():
+            log_event("STORY", "FINISHED", details={"printed": story_player.printed})
+            story_player.stop()
+            sm.transition(State.IDLE, reason="Story finished")
+
     elif current_state == State.PRINTING:
         if printing_timer.is_finished():
             sm.transition(State.IDLE, reason="Print complete → reset")
@@ -340,6 +380,13 @@ while running:
     if current_state != last_state:
         entered_state = current_state
         current_screen = get_screen(current_state, callbacks, services)
+        button_light.show(current_state)
+        if current_state == State.PROCESSING:
+            sounds.start_waiting()   # recording has stopped: safe to play
+        elif current_state == State.DISPLAYING:
+            sounds.play_ready()
+        else:
+            sounds.stop_waiting()
         last_state = current_state
         if entered_state != State.PROCESSING:
             audio_wait_logged = False
@@ -371,6 +418,7 @@ while running:
             printing_timer.start()
 
     # 4. Update & render
+    sounds.update()
     current_screen.update(dt)
     # Render to logical buffer then rotate/blit to the actual screen
     try:
