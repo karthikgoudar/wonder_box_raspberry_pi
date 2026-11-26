@@ -20,7 +20,8 @@ class IdleScreen(Screen):
             self.on_start()
 
     def render(self, surface):
-        surface.fill((255, 255, 255))
+        from ui.background import draw_background
+        draw_background(surface)
 
         from ui.font import fit_text_block
         sw, sh = surface.get_size()

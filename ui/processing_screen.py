@@ -17,7 +17,8 @@ class ProcessingScreen(Screen):
             self.last_update = 0
 
     def render(self, surface):
-        surface.fill((255, 255, 255))
+        from ui.background import draw_background
+        draw_background(surface)
         from ui.font import render_text, ui_scale
         
         # What the child said, once the backend has transcribed it

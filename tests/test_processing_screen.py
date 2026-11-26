@@ -5,6 +5,7 @@ import os
 import pytest
 
 os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
+os.environ["SCREEN_BACKGROUND"] = "none"   # layout checks look for ink on plain white
 pygame = pytest.importorskip("pygame")
 
 from ui.processing_screen import ProcessingScreen  # noqa: E402
